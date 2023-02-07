@@ -1,3 +1,2 @@
-"""Entry point for the botiverse package."""
-from botiverse.basic_chatbot.basic_chatbot import basic_chatbot
-from botiverse.TODS.TODS import TODS
+"""Entry point for the mlpath package."""
+from mlpath.mlquest.mlquest import mlquest

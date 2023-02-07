@@ -1,0 +1,82 @@
+{
+   "info": {
+      "duration": [
+         "0.15 ms"
+      ],
+      "name": [
+         "NB-SVM-DNN"
+      ],
+      "date": [
+         "02/07/23"
+      ],
+      "time": [
+         "16:52:43"
+      ],
+      "id": [
+         1
+      ]
+   },
+   "NaiveBayes": {
+      "c": [
+         12
+      ],
+      "alpha": [
+         1024
+      ],
+      "depth_ratio": [
+         538
+      ],
+      "g_estim": [
+         3
+      ],
+      "h": [
+         43
+      ],
+      "beta_param": [
+         7
+      ],
+      "mega_p": [
+         63
+      ]
+   },
+   "SVMRegressor": {
+      "y_param": [
+         510
+      ],
+      "m_num": [
+         63
+      ],
+      "h_num": [
+         4
+      ],
+      "x_param": [
+         14
+      ],
+      "g_num": [
+         3
+      ],
+      "z_param": [
+         4
+      ]
+   },
+   "DeepNeuralNet": {
+      "m_num": [
+         62
+      ],
+      "h_num": [
+         4
+      ],
+      "k_num": [
+         2
+      ],
+      "p_num": [
+         12
+      ],
+      "g_num": [
+         3
+      ],
+      "l_num": [
+         3
+      ]
+   }
+}
