@@ -10,6 +10,7 @@ import re
 from varname import  argname
 import pickle
 import os
+from collections import OrderedDict
 
 class mlquest():
     '''
@@ -29,9 +30,10 @@ class mlquest():
         :param exp_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
         :type number: string
        '''
-       # read the experiments file after checking if 'experiments.pkl' exists
-       if 'experiments.pkl' in os.listdir():
-            with open('experiments.pkl', 'rb') as f:
+       if not os.path.exists('mlquests'): os.mkdir('mlquests')
+            
+       if 'experiments.mlq' in os.listdir('mlquests'):
+            with open('mlquests/experiments.mlq', 'rb') as f:
                mlquest.experiments = pickle.load(f)
        
        if mlquest.active == True: warnings.warn("Attempting to start a quest while another one is active may cause data overwrite")
@@ -42,7 +44,6 @@ class mlquest():
          mlquest.start_time = time.time()
          mlquest.log['info']['time'] =  time.strftime('%X') 
          mlquest.log['info']['date'] = time.strftime('%x')
-         
    
     @staticmethod
     def clear():
@@ -66,6 +67,8 @@ class mlquest():
        :return: The function wrapped with the logging functionality
        :rtype: function
        '''
+       assert mlquest.active, " You can't start logging before starting a quest"
+
        def wrapped(*args, **kwargs):
           signature = inspect.signature(func)
           
@@ -107,8 +110,8 @@ class mlquest():
          
          :param mi: The ith metric to be logged 
          :type mi: float or string
-         
        '''
+       assert mlquest.active, " You can't start logging before starting a quest"
        mlquest.log['metrics'] = {}
        
        # See if any of m1-m10 are set and if so, add them to the log with the key being the vairable name
@@ -138,13 +141,26 @@ class mlquest():
        :param dict_list: A list of dictionaries to be merged
        :type dict_list: list of dictionaries
       '''
+       def unique(sequence):
+         seen = set()
+         return [x for x in sequence if not (x in seen or seen.add(x))]
        big_dict = {}
        # Get all keys in the top-level, they will be part of the final dict
-       keys = set().union(*(d.keys() for d in dict_list))
+       keys = [(list(d.keys())) for d in dict_list]
+       # reverse keys
+       keys = list(reversed(keys))
+       # flatten keys
+       keys = [item for sublist in keys for item in sublist]
+       keys = unique(keys)
+       # remove duplicates without changing the order
        for key in keys:
          big_dict[key] = {}
          # Get all possible keys in the 2nd level under the top-level key (if not found, the empty set does nothing to union)
-         subkeys = set().union(*(d.get(key, {}) for d in dict_list))
+         #subkeys = set().union(*(d.get(key, {}) for d in dict_list))
+         subkeys = [list(d.get(key, {})) for d in dict_list]
+         subkeys = list(reversed(subkeys))
+         subkeys = [item for sublist in subkeys for item in sublist]
+         subkeys = unique(subkeys)
          for subkey in subkeys:
              values = [d.get(key, {}).get(subkey) for d in dict_list]    # None if not found
              big_dict[key][subkey] = values
@@ -178,19 +194,103 @@ class mlquest():
        :param exp_name: The name of the experiment to be converted
        :type exp_name: string
        '''
+       if not os.path.exists('mlquests'): os.mkdir('mlquests')
        runs = mlquest.experiments[exp_name]
        big_dict = mlquest.merge_dicts(runs)
-       j = json.dumps(big_dict, indent=3)
+       # remove ['info]['name'] from the dict
+       del big_dict['info']['name']
+       # now convert to json
+       j = json.dumps(big_dict, indent=4)
        # save the json file
-       with open(f'{exp_name}.json', 'w') as f:
+       with open(f'mlquests/{exp_name}.json', 'w') as f:
           f.write(j)
+    
+       # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
+       config_dict = {}
+       for key in big_dict.keys():
+          config_dict[key] = {}
+          for subkey in big_dict[key].keys():
+             config_dict[key][subkey] = 'true'
+      
+       # let's see if there is a version of the config file already
+       if os.path.exists(f'mlquests/{exp_name}_config.json'):
+          # if there is, we will merge the two dicts
+          with open(f'mlquests/{exp_name}_config.json', 'r') as f:
+             old_config = json.load(f)
+             # get false values from the old_config before overwriting with the new one!
+             for key in old_config.keys():
+                if key in config_dict.keys():
+                  for subkey in old_config[key].keys():
+                     if old_config[key][subkey]!='true' and subkey in config_dict[key].keys():
+                       config_dict[key][subkey] = old_config[key][subkey]
+                       
+       # convert to json      
+       c = json.dumps(config_dict, indent=4)
+       # save the json file
+       with open(f'mlquests/{exp_name}_config.json', 'w') as f:
+          f.write(c)
+       
+       
+    @staticmethod
+    def json_to_html_table(json_path, config_path, exp_name):
+      '''
+       Makes an html table from a nested json file. 
+       
+       :param json_path: The path to the json file
+       :type json_path: string
+       
+       :param exp_name: The name of the experiment to be converted
+       :type exp_name: string
+      '''
+      # read json file from path as dict
+      with open(json_path, 'r') as JSON:
+         json_obj = json.load(JSON)
+         config_obj = json.load(open(config_path, 'r'))
+         
+      # convert to html table
+      table = '<table>\n'
+      # make a header row
+      table += '<tr>\n'
+      # for each key in the top-level dict make a column with colspan being the number of subkeys
+      for key in json_obj.keys():
+         # the length of the colspan is the number of subkeys with value 'true' in the config file
+         length = [config_obj[key][subkey] for subkey in config_obj[key].keys()].count('true')
+         if length > 0 : 
+            table += f'<th colspan={length} style="text-align: center; vertical-align: middle;">{key}</th>\n'
+      table += '</tr>\n'
+      # for each subkey of the top-level dict, make a subheader row
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            if config_obj[key][subkey] == 'true':
+               table += f'<th style="text-align: center; vertical-align: middle;">{subkey}</th>\n'
+      table += '</tr>\n'
+      # get the number of ids to infer the number of rows
+      num_rows = len(json_obj['info']['id'])
+      for i in range(num_rows):
+         table += '<tr>\n'
+         for key in json_obj.keys():
+            for subkey in json_obj[key].keys():
+               if config_obj[key][subkey] == 'true':
+                  value = json_obj[key][subkey][i] if json_obj[key][subkey][i] is not None else ''
+                  table += f'<td style="text-align: center; vertical-align: middle;">{value}</td>\n'
+         table += '</tr>\n'
+      
+      
+      # save the html file
+      if not os.path.exists('mlquests'):  os.mkdir('mlquests')
+      with open(f'mlquests/{exp_name}.md', 'w') as f:
+         f.write(table)
+         
     
     @staticmethod
     def save_experiments():
        '''
        Uses pickle to save the experiments object to a file.
        '''
-       with open('experiments.pkl', 'wb') as f:
+       # see if there is a 'mlquests' folder, if not, create it
+       if not os.path.exists('mlquests'): os.mkdir('mlquests')
+       
+       with open('mlquests/experiments.mlq', 'wb') as f:
             pickle.dump(mlquest.experiments, f)
           
     @staticmethod
@@ -210,7 +310,6 @@ class mlquest():
             mlquest.log['info']['duration'] = f'{duration / 60:.2f} min'
          elif duration > 3600:
             mlquest.log['info']['duration'] = f'{duration / 3600:.2f} h'
-         
          # check if the experiment already exists and set its name and id
          if mlquest.log['info']['name'] in mlquest.experiments:
             exp_name = mlquest.log['info']['name']
@@ -223,6 +322,7 @@ class mlquest():
             exp_name = mlquest.log['info']['name']
             mlquest.experiments[exp_name] = [mlquest.log]
          mlquest.runs_to_json(exp_name)
+         mlquest.json_to_html_table(f'mlquests/{exp_name}.json',f'mlquests/{exp_name}_config.json',  exp_name)
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_experiments()

@@ -16,9 +16,12 @@ def DeepNeuralNet(p_num, k_num, l_num, **kwargs):
 
 mlq.start('NB-SVM-DNN')
 
-accuracy = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12,  depth_ratio=538, mega_p=63, g_estim=3, h=43)
-gesult = mlq.l(SVMRegressor)(14, 510, 4, m_num=63, g_num=3, h_num=4)
-result = mlq.l(DeepNeuralNet)(12, 2, 3, m_num=62, g_num=3, h_num=4)
+#accuracy = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12,  depth_ratio=538, mega_p=63, g_estim=3, h=43)
+#gesult = mlq.l(SVMRegressor)(14, 510, 4, m_num=63, g_num=3, h_num=4)
+result = mlq.l(DeepNeuralNet)(12, 2, 12)
+
+mlq.log_metrics(result=result)
 
 mlq.end()
+
 

@@ -1,8 +1,10 @@
 .DS_Store
-mlpath/mlquest/__pycache__/mlquest.cpython-39.pyc
-mlpath/mlquest/__pycache__/__init__.cpython-39.pyc
-mlpath/mlquest/__pycache__/mlquest.cpython-38.pyc
-mlpath/mlquest/__pycache__/mlquest.cpython-38.pyc
-mlpath/__pycache__/__init__.cpython-39.pyc
+
+.pyc
 experiments.pkl
 .json
+.mlq
+mlpath/mlquest/__pycache__/__init__.cpython-39.pyc
+mlpath/mlquest/__pycache__/mlquest.cpython-38.pyc
+mlpath/mlquest/__pycache__/mlquest.cpython-39.pyc
+mlquests/experiments.mlq
