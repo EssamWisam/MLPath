@@ -22,5 +22,3 @@ result = mlq.l(DeepNeuralNet)(12, 2, 3, m_num=62, g_num=3, h_num=4)
 
 mlq.end()
 
-
-mlq.runs_to_json('NB-SVM-DNN')

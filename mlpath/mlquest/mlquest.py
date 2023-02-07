@@ -8,8 +8,8 @@ import json
 import inspect
 import re
 from varname import  argname
-
-
+import pickle
+import os
 
 class mlquest():
     '''
@@ -29,6 +29,11 @@ class mlquest():
         :param exp_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
         :type number: string
        '''
+       # read the experiments file after checking if 'experiments.pkl' exists
+       if 'experiments.pkl' in os.listdir():
+            with open('experiments.pkl', 'rb') as f:
+               mlquest.experiments = pickle.load(f)
+       
        if mlquest.active == True: warnings.warn("Attempting to start a quest while another one is active may cause data overwrite")
        else:
          mlquest.active = True
@@ -37,6 +42,7 @@ class mlquest():
          mlquest.start_time = time.time()
          mlquest.log['info']['time'] =  time.strftime('%X') 
          mlquest.log['info']['date'] = time.strftime('%x')
+         
    
     @staticmethod
     def clear():
@@ -178,7 +184,14 @@ class mlquest():
        # save the json file
        with open(f'{exp_name}.json', 'w') as f:
           f.write(j)
-          
+    
+    @staticmethod
+    def save_experiments():
+       '''
+       Uses pickle to save the experiments object to a file.
+       '''
+       with open('experiments.pkl', 'wb') as f:
+            pickle.dump(mlquest.experiments, f)
           
     @staticmethod
     def end():
@@ -212,3 +225,4 @@ class mlquest():
          mlquest.runs_to_json(exp_name)
          mlquest.active = False
          mlquest.log = {}
+         mlquest.save_experiments()
