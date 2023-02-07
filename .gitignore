@@ -10,3 +10,6 @@ mlpath/mlquest/__pycache__/mlquest.cpython-39.pyc
 mlquests/experiments.mlq
 *.pyc
 mlpath/mlquest/__pycache__/mlquest.cpython-38.pyc
+dist/
+build/
+/mlpath.egg-info

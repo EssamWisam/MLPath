@@ -1,0 +1,2 @@
+varname @ file:///home/conda/feedstock_root/build_artifacts/varname_1664243349873/work
+

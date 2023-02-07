@@ -1,42 +1,3 @@
-# MLPath
-A lightweight api for machine and deep learning experiment logging in the form of a python library. 
-
-### Installation
-```
-pip install mlpath
-```
-
-### Get started
-import the mlquest module which encompasses all the logging functionality
-
-```Python
-from mlpath import mlquest as mlq
-l = mlq.l
-
-# let's try this out
-def DatasetFilter(x_param, y_param, z_param, **kwargs):
-    return x_param * y_param * z_param
-
-def FeatureExtractor(p_num, k_num, l_num, **kwargs):
-    return p_num**k_num + l_num
-
-def NaiveBayes(alpha, beta_param, c=0, depth_ratio=4, **kwargs):
-    return alpha + beta_param + c
-
-
-mlq.start('NaiveBayes')
-
-dataset = l(DatasetFilter)(14, 510, 4, m_num=63, g_num=3, h_num=4)
-features = l(FeatureExtractor)(12, 2, 12)
-accuracy = l(NaiveBayes)(alpha=1024, beta_param=7, c=12,  depth_ratio=538, mega_p=63, g_estim=3, h=43)
-
-mlq.log_metrics(accuracy=accuracy)
-
-mlq.end()
-```
-
-Now all your runs are logged in a table likeso:
-
 <table>
 <tr>
 <th colspan=4 style="text-align: center; vertical-align: middle;">info</th>
@@ -113,5 +74,3 @@ Now all your runs are logged in a table likeso:
 <td style="text-align: center; vertical-align: middle;">43</td>
 <td style="text-align: center; vertical-align: middle;">1043</td>
 </tr>
-
-such table, the corresponding json and its config file (to filter columns) could be found in the mlquests folder created after the first run.
