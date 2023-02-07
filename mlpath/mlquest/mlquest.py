@@ -29,20 +29,21 @@ class mlquest():
         :param exp_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
         :type number: string
        '''
-       assert mlquest.active == False, "You must end the previous run before starting a new one. Try using mlquest.end()"
-       mlquest.active = True
-       mlquest.log['info'] = {}
-       mlquest.log['info']['name'] = exp_name
-       mlquest.start_time = time.time()
-       mlquest.log['info']['time'] =  time.strftime('%X') 
-       mlquest.log['info']['date'] = time.strftime('%x')
+       if mlquest.active == True: warnings.warn("Attempting to start a quest while another one is active may cause data overwrite")
+       else:
+         mlquest.active = True
+         mlquest.log['info'] = {}
+         mlquest.log['info']['name'] = exp_name
+         mlquest.start_time = time.time()
+         mlquest.log['info']['time'] =  time.strftime('%X') 
+         mlquest.log['info']['date'] = time.strftime('%x')
    
     @staticmethod
     def clear():
        '''
         Clear the current mlquest (run).
        '''
-       assert mlquest.active == False, "You must start an experiment before clearing it."
+       if mlquest.active == False: warnings.warn("Attempting to clear the current quest when no quest is active will do nothing")
        mlquest.log = {}
       
    
@@ -142,37 +143,7 @@ class mlquest():
              values = [d.get(key, {}).get(subkey) for d in dict_list]    # None if not found
              big_dict[key][subkey] = values
        return big_dict
-    
-    
-    @staticmethod
-    def end():
-       '''
-       ends an active mlquest (run) and saves it to the log.
-       '''
-       duration = time.time() - mlquest.start_time
-       # set the duration of the experiment with the appropriate unit
-       if duration < 1:
-          mlquest.log['info']['duration'] = f'{duration * 1000:.2f} ms'
-       elif duration < 60:
-          mlquest.log['info']['duration'] = f'{duration:.2f} s'
-       elif duration > 60:
-          mlquest.log['info']['duration'] = f'{duration / 60:.2f} min'
-       elif duration > 3600:
-          mlquest.log['info']['duration'] = f'{duration / 3600:.2f} h'
        
-       # check if the experiment already exists and set its name and id
-       if mlquest.log['info']['name'] in mlquest.experiments:
-          exp_name = mlquest.log['info']['name']
-          id = len(mlquest.experiments[exp_name]) + 1
-          mlquest.log['info']['id'] = id
-          mlquest.experiments[exp_name].append(mlquest.log)
-       else:
-          id = 1
-          mlquest.log['info']['id'] = id
-          exp_name = mlquest.log['info']['name']
-          mlquest.experiments[exp_name] = [mlquest.log]
-       mlquest.active = False
-       mlquest.log = {}
        
     @staticmethod
     def delete_experiment(exp_name):
@@ -207,3 +178,37 @@ class mlquest():
        # save the json file
        with open(f'{exp_name}.json', 'w') as f:
           f.write(j)
+          
+          
+    @staticmethod
+    def end():
+       '''
+       ends an active mlquest (run) and saves it to the log.
+       '''
+       if mlquest.active == False: warnings.warn('No active mlquest to end')
+       else:
+         duration = time.time() - mlquest.start_time
+         # set the duration of the experiment with the appropriate unit
+         if duration < 1:
+            mlquest.log['info']['duration'] = f'{duration * 1000:.2f} ms'
+         elif duration < 60:
+            mlquest.log['info']['duration'] = f'{duration:.2f} s'
+         elif duration > 60:
+            mlquest.log['info']['duration'] = f'{duration / 60:.2f} min'
+         elif duration > 3600:
+            mlquest.log['info']['duration'] = f'{duration / 3600:.2f} h'
+         
+         # check if the experiment already exists and set its name and id
+         if mlquest.log['info']['name'] in mlquest.experiments:
+            exp_name = mlquest.log['info']['name']
+            id = len(mlquest.experiments[exp_name]) + 1
+            mlquest.log['info']['id'] = id
+            mlquest.experiments[exp_name].append(mlquest.log)
+         else:
+            id = 1
+            mlquest.log['info']['id'] = id
+            exp_name = mlquest.log['info']['name']
+            mlquest.experiments[exp_name] = [mlquest.log]
+         mlquest.runs_to_json(exp_name)
+         mlquest.active = False
+         mlquest.log = {}
