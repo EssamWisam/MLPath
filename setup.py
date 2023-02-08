@@ -16,7 +16,7 @@ with open(path.join(HERE, 'Pypi-README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="mlpath",
-    version="0.0.11",
+    version="0.0.12",
     description="A lightweight api for machine and deep learning experiment logging in the form of a python library. ",
     long_description=long_description,
     long_description_content_type="text/markdown",

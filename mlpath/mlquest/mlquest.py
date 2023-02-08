@@ -141,15 +141,40 @@ class mlquest():
       
    
     @staticmethod
-    def to_log(name, info):
+    def to_log(dict=None,**kwargs):
        '''
-       Log any other information you want to log. This information will be stored under the 'notes' key in the log
+       Log any other information you want to log. This information will be stored under the 'notes' key in the log.
+       
+       :param dict: A dictionary of the key, values to be logged under notes
+       :param kwargs: key value pairs to be logged under notes (an alternative to dict)
        '''
-       mlquest.log['notes'] = {}
-       mlquest.log['notes'][name] = info
        
-
+       if dict is not None:
+            mlquest.log['notes'] = dict   
+       else:
+          # check if mlquest.log['notes'] exists, if not, create it
+         if 'notes' not in mlquest.log:
+             mlquest.log['notes'] = {}
+         for key, value in kwargs.items():
+            mlquest.log['notes'][key] = value
        
+    @staticmethod
+    def to_log_ext(col_name, dict=None, **kwargs):
+       '''
+       Grants logging with extensive access to the log. 
+       
+       :param dict: A dictionary of the key, values to be logged under notes
+       :param kwargs: key value pairs to be logged under notes (an alternative to dict)
+       '''
+       if dict is not None:
+            mlquest.log[col_name] = dict
+       else:
+          # check if mlquest.log[col_name] exists, if not, create it
+          if col_name not in mlquest.log:
+             mlquest.log[col_name] = {}
+          for key, value in kwargs.items():
+             mlquest.log[col_name][key] = value
+          
        
     @staticmethod
     def delete_experiment(quest_name):

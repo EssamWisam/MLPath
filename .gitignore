@@ -14,3 +14,5 @@ dist/
 build/
 /mlpath.egg-info
 Pypi-README.md
+mlpath/mlquest/__pycache__/
+/mlquests

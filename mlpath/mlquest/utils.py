@@ -158,3 +158,4 @@ def stringify(item):
          return None
    except:
       warnings.warn(f"An error has occured while checking that {item} is a scalar with a __str__ method. It will thus be skipped.")
+      return None
