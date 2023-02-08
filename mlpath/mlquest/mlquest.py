@@ -52,11 +52,12 @@ class mlquest():
        if mlquest.active == False: warnings.warn("Attempting to clear the current run when no run is active will do nothing")
        mlquest.log = {}
       
+    
    
     @staticmethod
     def l(func, name=None):
        '''
-       Log the parameters of a function. This function must be called on the function to be logged.
+       Log the scalar parameters of a function that aren't None. This function must be called on the function to be logged.
        
        :param func: The function to be logged
        :type func: function
@@ -83,13 +84,20 @@ class mlquest():
           values = {}
           for i, param in enumerate(params):
                 # positional arguments not given as keyword arguments must be here
-                if i < len(args):                               
-                   values[param.name] = args[i]
+                if i < len(args):          
+                     data = utils.stringify(args[i]) 
+                     if data is not None:   values[param.name] = data
+                   
                 # the rest of the parameters are positional arguments given by name or defaults or kwargs
                 
           # or are keyword arguments in **kwargs
-          values.update(kwargs)
-          values.update(defaults)
+          for key, value in kwargs.items():
+               data = utils.stringify(value)
+               if data is not None: values[key] = data
+          
+          for key, value in defaults.items():
+               data = utils.stringify(value)
+               if data is not None: values[key] = data
           
           # Now set the values in the log with the key being the name of the function
           if name:
@@ -108,7 +116,7 @@ class mlquest():
          be logged with the name of the keyword.
          
          :param mi: The ith metric to be logged 
-         :type mi: float or string
+         :type mi: scalar
        '''
        assert mlquest.active, " You can't start logging before starting a run"
        mlquest.log['metrics'] = {}
@@ -118,10 +126,18 @@ class mlquest():
           if locals()[f'm{i}'] is not None:
              with warnings.catch_warnings():
                 warnings.simplefilter("ignore")           # ignores a useless warning of the varname library
-                mlquest.log['metrics'][argname(f'm{i}')] = locals()[f'm{i}']
+                data = utils.stringify(locals()[f'm{i}'])
+                if data is not None:
+                  mlquest.log['metrics'][argname(f'm{i}')] = locals()[f'm{i}']
                 
        # Any kwargs are metrics with custom names, add them as well
-       mlquest.log['metrics'].update(kwargs)
+       for key, value in kwargs.items():
+          data = utils.stringify(value)
+          if data is not None:
+             mlquest.log['metrics'][key] = value
+          else:
+             print(data)
+             warnings.warn(f"Metric {key} is either None or not a scalar and thus can't be logged")
       
    
     @staticmethod
@@ -198,7 +214,7 @@ class mlquest():
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
          utils.runs_to_json(mlquest.quests[quest_name], quest_name)
-         utils.json_to_html_table(f'mlquests/{quest_name}.json',f'mlquests/{quest_name}_config.json',  quest_name)
+         utils.json_to_html_table(f'mlquests/{quest_name}.json',f'mlquests/{quest_name}-config.json',  quest_name)
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quests()

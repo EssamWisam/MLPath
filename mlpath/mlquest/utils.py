@@ -5,6 +5,7 @@ Utility functions for mlquest
 
 import os
 import json
+import warnings
 
 def merge_dicts(dict_list):
    '''
@@ -89,6 +90,9 @@ def json_to_html_table(json_path, config_path, quest_name):
    if not os.path.exists('mlquests'):  os.mkdir('mlquests')
    with open(f'mlquests/{quest_name}.md', 'w') as f:
       f.write(table)
+   
+   # delete the json file
+   os.remove(json_path)
       
     
 def runs_to_json(runs, quest_name):
@@ -116,9 +120,9 @@ def runs_to_json(runs, quest_name):
          config_dict[key][subkey] = 'true'
 
    # let's see if there is a version of the config file already
-   if os.path.exists(f'mlquests/{quest_name}_config.json'):
+   if os.path.exists(f'mlquests/{quest_name}-config.json'):
       # if there is, we will merge the two dicts
-      with open(f'mlquests/{quest_name}_config.json', 'r') as f:
+      with open(f'mlquests/{quest_name}-config.json', 'r') as f:
          old_config = json.load(f)
          # get false values from the old_config before overwriting with the new one!
          for key in old_config.keys():
@@ -130,5 +134,27 @@ def runs_to_json(runs, quest_name):
    # convert to json      
    c = json.dumps(config_dict, indent=4)
    # save the json file
-   with open(f'mlquests/{quest_name}_config.json', 'w') as f:
+   with open(f'mlquests/{quest_name}-config.json', 'w') as f:
       f.write(c)
+
+
+
+def stringify(item):
+   '''
+   Puts a given item into a suitable format for logging.
+   '''
+   if item is None: return None
+   # To log it, must not be any sort of collection
+   try:
+      if not hasattr(item, "__len__") and not hasattr(item, "__iter__") and not hasattr(item, "__getitem__") or isinstance(item, str):
+         # So we can convert it into string, it must also not be too long
+         # lets round it if it is a float
+         if isinstance(item, float): item = round(item, 3)
+         string_item = str(item)
+         if len(string_item) > 60:
+            string_item = string_item[:60] + "..."
+         return string_item
+      else:
+         return None
+   except:
+      warnings.warn(f"An error has occured while checking that {item} is a scalar with a __str__ method. It will thus be skipped.")
