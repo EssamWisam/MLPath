@@ -41,15 +41,15 @@ def merge_dicts(dict_list):
 
        
        
-def json_to_html_table(json_path, config_path, exp_name):
+def json_to_html_table(json_path, config_path, quest_name):
    '''
       Makes an html table from a nested json file. 
       
       :param json_path: The path to the json file
       :type json_path: string
       
-      :param exp_name: The name of the experiment to be converted
-      :type exp_name: string
+      :param quest_name: The name of the quest to be converted
+      :type quest_name: string
    '''
    # read json file from path as dict
    with open(json_path, 'r') as JSON:
@@ -87,15 +87,15 @@ def json_to_html_table(json_path, config_path, exp_name):
 
    # save the html file
    if not os.path.exists('mlquests'):  os.mkdir('mlquests')
-   with open(f'mlquests/{exp_name}.md', 'w') as f:
+   with open(f'mlquests/{quest_name}.md', 'w') as f:
       f.write(table)
       
     
-def runs_to_json(runs, exp_name):
+def runs_to_json(runs, quest_name):
    '''
-   converts the runs of an experiment to a json file
-   :param exp_name: The name of the experiment to be converted
-   :type exp_name: string
+   converts the runs of a quest to a json file
+   :param quest_name: The name of the quest to be converted
+   :type quest_name: string
    '''
    if not os.path.exists('mlquests'): os.mkdir('mlquests')
    
@@ -105,7 +105,7 @@ def runs_to_json(runs, exp_name):
    # now convert to json
    j = json.dumps(big_dict, indent=4)
    # save the json file
-   with open(f'mlquests/{exp_name}.json', 'w') as f:
+   with open(f'mlquests/{quest_name}.json', 'w') as f:
       f.write(j)
 
    # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
@@ -116,9 +116,9 @@ def runs_to_json(runs, exp_name):
          config_dict[key][subkey] = 'true'
 
    # let's see if there is a version of the config file already
-   if os.path.exists(f'mlquests/{exp_name}_config.json'):
+   if os.path.exists(f'mlquests/{quest_name}_config.json'):
       # if there is, we will merge the two dicts
-      with open(f'mlquests/{exp_name}_config.json', 'r') as f:
+      with open(f'mlquests/{quest_name}_config.json', 'r') as f:
          old_config = json.load(f)
          # get false values from the old_config before overwriting with the new one!
          for key in old_config.keys():
@@ -130,5 +130,5 @@ def runs_to_json(runs, exp_name):
    # convert to json      
    c = json.dumps(config_dict, indent=4)
    # save the json file
-   with open(f'mlquests/{exp_name}_config.json', 'w') as f:
+   with open(f'mlquests/{quest_name}_config.json', 'w') as f:
       f.write(c)

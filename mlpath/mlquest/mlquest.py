@@ -13,33 +13,33 @@ import os
 
 class mlquest():
     '''
-    mlpath is library to help you with logging machine and deep learning experiments.
+    mlpath is library to help you with logging machine and deep learning quests (quests).
     '''
-    experiments = {}             # dictionary of experiments (e.g, one for each model) that contains a list of logs (runs)
+    quests = {}             # dictionary of quests (e.g, one for each model) that contains a list of logs (runs)
     log = {}                     # dictionary of the current log (run)
-    active = False               # is an mlquest already active
+    active = False               # is a quest already active
     start_time = None            # to compute the duration of the experiment later
 
     
     @staticmethod
-    def start(exp_name):
+    def start(quest_name):
        '''
-        Start a new mlquest (run). This function must be called before any other function.
+        Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
-        :param exp_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
+        :param quest_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
         :type number: string
        '''
        if not os.path.exists('mlquests'): os.mkdir('mlquests')
             
-       if 'experiments.mlq' in os.listdir('mlquests'):
-            with open('mlquests/experiments.mlq', 'rb') as f:
-               mlquest.experiments = pickle.load(f)
+       if 'quests.mlq' in os.listdir('mlquests'):
+            with open('mlquests/quests.mlq', 'rb') as f:
+               mlquest.quests = pickle.load(f)
        
-       if mlquest.active == True: warnings.warn("Attempting to start a quest while another one is active may cause data overwrite")
+       if mlquest.active == True: warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
        else:
          mlquest.active = True
          mlquest.log['info'] = {}
-         mlquest.log['info']['name'] = exp_name
+         mlquest.log['info']['name'] = quest_name
          mlquest.start_time = time.time()
          mlquest.log['info']['time'] =  time.strftime('%X') 
          mlquest.log['info']['date'] = time.strftime('%x')
@@ -47,9 +47,9 @@ class mlquest():
     @staticmethod
     def clear():
        '''
-        Clear the current mlquest (run).
+        Clear the log record of the current run.
        '''
-       if mlquest.active == False: warnings.warn("Attempting to clear the current quest when no quest is active will do nothing")
+       if mlquest.active == False: warnings.warn("Attempting to clear the current run when no run is active will do nothing")
        mlquest.log = {}
       
    
@@ -66,7 +66,7 @@ class mlquest():
        :return: The function wrapped with the logging functionality
        :rtype: function
        '''
-       assert mlquest.active, " You can't start logging before starting a quest"
+       assert mlquest.active, " You can't start logging before starting a run"
 
        def wrapped(*args, **kwargs):
           signature = inspect.signature(func)
@@ -103,14 +103,14 @@ class mlquest():
     @staticmethod
     def log_metrics(m1=None, m2=None, m3=None, m4=None, m5=None, m6=None, m7=None, m8=None, m9=None, m10=None, **kwargs):
        '''
-         Log the metrics of the experiment. If the metrics are given as positional arguments, they will be logged with the
-         name of the variable given to them. If they are given as keyword arguments, they will be logged with the name of
-         the keyword.
+         Log the metrics of the experiment. As an experimental feature, if the metrics are given as positional arguments, 
+         they will be logged with the name of the variable given to them. If they are given as keyword arguments, they will 
+         be logged with the name of the keyword.
          
          :param mi: The ith metric to be logged 
          :type mi: float or string
        '''
-       assert mlquest.active, " You can't start logging before starting a quest"
+       assert mlquest.active, " You can't start logging before starting a run"
        mlquest.log['metrics'] = {}
        
        # See if any of m1-m10 are set and if so, add them to the log with the key being the vairable name
@@ -136,41 +136,43 @@ class mlquest():
        
        
     @staticmethod
-    def delete_experiment(exp_name):
+    def delete_experiment(quest_name):
        '''
-       deletes an experiment (collection of runs) from the log
-       :param exp_name: The name of the experiment to be deleted
-       :type exp_name: string
+       deletes a quest (collection of runs) from the log
+       
+       :param quest_name: The name of the experiment to be deleted
+       :type quest_name: string
        '''
-       del mlquest.experiments[exp_name]
+       del mlquest.quests[quest_name]
  
     @staticmethod
-    def delete_run(exp_name, run_id):
+    def delete_run(quest_name, run_id):
        '''
-       deletes a run from the log
-       :param exp_name: The name of the experiment to be deleted
-       :type exp_name: string
+       deletes a run under quest_name from the log
+       
+       :param quest_name: The name of the experiment to be deleted
+       :type quest_name: string
        :param run_id: The id of the run to be deleted
        :type run_id: int
        '''
-       del mlquest.experiments[exp_name][run_id - 1]
+       del mlquest.quests[quest_name][run_id - 1]
        
 
     @staticmethod
-    def save_experiments():
+    def save_quests():
        '''
-       Uses pickle to save the experiments object to a file.
+       Uses pickle to save the quests object to a file.
        '''
        # see if there is a 'mlquests' folder, if not, create it
        if not os.path.exists('mlquests'): os.mkdir('mlquests')
        
-       with open('mlquests/experiments.mlq', 'wb') as f:
-            pickle.dump(mlquest.experiments, f)
+       with open('mlquests/quests.mlq', 'wb') as f:
+            pickle.dump(mlquest.quests, f)
           
     @staticmethod
     def end():
        '''
-       ends an active mlquest (run) and saves it to the log.
+       ends an active run and saves it to the log.
        '''
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:
@@ -185,18 +187,18 @@ class mlquest():
          elif duration > 3600:
             mlquest.log['info']['duration'] = f'{duration / 3600:.2f} h'
          # check if the experiment already exists and set its name and id
-         if mlquest.log['info']['name'] in mlquest.experiments:
-            exp_name = mlquest.log['info']['name']
-            id = len(mlquest.experiments[exp_name]) + 1
+         if mlquest.log['info']['name'] in mlquest.quests:
+            quest_name = mlquest.log['info']['name']
+            id = len(mlquest.quests[quest_name]) + 1
             mlquest.log['info']['id'] = id
-            mlquest.experiments[exp_name].append(mlquest.log)
+            mlquest.quests[quest_name].append(mlquest.log)
          else:
             id = 1
             mlquest.log['info']['id'] = id
-            exp_name = mlquest.log['info']['name']
-            mlquest.experiments[exp_name] = [mlquest.log]
-         utils.runs_to_json(mlquest.experiments[exp_name], exp_name)
-         utils.json_to_html_table(f'mlquests/{exp_name}.json',f'mlquests/{exp_name}_config.json',  exp_name)
+            quest_name = mlquest.log['info']['name']
+            mlquest.quests[quest_name] = [mlquest.log]
+         utils.runs_to_json(mlquest.quests[quest_name], quest_name)
+         utils.json_to_html_table(f'mlquests/{quest_name}.json',f'mlquests/{quest_name}_config.json',  quest_name)
          mlquest.active = False
          mlquest.log = {}
-         mlquest.save_experiments()
+         mlquest.save_quests()
