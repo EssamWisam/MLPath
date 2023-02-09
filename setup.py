@@ -13,6 +13,13 @@ HERE = path.abspath(path.dirname(__file__))
 with open(path.join(HERE, 'Pypi-README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+def read_requirements():
+    """Read requirements from requirements.txt."""
+    with open(path.join(HERE, 'requirements.txt'), encoding='utf-8') as f:
+        requirements = f.read().splitlines()
+    return requirements
+
+
 # This call to setup() does all the work
 setup(
     name="mlpath",
@@ -37,7 +44,11 @@ setup(
     ],
     packages=["mlpath", "mlpath.mlquest"],
     include_package_data=True,
-    install_requires=["varname"]
+    install_requires=['varname', 'click'],
+    entry_points='''
+    [console_scripts]
+    mldir=mlpath.mldir.cli:main
+    '''
 )
 
 # Steps to upload to PyPI
