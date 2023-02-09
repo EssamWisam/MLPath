@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/bootstrap.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css"
+        />
+        <title>MLPath - Results</title>
+    </head>
+
+    <body>
+        <header>
+            <nav
+                class="navbar navbar-expand-lg navbar-dark bg-dark px-3"
+                style="border: none"
+            >
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/"
+                        ><strong
+                            >ML<span class="text-info">Path</span></strong
+                        ></a
+                    >
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="https://github.com/EssamWisam/MLPath"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >GitHub</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="mx-5 my-3">
+            <div class="my-3">
+                <h1 class="fs-2 fw-bold">{{ project_name }}</h1>
+                <hr />
+            </div>
+
+            <div>
+                <div class="controls my-3 d-flex gap-3">
+                    <button class="btn btn-outline-dark" id="refresh-button">
+                        Refresh
+                    </button>
+                    <button class="btn btn-outline-dark" id="columns-button">
+                        Columns
+                    </button>
+                    <form id="search-form">
+                        <div class="input-group">
+                            <input
+                                type="search"
+                                name="search"
+                                class="form-control"
+                                id="search"
+                                placeholder="Search..."
+                                autocomplete="off"
+                            />
+                            <button type="submit" class="btn btn-dark">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="overflow-auto my-3">
+                    <table
+                        class="table table-hover table-light"
+                        id="results-table"
+                        class="display"
+                    >
+                        <thead class="table-info">
+                            <tr id="table-headers-1"></tr>
+                            <tr id="table-headers-2"></tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-dark text-light text-center py-3">
+            <p class="m-0">
+                Made with ❤️ by
+                <a
+                    href="https://github.com/EssamWisam"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Essam Wisam</a
+                >
+            </p>
+        </footer>
+
+        <div class="columns-modal-background">
+            <div class="columns-modal">
+                <div class="columns-modal-header">
+                    <h3 class="fs-4 fw-bold px-3">Show/Hide Parameters</h3>
+                </div>
+                <div class="columns-modal-body">
+                    <div class="columns-modal-body-list">
+                        <fieldset
+                            class="form-group px-3"
+                            id="columns-container"
+                        ></fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
+            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            type="text/javascript"
+            charset="utf8"
+            src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"
+        ></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    </body>
+</html>
