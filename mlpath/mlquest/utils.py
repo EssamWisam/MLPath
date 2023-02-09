@@ -91,8 +91,6 @@ def json_to_html_table(json_path, config_path, quest_name):
    with open(f'mlquests/{quest_name}.md', 'w') as f:
       f.write(table)
    
-   # delete the json file
-   os.remove(json_path)
       
     
 def runs_to_json(runs, quest_name):

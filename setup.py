@@ -23,7 +23,7 @@ def read_requirements():
 # This call to setup() does all the work
 setup(
     name="mlpath",
-    version="0.0.12",
+    version="0.0.134",
     description="A lightweight api for machine and deep learning experiment logging in the form of a python library. ",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -42,8 +42,9 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent"
     ],
-    packages=["mlpath", "mlpath.mlquest"],
+    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir"],
     include_package_data=True,
+    package_data={'mldir':['*.zip']},
     install_requires=['varname', 'click'],
     entry_points='''
     [console_scripts]
