@@ -39,10 +39,9 @@ def merge_dicts(dict_list):
             big_dict[key][subkey] = values
    return big_dict
 
-
        
        
-def json_to_html_table(json_path, config_path, quest_name):
+def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_name):
    '''
       Makes an html table from a nested json file. 
       
@@ -53,9 +52,10 @@ def json_to_html_table(json_path, config_path, quest_name):
       :type quest_name: string
    '''
    # read json file from path as dict
-   with open(json_path, 'r') as JSON:
+   with open(relative_path + json_path, 'rb') as JSON:
       json_obj = json.load(JSON)
-      config_obj = json.load(open(config_path, 'r'))
+   with open(relative_path + config_path, 'rb') as JSON:
+      config_obj = json.load(JSON)
    
    # convert to html table
    table = '<table>\n'
@@ -87,19 +87,19 @@ def json_to_html_table(json_path, config_path, quest_name):
 
 
    # save the html file
-   if not os.path.exists('mlquests'):  os.mkdir('mlquests')
-   with open(f'mlquests/{quest_name}.md', 'w') as f:
+   if not os.path.exists(relative_path + 'mlquests/' + curr_dir + '/' + quest_name): os.makedirs(relative_path + 'mlquests'+'/'+curr_dir+ '/' + quest_name)
+   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
       f.write(table)
    
       
     
-def runs_to_json(runs, quest_name):
+def runs_to_json(relative_path, curr_dir, runs, quest_name):
    '''
    converts the runs of a quest to a json file
    :param quest_name: The name of the quest to be converted
    :type quest_name: string
    '''
-   if not os.path.exists('mlquests'): os.mkdir('mlquests')
+   if not os.path.exists(relative_path + 'mlquests/' + curr_dir + '/' + quest_name + '/json'): os.makedirs(relative_path + 'mlquests/'+curr_dir+ '/' + quest_name + '/json')
    
    big_dict = merge_dicts(runs)
    # remove ['info]['name'] from the dict
@@ -107,7 +107,7 @@ def runs_to_json(runs, quest_name):
    # now convert to json
    j = json.dumps(big_dict, indent=4)
    # save the json file
-   with open(f'mlquests/{quest_name}.json', 'w') as f:
+   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}.json', 'w') as f:
       f.write(j)
 
    # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
@@ -118,9 +118,9 @@ def runs_to_json(runs, quest_name):
          config_dict[key][subkey] = 'true'
 
    # let's see if there is a version of the config file already
-   if os.path.exists(f'mlquests/{quest_name}-config.json'):
+   if os.path.exists(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json'):
       # if there is, we will merge the two dicts
-      with open(f'mlquests/{quest_name}-config.json', 'r') as f:
+      with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'r') as f:
          old_config = json.load(f)
          # get false values from the old_config before overwriting with the new one!
          for key in old_config.keys():
@@ -132,7 +132,7 @@ def runs_to_json(runs, quest_name):
    # convert to json      
    c = json.dumps(config_dict, indent=4)
    # save the json file
-   with open(f'mlquests/{quest_name}-config.json', 'w') as f:
+   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'w') as f:
       f.write(c)
 
 

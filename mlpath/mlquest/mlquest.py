@@ -13,26 +13,30 @@ import os
 
 class mlquest():
     '''
-    mlpath is library to help you with logging machine and deep learning quests (quests).
+    mlpath is library to help you with logging machine and deep learning experiments (quests).
     '''
     quests = {}             # dictionary of quests (e.g, one for each model) that contains a list of logs (runs)
     log = {}                     # dictionary of the current log (run)
     active = False               # is a quest already active
     start_time = None            # to compute the duration of the experiment later
-
-    
+    relative_path = None         # the relative location for where to save the 'mlquests' folder
+    curr_dir = None              # the name of the folder containing the current file (for saving purposes)
     @staticmethod
-    def start(quest_name):
+    def start(quest_name, relative_path=''):
        '''
         Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
         :param quest_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
         :type number: string
        '''
-       if not os.path.exists('mlquests'): os.mkdir('mlquests')
+       # get the name of the folder containing the current file
+       mlquest.relative_path = relative_path
+       mlquest.curr_dir = os.getcwd().split('/')[-1]
+       if not os.path.exists(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name): 
+          os.makedirs(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name)
             
-       if 'quests.mlq' in os.listdir('mlquests'):
-            with open('mlquests/quests.mlq', 'rb') as f:
+       if 'quests.mlq' in os.listdir(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name):
+            with open(mlquest.relative_path + f'mlquests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
        if mlquest.active == True: warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
@@ -200,14 +204,14 @@ class mlquest():
        
 
     @staticmethod
-    def save_quests():
+    def save_quests(quest_name):
        '''
        Uses pickle to save the quests object to a file.
        '''
        # see if there is a 'mlquests' folder, if not, create it
-       if not os.path.exists('mlquests'): os.mkdir('mlquests')
+       if not os.path.exists(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir): os.makedirs(mlquest.relative_path + 'mlquests/'  + mlquest.curr_dir)
        
-       with open('mlquests/quests.mlq', 'wb') as f:
+       with open(mlquest.relative_path + 'mlquests/'+ mlquest.curr_dir+'/' + quest_name+'/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
           
     @staticmethod
@@ -238,8 +242,8 @@ class mlquest():
             mlquest.log['info']['id'] = id
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
-         utils.runs_to_json(mlquest.quests[quest_name], quest_name)
-         utils.json_to_html_table(f'mlquests/{quest_name}.json',f'mlquests/{quest_name}-config.json',  quest_name)
+         utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name)
+         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
          mlquest.active = False
          mlquest.log = {}
-         mlquest.save_quests()
+         mlquest.save_quests(quest_name)
