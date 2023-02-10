@@ -12,11 +12,6 @@
             rel="stylesheet"
             href="{{ url_for('static', filename='css/style.css') }}"
         />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css"
-        />
         <title>MLPath - Results</title>
     </head>
 
@@ -49,51 +44,74 @@
             </nav>
         </header>
 
-        <main class="mx-5 my-3">
-            <div class="my-3">
-                <h1 class="fs-2 fw-bold">{{ project_name }}</h1>
-                <hr />
-            </div>
-
-            <div>
-                <div class="controls my-3 d-flex gap-3">
-                    <button class="btn btn-outline-dark" id="refresh-button">
-                        Refresh
-                    </button>
-                    <button class="btn btn-outline-dark" id="columns-button">
-                        Columns
-                    </button>
-                    <form id="search-form">
-                        <div class="input-group">
-                            <input
-                                type="search"
-                                name="search"
-                                class="form-control"
-                                id="search"
-                                placeholder="Search..."
-                                autocomplete="off"
-                            />
-                            <button type="submit" class="btn btn-dark">
-                                Search
-                            </button>
-                        </div>
-                    </form>
+        <main class="p-3">
+            <section class="sidebar">
+                <ul class="parent-list">
+                    {% for model_name in sidebar_data.keys() %}
+                    <li class="model-name">{{ model_name }}</li>
+                    <ul class="child-list">
+                        {% for quest_name in sidebar_data[model_name] %}
+                        <li
+                            class="quest-name"
+                            data-model-name="{{ model_name }}"
+                        >
+                            {{ quest_name }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="results-container">
+                <div class="my-3">
+                    <h1 class="fs-2 fw-bold">{{ project_name }}</h1>
+                    <hr />
                 </div>
-
-                <div class="overflow-auto my-3">
-                    <table
-                        class="table table-hover table-light"
-                        id="results-table"
-                        class="display"
-                    >
-                        <thead class="table-info">
-                            <tr id="table-headers-1"></tr>
-                            <tr id="table-headers-2"></tr>
-                        </thead>
-                        <tbody id="table-body"></tbody>
-                    </table>
+                <div>
+                    <div class="controls my-3 d-flex gap-3">
+                        <button
+                            class="btn btn-outline-dark"
+                            id="refresh-button"
+                        >
+                            Refresh
+                        </button>
+                        <button
+                            class="btn btn-outline-dark"
+                            id="columns-button"
+                        >
+                            Columns
+                        </button>
+                        <form id="search-form">
+                            <div class="input-group">
+                                <input
+                                    type="search"
+                                    name="search"
+                                    class="form-control"
+                                    id="search"
+                                    placeholder="Search..."
+                                    autocomplete="off"
+                                />
+                                <button type="submit" class="btn btn-dark">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="overflow-auto my-3">
+                        <table
+                            class="table table-hover table-light"
+                            id="results-table"
+                            class="display"
+                        >
+                            <thead class="table-info">
+                                <tr id="table-headers-1"></tr>
+                                <tr id="table-headers-2"></tr>
+                            </thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </section>
         </main>
 
         <footer class="bg-dark text-light text-center py-3">
@@ -124,16 +142,6 @@
             </div>
         </div>
 
-        <script
-            src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
-            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
-            crossorigin="anonymous"
-        ></script>
-        <script
-            type="text/javascript"
-            charset="utf8"
-            src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"
-        ></script>
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </body>
 </html>

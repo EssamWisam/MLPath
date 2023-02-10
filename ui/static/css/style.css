@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
-    margin: 0; 
-    padding: 0; 
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -23,6 +26,52 @@
     background-color: #9c9c9c;
 }
 
+main {
+    position: relative;
+}
+
+.sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    overflow-y: auto;
+    min-width: 10rem;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar .parent-list li.model-name {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background-color: #f8f5f0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar .child-list li.quest-name {
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem 0.5rem 2rem;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .child-list li.quest-name.active,
+.sidebar .child-list li.quest-name:hover {
+    background-color: #e5e3de;
+}
+
+.results-container {
+    margin-left: 11rem;
+    margin-right: 4rem;
+}
+
 .form-control:focus {
     border-color: inherit;
     box-shadow: none;
@@ -33,7 +82,8 @@
     width: 100%;
 }
 
-.table td, .table th {
+.table td,
+.table th {
     border: 2px solid #474747;
     padding: 8px;
     min-width: 100px;

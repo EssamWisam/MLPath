@@ -1,26 +1,47 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    const modelsListItems = document.querySelectorAll('.sidebar .parent-list li.model-name');
+    const questsListItems = document.querySelectorAll('.sidebar .child-list li.quest-name');
     const refreshButton = document.querySelector('#refresh-button');
     const columnsButton = document.querySelector('#columns-button');
     const searchForm = document.querySelector('#search-form');
 
-    const { data } = await fetchData();
-    writeDataToTable(data);
+    if (!localStorage.getItem('activeModelIndex') || !localStorage.getItem('activeQuestIndex')) {
+        localStorage.setItem('activeModelIndex', 0);
+        localStorage.setItem('activeQuestIndex', 0);
+    }
+
+    loadResults();
+
+    questsListItems.forEach((quest, index) => {
+        quest.addEventListener('click', async () => {
+            const modelName = quest.dataset.modelName;
+            const modelIndex = [...modelsListItems].findIndex(model => model.textContent === modelName);
+            localStorage.setItem('activeModelIndex', modelIndex);
+            localStorage.setItem('activeQuestIndex', index);
+            questsListItems.forEach(quest => quest.classList.remove('active'));
+            quest.classList.add('active');
+            loadResults();
+        });
+    });
 
     refreshButton.addEventListener('click', async () => {
-        const { data } = await fetchData();
-        writeDataToTable(data);
+        loadResults()
     });
 
     columnsButton.addEventListener('click', async () => {
-        const { config, data } = await fetchData();
+        const { modelName, questName } = getModelAndQuest();
+        const { config, data } = await fetchData(modelName, questName);
         handleColumnsModal(config);
-        filterColumns(config, data);
+        filterColumns(config, data, modelName, questName);
     });
 
-    searchForm.addEventListener('submit', e => {
+    searchForm.addEventListener('submit', async e => {
         e.preventDefault();
         const searchInput = document.querySelector('#search');
         const searchValue = searchInput.value;
+
+        const { modelName, questName } = getModelAndQuest();
+        const { config, data } = await fetchData(modelName, questName);
 
         let indexesFilter;
         if (searchValue) {
@@ -35,18 +56,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             columnsModal.classList.remove('modal-open');
         }
     };
-
-    // $('#results-table')
-    //     .DataTable({
-    //         paging: false,
-    //         searching: false,
-    //         scrollX: true,
-    //         select: true,
-    //     });
 });
 
-async function fetchData() {
-    const res = await fetch('/api/data');
+async function fetchData(modelName, questName) {
+    const res = await fetch(`/api/data/${modelName}/${questName}`);
     const data = await res.json();
     return data;
 }
@@ -81,6 +94,27 @@ function writeDataToTable({ headers1, headers2, rows }, indexesFilter = null) {
     tableBody.innerHTML = rowsHTML;
 }
 
+function getModelAndQuest() {
+    const modelsListItems = document.querySelectorAll('.sidebar .parent-list li.model-name');
+    const questsListItems = document.querySelectorAll('.sidebar .child-list li.quest-name');
+
+    const activeModelIndex = localStorage.getItem('activeModelIndex');
+    const activeQuestIndex = localStorage.getItem('activeQuestIndex');
+
+    questsListItems[activeQuestIndex].classList.add('active');
+
+    const modelName = modelsListItems[activeModelIndex].innerText;
+    const questName = questsListItems[activeQuestIndex].innerText;
+
+    return { modelName, questName };
+}
+
+async function loadResults() {
+    const { modelName, questName } = getModelAndQuest();
+    const { data } = await fetchData(modelName, questName);
+    writeDataToTable(data);
+}
+
 function handleColumnsModal(configData) {
     const columnsModal = document.querySelector('.columns-modal-background');
     const columnsContainer = document.querySelector('#columns-container');
@@ -103,18 +137,17 @@ function handleColumnsModal(configData) {
     columnsModal.classList.add('modal-open');
 }
 
-function filterColumns(configData, data) {
+function filterColumns(configData, data, modelName, questName) {
     const columnsCheckboxes = document.querySelectorAll('#columns-container .form-check-input');
 
     columnsCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', async e => {
             const { checked, value } = e.target;
-            console.log({ checked, value });
             const [header, subheader] = value.split('.');
 
             configData[header][subheader] = checked ? "true" : "false";
 
-            const res = await fetch('/api/save-config-data', {
+            const res = await fetch(`/api/save-config-data/${modelName}/${questName}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -127,7 +160,8 @@ function filterColumns(configData, data) {
             });
 
             if (res.ok) {
-                const { data } = await fetchData();
+                const { modelName, questName } = getModelAndQuest();
+                const { data } = await fetchData(modelName, questName);
                 writeDataToTable(data);
             }
         });
