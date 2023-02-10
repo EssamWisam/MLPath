@@ -8,6 +8,7 @@ import time
 import warnings
 import inspect
 from varname import  argname
+from copy import copy
 import pickle
 import os
 
@@ -19,10 +20,13 @@ class mlquest():
     log = {}                     # dictionary of the current log (run)
     active = False               # is a quest already active
     start_time = None            # to compute the duration of the experiment later
-    relative_path = None         # the relative location for where to save the 'mlquests' folder
+    relative_path = ''           # the relative location for where to save the 'mlquests' folder
     curr_dir = None              # the name of the folder containing the current file (for saving purposes)
+    non_default_log = {}         # contains the arguments actually passed to the function
+    log_defs = False             # if true, default arguments are also logged
+
     @staticmethod
-    def start(quest_name, relative_path=''):
+    def start_quest(quest_name, log_defs=False, table_dest=''):
        '''
         Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
@@ -30,12 +34,13 @@ class mlquest():
         :type number: string
        '''
        # get the name of the folder containing the current file
-       mlquest.relative_path = relative_path
+       mlquest.relative_path = table_dest
+       mlquest.log_defs = log_defs
        mlquest.curr_dir = os.getcwd().split('/')[-1]
-       if not os.path.exists(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name): 
+       if not os.path.exists(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}'):
           os.makedirs(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name)
             
-       if 'quests.mlq' in os.listdir(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name):
+       if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}'):
             with open(mlquest.relative_path + f'mlquests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
@@ -55,7 +60,7 @@ class mlquest():
        '''
        if mlquest.active == False: warnings.warn("Attempting to clear the current run when no run is active will do nothing")
        mlquest.log = {}
-      
+       
     
    
     @staticmethod
@@ -99,6 +104,8 @@ class mlquest():
                data = utils.stringify(value)
                if data is not None: values[key] = data
           
+          non_def_values = copy(values)
+          
           for key, value in defaults.items():
                data = utils.stringify(value)
                if data is not None: values[key] = data
@@ -106,8 +113,12 @@ class mlquest():
           # Now set the values in the log with the key being the name of the function
           if name:
              mlquest.log[name] = values
+             mlquest.non_default_log[name] = non_def_values
           else:
              mlquest.log[func.__name__] = values
+             mlquest.non_default_log[func.__name__] = non_def_values
+             
+         
           
           return func(*args, **kwargs)
        return wrapped
@@ -181,7 +192,7 @@ class mlquest():
           
        
     @staticmethod
-    def delete_experiment(quest_name):
+    def delete_quest(quest_name):
        '''
        deletes a quest (collection of runs) from the log
        
@@ -204,18 +215,19 @@ class mlquest():
        
 
     @staticmethod
-    def save_quests(quest_name):
+    def save_quest(quest_name):
        '''
        Uses pickle to save the quests object to a file.
        '''
        # see if there is a 'mlquests' folder, if not, create it
-       if not os.path.exists(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir): os.makedirs(mlquest.relative_path + 'mlquests/'  + mlquest.curr_dir)
+       if not os.path.exists(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}'):
+          os.makedirs(mlquest.relative_path + 'mlquests/'  + mlquest.curr_dir)
        
-       with open(mlquest.relative_path + 'mlquests/'+ mlquest.curr_dir+'/' + quest_name+'/quests.mlq', 'wb') as f:
+       with open(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
           
     @staticmethod
-    def end():
+    def end_quest():
        '''
        ends an active run and saves it to the log.
        '''
@@ -242,8 +254,9 @@ class mlquest():
             mlquest.log['info']['id'] = id
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
-         utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name)
-         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
+         utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
+         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
+                                  f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
          mlquest.active = False
          mlquest.log = {}
-         mlquest.save_quests(quest_name)
+         mlquest.save_quest(quest_name)

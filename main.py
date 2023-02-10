@@ -6,28 +6,27 @@ from mlpath import mlquest as mlq
 l = mlq.l
 
 # let's try this out
-def DatasetFilter(x_param, y_param, z_param, **kwargs):
-    return x_param * y_param * z_param
-
-def FeatureExtractor(p_num, k_num, l_num, **kwargs):
-    return p_num**k_num + l_num
-
-def NaiveBayes(alpha, beta_param, c=0, depth_ratio=4, **kwargs):
+# let's try this out
+def NaiveBayes(alpha, beta_param, c=0, depth_ratio=4, a_num=5, b_gum=7, c_hum=12):
     return alpha + beta_param + c
 
-def MultinomialNB( alpha=1.0, force_alpha='warn', fit_prior=True, class_prior=None):
-    return 8
+def SVMRegressor(x_param, y_param, z_param, a_num=5, b_gum=7, c_hum=12):
+    return x_param * y_param * z_param
 
-mlq.start('NaiveBayes')
+def DeepNeuralNet(p_num, k_num, l_num, a_num=5, b_gum=7, c_hum=12):
+    return p_num**k_num + l_num
 
-dataset = l(DatasetFilter)(14, 510, 4, m_num=True, g_num=True, h_num=True)
-features = l(FeatureExtractor)(12, 2, 12)
-accuracy = l(NaiveBayes)(alpha=1024, beta_param=7, c=12,  depth_ratio=538, mega_p=63, g_estim=3, h=43)
+
+mlq.start_quest('xyz', log_defs=True)
+
+accuracy = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12, )
+gesult = mlq.l(SVMRegressor)(14, 510, 4)
+result = mlq.l(DeepNeuralNet)(12, 2, 3)
 
 mlq.to_log_ext('features', Type='Numerical' )
 
 mlq.log_metrics(accuracy=accuracy)
 
-mlq.end()
+mlq.end_quest()
 
 
