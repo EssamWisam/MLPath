@@ -45,10 +45,11 @@ setup(
     packages=["mlpath", "mlpath.mlquest", "mlpath.mldir"],
     include_package_data=True,
     package_data={'mldir':['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
-    install_requires=['varname', 'click'],
+    install_requires=['varname', 'click', 'flask'],
     entry_points='''
     [console_scripts]
     mldir=mlpath.mldir.cli:main
+    mlweb=mlpath.mldir.cli:web
     '''
 )
 
