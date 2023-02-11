@@ -14,7 +14,8 @@ import pkg_resources
 @click.option('--name', default='Project', help='The name of the project')
 @click.option('--full', default=False, is_flag=True, help='A simpler project directory will be created if this flag is set')
 @click.option('--example', default=False, is_flag=True, help='A simple example project will be created if this flag is set')
-def main(name, full, example):
+@click.option('--force', default=False, is_flag=True, help='If a project with the same name exists it will be deleted and a new one will be created')
+def main(name, full, example, force):
     if example:
         zip_name = 'example-project'
     elif full:
@@ -24,6 +25,12 @@ def main(name, full, example):
 
     try:
         zip_path = pkg_resources.resource_filename(__name__, f"/{zip_name}.zip")
+        if os.path.exists(name):
+            if force:
+                shutil.rmtree(name)
+            else:
+                click.echo("Couldn't create project. A project with that name already exists. Use the --force flag to overwrite the existing project")
+                return
         with zipfile.ZipFile(zip_path,"r") as zip_ref:
             zip_ref.extractall(name)
         click.echo('Project created successfully')
