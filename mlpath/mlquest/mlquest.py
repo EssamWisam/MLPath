@@ -37,11 +37,11 @@ class mlquest():
        mlquest.relative_path = table_dest
        mlquest.log_defs = log_defs
        mlquest.curr_dir = os.getcwd().split('/')[-1]
-       if not os.path.exists(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}'):
-          os.makedirs(mlquest.relative_path + 'mlquests/' + mlquest.curr_dir + '/' + quest_name)
+       if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
+          os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name)
             
-       if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}'):
-            with open(mlquest.relative_path + f'mlquests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+       if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
+            with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
        if mlquest.active == True: warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
@@ -220,10 +220,10 @@ class mlquest():
        Uses pickle to save the quests object to a file.
        '''
        # see if there is a 'mlquests' folder, if not, create it
-       if not os.path.exists(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}'):
-          os.makedirs(mlquest.relative_path + 'mlquests/'  + mlquest.curr_dir)
+       if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}'):
+          os.makedirs(mlquest.relative_path + 'Quests/'  + mlquest.curr_dir)
        
-       with open(f'{mlquest.relative_path}mlquests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
+       with open(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
           
     @staticmethod
@@ -255,8 +255,8 @@ class mlquest():
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
          utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
-         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
-                                  f'mlquests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
+         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
+                                  f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quest(quest_name)

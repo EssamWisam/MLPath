@@ -87,9 +87,9 @@ def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_na
 
 
    # save the html file
-   if not os.path.exists(f'{relative_path}mlquests/{curr_dir}/{quest_name}'):
-      os.makedirs(f'{relative_path}mlquests/{curr_dir}/{quest_name}')
-   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
+   if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}'):
+      os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}')
+   with open(relative_path + f'Quests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
       f.write(table)
    
       
@@ -100,8 +100,8 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
    :param quest_name: The name of the quest to be converted
    :type quest_name: string
    '''
-   if not os.path.exists(f'{relative_path}mlquests/{curr_dir}/{quest_name}/json'):
-      os.makedirs(f'{relative_path}mlquests/{curr_dir}/{quest_name}/json')
+   if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}/json'):
+      os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}/json')
    
    big_dict = merge_dicts(runs)
    # remove ['info]['name'] from the dict
@@ -109,7 +109,7 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
    # now convert to json
    j = json.dumps(big_dict, indent=4)
    # save the json file
-   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}.json', 'w') as f:
+   with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', 'w') as f:
       f.write(j)
 
    # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
@@ -134,9 +134,9 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
                config_dict[key][subkey] = 'true'
 
    # let's see if there is a version of the config file already
-   if os.path.exists(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json'):
+   if os.path.exists(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json'):
       # if there is, we will merge the two dicts
-      with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'r') as f:
+      with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'r') as f:
          old_config = json.load(f)
          # get false values from the old_config before overwriting with the new one!
          for key in old_config.keys():
@@ -154,7 +154,7 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
    # convert to json      
    c = json.dumps(config_dict, indent=4)
    # save the json file
-   with open(relative_path + f'mlquests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'w') as f:
+   with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'w') as f:
       f.write(c)
 
 
