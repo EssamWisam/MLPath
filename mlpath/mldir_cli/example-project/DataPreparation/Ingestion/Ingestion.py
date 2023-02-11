@@ -37,7 +37,7 @@ def read_data(saved=False, eval=False):
             except:
                 print("corrupted image detected.") 
 
-        x_data,  y_data = np.array(x_data), np.array(y_data)
+        x_data,  y_data = np.array(x_data, dtype=object), np.array(y_data)
         
 
 
