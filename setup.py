@@ -23,12 +23,12 @@ def read_requirements():
 # This call to setup() does all the work
 setup(
     name="mlpath",
-    version="0.0.138",
+    version="0.0.14",
     description="A lightweight api for machine and deep learning experiment logging in the form of a python library. ",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://mlpath.readthedocs.io/",
-    author="Essam W., Abullah A.",
+    author="Essam W., Abdullah A.",
     author_email="essamwisam@outlook.com",
     license="GPLv3",
     classifiers=[
@@ -42,14 +42,14 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent"
     ],
-    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir-cli"],
+    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir_cli"],
     include_package_data=True,
     package_data={'mldir':['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
     install_requires=['varname', 'click', 'flask'],
     entry_points='''
     [console_scripts]
-    mldir=mlpath.mldir.cli:main
-    mlweb=mlpath.mldir.cli:web
+    mldir=mlpath.mldir_cli.cli:main
+    mlweb=mlpath.mldir_cli.cli:web
     '''
 )
 

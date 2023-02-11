@@ -36,7 +36,7 @@ class mlquest():
        # get the name of the folder containing the current file
        mlquest.relative_path = table_dest
        mlquest.log_defs = log_defs
-       mlquest.curr_dir = os.getcwd().split('/')[-1]
+       mlquest.curr_dir = os.path.basename(os.getcwd())
        if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
           os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name)
             
