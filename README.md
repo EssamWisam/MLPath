@@ -273,7 +273,7 @@ mlq.end_quest()
 
 ### An example with PyTorch
 
-Could be found in the [example project](google.com).
+Could be found in the example project mentioned below.
 
 <h1 text-align='center'> MLDir </h1>
 
