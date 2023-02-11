@@ -273,7 +273,7 @@ mlq.end_quest()
 
 ### An example with PyTorch
 
-Could be found in the example project mentioned below.
+A real example on a dummy dataset that demonstrates using the library on real models (among which is a pipeline built with PyTorch) will be mentioned below.
 
 <h1 text-align='center'> MLDir </h1>
 
