@@ -8,7 +8,7 @@ MLPath is an MLOPs library on Python that so far is composed of two modules: MLQ
 
 ### Installation
 ```
-pip install mlpath --upgrade
+pip install mlpath
 ```
 
 <h1 text-align='center'> MLQuest </h1>
