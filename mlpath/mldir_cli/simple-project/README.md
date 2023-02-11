@@ -60,6 +60,7 @@ There is also a Sandbox.ipynb which is used for debugging (e.g. coopying a funct
 ```
 mldir --example
 ```
+and don't forget to follow that up with ```pip install -r requirements.txt```
 
 Side note: The fact that this does not seperate the data preparation stage into ingestion and preprocessing is in itself a violation. Its important to note that your team doesn't have to follow everything in the manifesto; if everyone agrees that something should be done differently, then do it differently. The manifesto is just a reference.
 
