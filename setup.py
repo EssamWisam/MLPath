@@ -42,7 +42,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent"
     ],
-    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir"],
+    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir-cli"],
     include_package_data=True,
     package_data={'mldir':['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
     install_requires=['varname', 'click', 'flask'],
