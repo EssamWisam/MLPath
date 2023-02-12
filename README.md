@@ -367,7 +367,7 @@ mldir --name <project-name>  --example
 
 Thanks to [Abdullah](https://github.com/abdullahalshawafi) for all his startling work on the mlweb module and for all the time he spent with me to discuss or test the library.
 
-Thanks to [Jimmy](google.com) for all his help in testing the library.
+Thanks to [Jimmy](https://github.com/Hero2323) for all his help in testing the library.
 ### Collaborators
 <table>
 <tr>
