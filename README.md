@@ -48,13 +48,13 @@ mlq.start_quest('Radial Basis Pipeline', log_defs=False)
 x_data_p = l(Preprocessing)(x_data=[1, 2, 3], alpha=1114, beta_param=2, c=925)
 
 # Feature Extraction
-x_data_f = l(FeatureExtraction)(x_data_p, 32, 50, 4)        # x_data_p is an array so it won't be logged.
+x_data_f = l(FeatureExtraction)(x_data_p, 32, 50, 4)  # x_data_p is an array so it won't be logged.
 
 # Model Initialization
 model = l(RadialBasisNet)(x_data_f, 99, 19, 31)
 
 # Model Training
-accuracy = l(train_model)(model)
+accuracy = train_model(model)
 
 # log the accuracy
 mlq.log_metrics(accuracy)        # can also do mlq.log_metric(acc=accuracy) so its logged as acc
