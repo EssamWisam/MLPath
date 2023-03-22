@@ -1,10 +1,9 @@
 
 # MLPath
 
-MLPath is an MLOPs library on Python that so far is composed of two modules: MLQuest and MLDir.
+MLPath is an MLOPs library on Python that makes tracking machine learning experiments and organizing machine learning projects easier. It consists of two subpackages so far, MLQuest for tracking and MLDir for directory structure.
 
-#### A note on the docs
-⦿ They are done but not hosted yet but will hopefully be hosted soon. So let's make this a good tutorial.
+Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.html'>documentation</a>.
 
 ### Installation
 ```
@@ -14,13 +13,11 @@ pip install mlpath
 <h1 text-align='center'> MLQuest </h1>
 <img src="https://user-images.githubusercontent.com/49572294/218260658-846c1aab-fe57-44fa-baa6-5d988ff07e1b.png"></img>
 
-MLQuest offers a light-weight api for logging your machine/deep learning experiments (quests) at almost no extra lines of code.
-
 ### To get started
 
-```Python
+> This is your code without mlquest
 
-# Your code without mlquest
+```Python
 
 # Preprocessing
 x_data_p = Preprocessing(x_data=[1, 2, 3], alpha=1024, beta_param=7, c=12)
@@ -34,9 +31,8 @@ model = RadialBasisNet(x_data_f, 12, 2, 3)
 # Model Training
 accuracy = train_model(model)
 ```
-
+> This is your code with mlquest
 ```Python
-# Your code with mlquest
 
 from mlpath import mlquest as mlq
 l = mlq.l
@@ -62,7 +58,7 @@ mlq.log_metrics(accuracy)        # can also do mlq.log_metric(acc=accuracy) so i
 mlq.end_quest()
 
 ```
-After three run, the markdown file under the ```Quests``` folder has
+After three runs, the markdown file under the ```Quests``` folder has
 <table>
 <tr>
 <th colspan=4 style="text-align: center; vertical-align: middle;">info</th>
@@ -136,30 +132,10 @@ After three run, the markdown file under the ```Quests``` folder has
 </tr>
 </table>
 
-### ✦ A few notes on the ```l()``` function
+Editors like VSCode support viewing markdown out-of-the-box. You may need to press `CTRL/CMD+Shift+V`
 
-⦿ It doesn't matter whether the argument is given through a variable or as a value, it doesn't matter if its given as a named argument or not. MLQuest will log the values under the column corresponding to the name as in the function's definition.
+⦿ Besides of the markdown, you will also find a ```json``` folder in that directory with a config file that allows you to customize the columns to show in the markdown table.
 
-⦿ MLQuest always tracks all arguments given to a function (except for the rarely used *args), providing ```log_defaults=False``` only means that the default ones which aren't given won't be shown in the markdown or the web view. 
-
-⦿ MLQuest is resilient to code motification. You can change the function definition or add/remove functions and MLQuest will still log the values under the correct column (while making older runs show an empty cell for the new columns)
-
-⦿ MLQuest doesn't log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the ```to_log_ext()``` method (more on that in the docs)
-
-⦿ Likewise, if you have hyperparameters that for some reason don't go to any function (hmm.), then you can log them using ```to_log()``` or ```to_log_ext()```
-
-⦿ Use ```delete_quest()``` and ```delete_run()``` to delete the whole quest (table) or a specific run only (row)
-
-
-### ✦ A few notes on markdown table generation
-
-⦿ You may need a VSCode extension to view markdown
-
-⦿ Suppose your python script or notebook uses mlq.start(quest_name='P1-TF-GB') and is in the folder ```GradientBoost``` then with each run of the script a row is added to the markdown file ```P1-TF-GB.md``` that could be found in the ```Quests/GradientBoost/P1-TF-GB``` folder.
-
-⦿ You will also find a ```json``` folder in that directory with a config file that allows you to customize the columns to show in the markdown table.
-
-⦿ Suppose in the ```GradientBoost``` folder you have ```n``` pipelines (in each you combine a specific preprocessing method with a specific feature). Then if you are using mlquest in each pipeline, you will have ```n``` markdown files in the ```Quests/GradientBoost``` folder (each under its own folder there).
 
 ### But you probably prefer a web interface
 
@@ -170,11 +146,10 @@ In the same level as the ```Quests``` folder run the command ```mlweb``` then op
 
 ⦿ You can search for specific runs, an example would be ```metrics.accuracy>50``` (similar syntax to MLFlow)
 
-⦿ You can customize the columns to show in the table by clicking on columns (in lieu of doing it through```json``` config file)
+⦿ You can customize the columns to show in the table by clicking on `columns` (in lieu of doing it through```json``` config file)
 
 ⦿ Choose which model (folder containing python files where you run quests) and which pipeline file (quest) using the bar on the left
 
-⦿ Its best to call ```mlq.start_quest()``` with ```table_dest``` set such as that both the Quests folder and the Quests-Web folder are next to each other.
 
 ### An example with Scikit-Learn
 
@@ -273,7 +248,7 @@ mlq.end_quest()
 
 ### An example with PyTorch
 
-A real example on a dummy dataset that demonstrates using the library on real models (among which is a pipeline built with PyTorch) will be mentioned below.
+A real example on a dummy dataset that demonstrates using the library on real models is provided in the MLDir examples mentioned below.
 
 <h1 text-align='center'> MLDir </h1>
 
@@ -285,7 +260,7 @@ MLDir is a simple CLI that creates a standard directory structure for your machi
 
 ⦿ Although it integrates well with MLQuest, neither MLQuest nor MLDir require the other to function.
 
-⦿ Suppose your project has very few people working on it (only you) or does not require trying many models with many other preprocessing methods and features then you may not really need MLDir. A notebook and MLQuest should be enough. Otherwise use MLDir to prevent your directory from becoming a spaghetti Python files soup.
+⦿ Suppose your project has very few people working on it (only you) or does not require trying many models with many other preprocessing methods and features, then you may not really need MLDir. A notebook and MLQuest should be enough. Otherwise use MLDir to prevent your directory from becoming a spaghetti soup of Python files.
 
 
 ### 📜 The MLDir Manifesto
