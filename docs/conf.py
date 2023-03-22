@@ -28,16 +28,6 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
-# Ignore undocumented class attributes
-autodoc_default_options = {
-    'members': True,
-    'undoc-members': False,
-    'private-members': True,
-    'special-members': '__init__',
-    'show-inheritance': True,
-    'no-undoc-members': True
-}
-
 autodoc_member_order = 'bysource'
 
 
