@@ -1,0 +1,5 @@
+varname @ file:///home/conda/feedstock_root/build_artifacts/varname_1664243349873/work
+
+click==8.0.4
+flask==2.2.2
+mlpath==1.0.1
