@@ -94,6 +94,7 @@ class mlquest():
        :return: The function wrapped with the logging functionality
        
        :Example:
+       
        The following would log the parameters of the function NaiveBayesFit in the current run log
        
        >>> accuracy = mlq.l(NaiveBayesFit)(alpha=1024, beta_param=7, c=12, )
@@ -170,6 +171,7 @@ class mlquest():
          :type mi: scalar
          
          :example:
+         
          >>> acc = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12, )
          >>> mlq.log_metrics(acc)
          
@@ -215,6 +217,7 @@ class mlquest():
        :param kwargs: key value pairs to be logged under the 'notes' coumns notes (an alternative to dict)
        
        :Example:
+       
        >>> mlq.to_log(modification="Changed the loss function to cross entropy", reason="...")
        
        This would log the modification and reason under the 'notes' column. Any previous runs will have empty values for these columns.
@@ -240,6 +243,7 @@ class mlquest():
        :param kwargs: key value pairs to be llogged under col_name column (an alternative to dict)
        
        :Example:
+       
        >>> mlq.to_log_ext('graphs', Scatterplot='../plots/plt21.jpg', Histogram='../plots/plt22.jpg')
        
        This would log the Scatterplot and Histogram under the 'graphs' column. Any previous runs will have empty values for these columns.
@@ -315,6 +319,7 @@ class mlquest():
       :type run_ids: list of ints
       
       :Example:
+      
       >>> mlq.delete_runs('../', 'NaiveBayesExp', [1, 2, 3])
       
       This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest found in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
