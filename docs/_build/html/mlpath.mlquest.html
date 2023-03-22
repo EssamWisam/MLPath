@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>mlpath.mlquest package &#8212; MLPath 1.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'mlpath.mlquest';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="mlpath.mldir_cli package" href="mlpath.mldir_cli.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MLPath 1.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MLPath</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="mlpath.html">mlpath package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="mlpath.mldir_cli.html">mlpath.mldir_cli package</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">mlpath.mlquest package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/mlpath.mlquest.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>mlpath.mlquest package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.mlquest">mlpath.mlquest.mlquest module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest"><code class="docutils literal notranslate"><span class="pre">mlquest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.start_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.start_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.clear"><code class="docutils literal notranslate"><span class="pre">mlquest.clear()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.l"><code class="docutils literal notranslate"><span class="pre">mlquest.l()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.log_metrics"><code class="docutils literal notranslate"><span class="pre">mlquest.log_metrics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="mlpath-mlquest-package">
+<h1>mlpath.mlquest package<a class="headerlink" href="#mlpath-mlquest-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-mlpath.mlquest.mlquest">
+<span id="mlpath-mlquest-mlquest-module"></span><h2>mlpath.mlquest.mlquest module<a class="headerlink" href="#module-mlpath.mlquest.mlquest" title="Permalink to this heading">#</a></h2>
+<p>This is the main module of mlquest. It contains the mlquest class which is used to log machine learning experiments.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.mlquest.</span></span><span class="sig-name descname"><span class="pre">mlquest</span></span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The mlquest class provides methods and attributes to log machine learning experiments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.start_quest">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_defs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.start_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.start_quest" title="Permalink to this definition">#</a></dt>
+<dd><p>Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quest_name</strong> – The name of the experiment this run belongs to (e.g, the name of the model in the current file)</p></li>
+<li><p><strong>log_defs</strong> – Decides whether the next render of the experiments table should include the default arguments or not</p></li>
+<li><p><strong>table_dest</strong> – The relative path to the folder where the experiments table should be saved</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<p>The following would start a new quest called ‘Naive-Bayes with the <code class="samp docutils literal notranslate"><span class="pre">Quests</span></code> folder that tracks your experiments being at <code class="samp docutils literal notranslate"><span class="pre">../</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_quest</span><span class="p">(</span><span class="s1">&#39;Naive-Bayes&#39;</span><span class="p">,</span> <span class="n">log_defs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;../&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Notes</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>The <code class="samp docutils literal notranslate"><span class="pre">log_defs</span></code> parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged anyway.</p></li>
+<li><p>The <code class="samp docutils literal notranslate"><span class="pre">table_dest</span></code> parameter is used to decide where the experiments table should be saved. If it’s given as <code class="samp docutils literal notranslate"><span class="pre">../</span></code> then this means that the markdown file (experiments table) corresponding to this quest will be saved in the folder <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/&lt;QuestName&gt;/</span></code>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.clear">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.clear" title="Permalink to this definition">#</a></dt>
+<dd><p>Clear the log record of the current run. You may use it while handling exceptions or debugging.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.l">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">l</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.l"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.l" title="Permalink to this definition">#</a></dt>
+<dd><p>Log the scalar parameters of a function. This function should be called on any function that you want to log the parameters of.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>function</em>) – The function to be logged</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – A custom name of the function to be logged. If not given, the name of the function will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function wrapped with the logging functionality</p>
+</dd>
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>The following would log the parameters of the function NaiveBayesFit in the current run log</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">mlq</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="n">NaiveBayesFit</span><span class="p">)(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">beta_param</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Notes</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>It doesn’t matter whether the argument is given through a variable or as a value, it doesn’t matter if its given as a named argument or not. <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> will log the values under the column corresponding to the name as in the function’s signature.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> always tracks all scalar arguments given to a function that have a name using the function’s signature</p></li>
+<li><p>If you can later change the function definition then <code class="samp docutils literal notranslate"><span class="pre">MLQuest</span></code> may handle this by creating new columns that are empty for the previous runs.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> doesn’t log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.to_log_ext()</span></code> method</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.log_metrics">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m5</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m6</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m7</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m8</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m9</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m10</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.log_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.log_metrics" title="Permalink to this definition">#</a></dt>
+<dd><p>Log the metrics of the experiment. As an experimental feature, if the metrics are given as positional arguments, 
+they will be logged with the name of the variable given to them. If they are given as keyword arguments, they will 
+be logged with the name as the keyword.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mi</strong> (<em>scalar</em>) – The ith metric to be logged</p>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">acc</span> <span class="o">=</span> <span class="n">mlq</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="n">NaiveBayes</span><span class="p">)(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">beta_param</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would log the accuracy of the NaiveBayes under the column ‘acc’. To provide a different name than that of the variable
+you can use the keyword argument syntax:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">accuracy</span><span class="o">=</span><span class="n">acc</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Notes</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Your metric should be a scalar. You may need to convert a Numpy array into a scalar by using the <code class="samp docutils literal notranslate"><span class="pre">metric.item()</span></code>.</p></li>
+<li><p>You can log multiple metrics at once using this function</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.to_log">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.to_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.to_log" title="Permalink to this definition">#</a></dt>
+<dd><p>Log any other information you want to log. This information will be stored under the ‘notes’ key (column) in the log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dict</strong> – A dictionary of the key (subcolumns), values to be logged under the ‘notes’ coumns</p></li>
+<li><p><strong>kwargs</strong> – key value pairs to be logged under the ‘notes’ coumns notes (an alternative to dict)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log</span><span class="p">(</span><span class="n">modification</span><span class="o">=</span><span class="s2">&quot;Changed the loss function to cross entropy&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would log the modification and reason under the ‘notes’ column. Any previous runs will have empty values for these columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.to_log_ext">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_log_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.to_log_ext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext" title="Permalink to this definition">#</a></dt>
+<dd><p>Grants logging with extensive access to the log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col_name</strong> (<em>string</em>) – The name of the column to log to</p></li>
+<li><p><strong>dict</strong> – A dictionary of the key (subcolumns), values to be logged under col_name column</p></li>
+<li><p><strong>kwargs</strong> – key value pairs to be llogged under col_name column (an alternative to dict)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log_ext</span><span class="p">(</span><span class="s1">&#39;graphs&#39;</span><span class="p">,</span> <span class="n">Scatterplot</span><span class="o">=</span><span class="s1">&#39;../plots/plt21.jpg&#39;</span><span class="p">,</span> <span class="n">Histogram</span><span class="o">=</span><span class="s1">&#39;../plots/plt22.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would log the Scatterplot and Histogram under the ‘graphs’ column. Any previous runs will have empty values for these columns.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.end_quest">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_quest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.end_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.end_quest" title="Permalink to this definition">#</a></dt>
+<dd><p>ends an active run and saves it to the log. This must called at the end of the experiment else it will not be logged.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.delete_runs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.delete_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.delete_runs" title="Permalink to this definition">#</a></dt>
+<dd><p>permanently deletes runs that have ids in run_ids from the log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_dest</strong> (<em>string</em>) – The destination of the Quests folder</p></li>
+<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to delete the runs from</p></li>
+<li><p><strong>run_ids</strong> (<em>list</em><em> of </em><em>ints</em>) – The ids (indecies) of the runs to be deleted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">delete_runs</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">,</span> <span class="s1">&#39;NaiveBayesExp&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest found in <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Notes</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>You need not run <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.end_quest()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.start_quest()</span></code> before calling the function</p></li>
+<li><p>Calling it from the file that initiated the quest is recommended. Otherwise, make sure the current file is in the same parent folder as it.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mlpath.mlquest.utils">
+<span id="mlpath-mlquest-utils-module"></span><h2>mlpath.mlquest.utils module<a class="headerlink" href="#module-mlpath.mlquest.utils" title="Permalink to this heading">#</a></h2>
+<p>Utility functions for mlquest</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.merge_dicts">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">merge_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#merge_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.merge_dicts" title="Permalink to this definition">#</a></dt>
+<dd><p>Merges a list of dictionaries into one dictionary suitable for conversion into a table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dict_list</strong> (<em>list</em><em> of </em><em>dictionaries</em>) – A list of dictionaries to be merged</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.json_to_html_table">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">json_to_html_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#json_to_html_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.json_to_html_table" title="Permalink to this definition">#</a></dt>
+<dd><p>Makes an html table from a nested json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_path</strong> (<em>string</em>) – The path to the json file</p></li>
+<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to be converted</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.runs_to_json">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">runs_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_defs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_default_log</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#runs_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.runs_to_json" title="Permalink to this definition">#</a></dt>
+<dd><p>converts the runs of a quest to a json file
+:param quest_name: The name of the quest to be converted
+:type quest_name: string</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.stringify">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">stringify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#stringify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.stringify" title="Permalink to this definition">#</a></dt>
+<dd><p>Puts a given item into a suitable format for logging.</p>
+</dd></dl>
+
+</section>
+<section id="module-mlpath.mlquest">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mlpath.mlquest" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mlpath.mldir_cli.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">mlpath.mldir_cli package</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.mlquest">mlpath.mlquest.mlquest module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest"><code class="docutils literal notranslate"><span class="pre">mlquest</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.start_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.start_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.clear"><code class="docutils literal notranslate"><span class="pre">mlquest.clear()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.l"><code class="docutils literal notranslate"><span class="pre">mlquest.l()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.log_metrics"><code class="docutils literal notranslate"><span class="pre">mlquest.log_metrics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Essam W., Abdullah A.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Essam W., Abdullah A..
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

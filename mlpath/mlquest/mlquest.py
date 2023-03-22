@@ -1,5 +1,5 @@
 '''
-The main module of mlquest. It contains the mlquest class which is used to log the experiments.
+This is the main module of mlquest. It contains the mlquest class which is used to log machine learning experiments.
 '''
 import mlpath.mlquest.utils as utils
 
@@ -11,10 +11,11 @@ from varname import  argname
 from copy import copy
 import pickle
 import os
+import json
 
 class mlquest():
     '''
-    mlpath is library to help you with logging machine and deep learning experiments (quests).
+    The mlquest class provides methods and attributes to log machine learning experiments.
     '''
     quests = {}             # dictionary of quests (e.g, one for each model) that contains a list of logs (runs)
     log = {}                     # dictionary of the current log (run)
@@ -24,14 +25,30 @@ class mlquest():
     curr_dir = None              # the name of the folder containing the current file (for saving purposes)
     non_default_log = {}         # contains the arguments actually passed to the function
     log_defs = False             # if true, default arguments are also logged
-
+    quest_name = None            # the name of the quest (e.g, the name of the model in the current file)
+    
     @staticmethod
     def start_quest(quest_name, log_defs=False, table_dest=''):
        '''
-        Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
+      Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
-        :param quest_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
-        :type number: string
+      :param quest_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
+      :type number: string
+      :param log_defs: Decides whether the next render of the experiments table should include the default arguments or not
+      :type number: boolean
+      :param table_dest: The relative path to the folder where the experiments table should be saved
+      :type number: string
+        
+      :Example:
+        
+      The following would start a new quest called 'Naive-Bayes with the :samp:`Quests` folder that tracks your experiments being at :samp:`../`.
+        
+      >>> start_quest('Naive-Bayes', log_defs=True, '../')
+
+      :Notes:
+       
+      - The :samp:`log_defs` parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged anyway.
+      - The :samp:`table_dest` parameter is used to decide where the experiments table should be saved. If it's given as :samp:`../` then this means that the markdown file (experiments table) corresponding to this quest will be saved in the folder :samp:`../Quests/<ParentFolder>/<QuestName>/`.
        '''
        # get the name of the folder containing the current file
        mlquest.relative_path = table_dest
@@ -44,6 +61,7 @@ class mlquest():
             with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
+       mlquest.quest_name = quest_name
        if mlquest.active == True: warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
        else:
          mlquest.active = True
@@ -56,7 +74,7 @@ class mlquest():
     @staticmethod
     def clear():
        '''
-        Clear the log record of the current run.
+        Clear the log record of the current run. You may use it while handling exceptions or debugging.
        '''
        if mlquest.active == False: warnings.warn("Attempting to clear the current run when no run is active will do nothing")
        mlquest.log = {}
@@ -66,7 +84,7 @@ class mlquest():
     @staticmethod
     def l(func, name=None):
        '''
-       Log the scalar parameters of a function that aren't None. This function must be called on the function to be logged.
+       Log the scalar parameters of a function. This function should be called on any function that you want to log the parameters of.
        
        :param func: The function to be logged
        :type func: function
@@ -74,9 +92,27 @@ class mlquest():
        :type name: string
        
        :return: The function wrapped with the logging functionality
-       :rtype: function
+       
+       :Example:
+       The following would log the parameters of the function NaiveBayesFit in the current run log
+       
+       >>> accuracy = mlq.l(NaiveBayesFit)(alpha=1024, beta_param=7, c=12, )
+       
+       :Notes:
+       
+       - It doesn't matter whether the argument is given through a variable or as a value, it doesn't matter if its given as a named argument or not. :func:`mlq.l()` will log the values under the column corresponding to the name as in the function's signature.
+
+       - :func:`mlq.l()` always tracks all scalar arguments given to a function that have a name using the function's signature
+       
+       - If you can later change the function definition then :samp:`MLQuest` may handle this by creating new columns that are empty for the previous runs.
+
+       - :func:`mlq.l()` doesn't log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the :func:`mlq.to_log_ext()` method
+
        '''
-       assert mlquest.active, " You can't start logging before starting a run"
+       
+       if mlquest.active == False: 
+          warnings.warn("Attempting to log a function when no run is active will do nothing")
+          return func
 
        def wrapped(*args, **kwargs):
           signature = inspect.signature(func)
@@ -128,10 +164,25 @@ class mlquest():
        '''
          Log the metrics of the experiment. As an experimental feature, if the metrics are given as positional arguments, 
          they will be logged with the name of the variable given to them. If they are given as keyword arguments, they will 
-         be logged with the name of the keyword.
+         be logged with the name as the keyword.
          
          :param mi: The ith metric to be logged 
          :type mi: scalar
+         
+         :example:
+         >>> acc = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12, )
+         >>> mlq.log_metrics(acc)
+         
+         This would log the accuracy of the NaiveBayes under the column 'acc'. To provide a different name than that of the variable
+         you can use the keyword argument syntax:
+         
+         >>> mlq.log_metrics(accuracy=acc)
+         
+         :Notes:
+         
+         - Your metric should be a scalar. You may need to convert a Numpy array into a scalar by using the :samp:`metric.item()`.
+         - You can log multiple metrics at once using this function
+         
        '''
        assert mlquest.active, " You can't start logging before starting a run"
        mlquest.log['metrics'] = {}
@@ -158,10 +209,15 @@ class mlquest():
     @staticmethod
     def to_log(dict=None,**kwargs):
        '''
-       Log any other information you want to log. This information will be stored under the 'notes' key in the log.
+       Log any other information you want to log. This information will be stored under the 'notes' key (column) in the log.
        
-       :param dict: A dictionary of the key, values to be logged under notes
-       :param kwargs: key value pairs to be logged under notes (an alternative to dict)
+       :param dict: A dictionary of the key (subcolumns), values to be logged under the 'notes' coumns
+       :param kwargs: key value pairs to be logged under the 'notes' coumns notes (an alternative to dict)
+       
+       :Example:
+       >>> mlq.to_log(modification="Changed the loss function to cross entropy", reason="...")
+       
+       This would log the modification and reason under the 'notes' column. Any previous runs will have empty values for these columns.
        '''
        
        if dict is not None:
@@ -178,8 +234,15 @@ class mlquest():
        '''
        Grants logging with extensive access to the log. 
        
-       :param dict: A dictionary of the key, values to be logged under notes
-       :param kwargs: key value pairs to be logged under notes (an alternative to dict)
+       :param col_name: The name of the column to log to
+       :type col_name: string
+       :param dict: A dictionary of the key (subcolumns), values to be logged under col_name column
+       :param kwargs: key value pairs to be llogged under col_name column (an alternative to dict)
+       
+       :Example:
+       >>> mlq.to_log_ext('graphs', Scatterplot='../plots/plt21.jpg', Histogram='../plots/plt22.jpg')
+       
+       This would log the Scatterplot and Histogram under the 'graphs' column. Any previous runs will have empty values for these columns.
        '''
        if dict is not None:
             mlquest.log[col_name] = dict
@@ -189,31 +252,7 @@ class mlquest():
              mlquest.log[col_name] = {}
           for key, value in kwargs.items():
              mlquest.log[col_name][key] = value
-          
-       
-    @staticmethod
-    def delete_quest(quest_name):
-       '''
-       deletes a quest (collection of runs) from the log
-       
-       :param quest_name: The name of the experiment to be deleted
-       :type quest_name: string
-       '''
-       del mlquest.quests[quest_name]
- 
-    @staticmethod
-    def delete_run(quest_name, run_id):
-       '''
-       deletes a run under quest_name from the log
-       
-       :param quest_name: The name of the experiment to be deleted
-       :type quest_name: string
-       :param run_id: The id of the run to be deleted
-       :type run_id: int
-       '''
-       del mlquest.quests[quest_name][run_id - 1]
-       
-
+             
     @staticmethod
     def save_quest(quest_name):
        '''
@@ -229,7 +268,7 @@ class mlquest():
     @staticmethod
     def end_quest():
        '''
-       ends an active run and saves it to the log.
+       ends an active run and saves it to the log. This must called at the end of the experiment else it will not be logged.
        '''
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:
@@ -246,7 +285,8 @@ class mlquest():
          # check if the experiment already exists and set its name and id
          if mlquest.log['info']['name'] in mlquest.quests:
             quest_name = mlquest.log['info']['name']
-            id = len(mlquest.quests[quest_name]) + 1
+            # get the id of the last experiment
+            id = int(mlquest.quests[quest_name][-1]['info']['id'])+1
             mlquest.log['info']['id'] = id
             mlquest.quests[quest_name].append(mlquest.log)
          else:
@@ -260,3 +300,53 @@ class mlquest():
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quest(quest_name)
+         
+         
+    @staticmethod
+    def delete_runs(table_dest, quest_name, run_ids):
+      '''
+      permanently deletes runs that have ids in run_ids from the log.
+      
+      :param table_dest: The destination of the Quests folder
+      :type table_dest: string
+      :param quest_name: The name of the quest to delete the runs from
+      :type quest_name: string
+      :param run_ids: The ids (indecies) of the runs to be deleted
+      :type run_ids: list of ints
+      
+      :Example:
+      >>> mlq.delete_runs('../', 'NaiveBayesExp', [1, 2, 3])
+      
+      This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest found in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
+      
+      :Notes:
+      
+      - You need not run :func:`mlq.end_quest()` or :func:`mlq.start_quest()` before calling the function
+      - Calling it from the file that initiated the quest is recommended. Otherwise, make sure the current file is in the same parent folder as it.
+      
+
+      '''
+      curr_dir = os.path.basename(os.getcwd())
+      
+      # read the mlq file from table_dest and quest_name
+      with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+         data = dict(pickle.load(f))
+         
+      
+      for run_id in run_ids:
+         # loop on the runs and delete the run with the given id
+         for i, run in enumerate(data[quest_name]):
+            if run['info']['id'] == run_id:
+               del data[quest_name][i]
+               break
+            if i == len(data[quest_name])-1:
+               warnings.warn(f"Run id {run_id} does not exist; failed to delete")
+      
+      # save the data to the mlq file
+      with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
+         pickle.dump(data, f)
+         
+      # update the json and html files
+      utils.runs_to_json(table_dest, curr_dir, data[quest_name], quest_name, None, None)
+      utils.json_to_html_table(table_dest, curr_dir, f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
+         

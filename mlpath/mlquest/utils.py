@@ -111,51 +111,52 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
    # save the json file
    with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', 'w') as f:
       f.write(j)
-
-   # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
-   if log_defs:
-      config_dict = {}
-      for key in big_dict.keys():
-         config_dict[key] = {}
-         for subkey in big_dict[key].keys():
-            config_dict[key][subkey] = 'true'
-   else:
-      # let's get the set of subkeys that are in the non_default_log
-      config_dict = {}
-      for key in big_dict.keys():
-         config_dict[key] = {}
-         for subkey in big_dict[key].keys():
-            if key in non_default_log.keys():
-               if subkey in non_default_log[key].keys():
-                  config_dict[key][subkey] = 'true'
-               else:
-                  config_dict[key][subkey] = 'false'
-            else:
+   
+   if log_defs is not None and non_default_log is not None:
+      # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
+      if log_defs:
+         config_dict = {}
+         for key in big_dict.keys():
+            config_dict[key] = {}
+            for subkey in big_dict[key].keys():
                config_dict[key][subkey] = 'true'
-
-   # let's see if there is a version of the config file already
-   if os.path.exists(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json'):
-      # if there is, we will merge the two dicts
-      with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'r') as f:
-         old_config = json.load(f)
-         # get false values from the old_config before overwriting with the new one!
-         for key in old_config.keys():
-            if key in config_dict.keys():
-               for subkey in old_config[key].keys():
-                  if old_config[key][subkey]!='true' and subkey in config_dict[key].keys():
+      else:
+         # let's get the set of subkeys that are in the non_default_log
+         config_dict = {}
+         for key in big_dict.keys():
+            config_dict[key] = {}
+            for subkey in big_dict[key].keys():
+               if key in non_default_log.keys():
+                  if subkey in non_default_log[key].keys():
+                     config_dict[key][subkey] = 'true'
+                  else:
                      config_dict[key][subkey] = 'false'
-                     if log_defs:
-                        if key in non_default_log.keys():
-                           if subkey not in non_default_log[key].keys():      # it must be a default and we want to log it!
-                              config_dict[key][subkey] = 'true'
-                           else:
-                              config_dict[key][subkey] = 'false'
-                  
-   # convert to json      
-   c = json.dumps(config_dict, indent=4)
-   # save the json file
-   with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'w') as f:
-      f.write(c)
+               else:
+                  config_dict[key][subkey] = 'true'
+
+      # let's see if there is a version of the config file already
+      if os.path.exists(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json'):
+         # if there is, we will merge the two dicts
+         with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'r') as f:
+            old_config = json.load(f)
+            # get false values from the old_config before overwriting with the new one!
+            for key in old_config.keys():
+               if key in config_dict.keys():
+                  for subkey in old_config[key].keys():
+                     if old_config[key][subkey]!='true' and subkey in config_dict[key].keys():
+                        config_dict[key][subkey] = 'false'
+                        if log_defs:
+                           if key in non_default_log.keys():
+                              if subkey not in non_default_log[key].keys():      # it must be a default and we want to log it!
+                                 config_dict[key][subkey] = 'true'
+                              else:
+                                 config_dict[key][subkey] = 'false'
+                     
+      # convert to json      
+      c = json.dumps(config_dict, indent=4)
+      # save the json file
+      with open(relative_path + f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json', 'w') as f:
+         f.write(c)
 
 
 
