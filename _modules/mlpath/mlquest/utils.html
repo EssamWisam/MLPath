@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mlpath.mlquest.utils &#8212; MLPath 1.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/mlpath/mlquest/utils';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MLPath 1.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">MLPath</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../mlpath.html">mlpath package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../mlpath.mldir_cli.html">mlpath.mldir_cli package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../mlpath.mlquest.html">mlpath.mlquest package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for mlpath.mlquest.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Utility functions for mlquest</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1"># pylint: skip-file</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<div class="viewcode-block" id="merge_dicts"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.merge_dicts">[docs]</a><span class="k">def</span> <span class="nf">merge_dicts</span><span class="p">(</span><span class="n">dict_list</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">   Merges a list of dictionaries into one dictionary suitable for conversion into a table.</span>
+<span class="sd">   </span>
+<span class="sd">   :param dict_list: A list of dictionaries to be merged</span>
+<span class="sd">   :type dict_list: list of dictionaries</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+      <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+      <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sequence</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">or</span> <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
+   <span class="n">big_dict</span> <span class="o">=</span> <span class="p">{}</span>
+   <span class="c1"># Get all keys in the top-level, they will be part of the final dict</span>
+   <span class="n">keys</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dict_list</span><span class="p">]</span>
+   <span class="c1"># reverse keys</span>
+   <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">keys</span><span class="p">))</span>
+   <span class="c1"># flatten keys</span>
+   <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+   <span class="n">keys</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+   <span class="c1"># remove duplicates without changing the order</span>
+   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+      <span class="n">big_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="c1"># Get all possible keys in the 2nd level under the top-level key (if not found, the empty set does nothing to union)</span>
+      <span class="c1">#subkeys = set().union(*(d.get(key, {}) for d in dict_list))</span>
+      <span class="n">subkeys</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{}))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dict_list</span><span class="p">]</span>
+      <span class="n">subkeys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">subkeys</span><span class="p">))</span>
+      <span class="n">subkeys</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">subkeys</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+      <span class="n">subkeys</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">subkeys</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">subkeys</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">subkey</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dict_list</span><span class="p">]</span>    <span class="c1"># None if not found</span>
+            <span class="n">big_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+   <span class="k">return</span> <span class="n">big_dict</span></div>
+
+       
+       
+<div class="viewcode-block" id="json_to_html_table"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.json_to_html_table">[docs]</a><span class="k">def</span> <span class="nf">json_to_html_table</span><span class="p">(</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">quest_name</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Makes an html table from a nested json file. </span>
+<span class="sd">      </span>
+<span class="sd">      :param json_path: The path to the json file</span>
+<span class="sd">      :type json_path: string</span>
+<span class="sd">      </span>
+<span class="sd">      :param quest_name: The name of the quest to be converted</span>
+<span class="sd">      :type quest_name: string</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="c1"># read json file from path as dict</span>
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="n">json_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">JSON</span><span class="p">:</span>
+      <span class="n">json_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">JSON</span><span class="p">:</span>
+      <span class="n">config_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+   
+   <span class="c1"># convert to html table</span>
+   <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;&lt;table&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="c1"># make a header row</span>
+   <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="c1"># for each key in the top-level dict make a column with colspan being the number of subkeys</span>
+   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="c1"># the length of the colspan is the number of subkeys with value &#39;true&#39; in the config file</span>
+      <span class="n">length</span> <span class="o">=</span> <span class="p">[</span><span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;true&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> 
+         <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;th colspan=</span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s1"> style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&lt;/th&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="c1"># for each subkey of the top-level dict, make a subheader row</span>
+   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="k">if</span> <span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">:</span>
+            <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;th style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">subkey</span><span class="si">}</span><span class="s1">&lt;/th&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   <span class="c1"># get the number of ids to infer the number of rows</span>
+   <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_obj</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
+      <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+      <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">:</span>
+               <span class="n">value</span> <span class="o">=</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+               <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;td style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&lt;/td&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+      <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+
+   <span class="c1"># save the html file</span>
+   <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+   
+      
+    
+<div class="viewcode-block" id="runs_to_json"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.runs_to_json">[docs]</a><span class="k">def</span> <span class="nf">runs_to_json</span><span class="p">(</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="n">runs</span><span class="p">,</span> <span class="n">quest_name</span><span class="p">,</span> <span class="n">log_defs</span><span class="p">,</span> <span class="n">non_default_log</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">   converts the runs of a quest to a json file</span>
+<span class="sd">   :param quest_name: The name of the quest to be converted</span>
+<span class="sd">   :type quest_name: string</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json&#39;</span><span class="p">):</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json&#39;</span><span class="p">)</span>
+   
+   <span class="n">big_dict</span> <span class="o">=</span> <span class="n">merge_dicts</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span>
+   <span class="c1"># remove [&#39;info][&#39;name&#39;] from the dict</span>
+   <span class="k">del</span> <span class="n">big_dict</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+   <span class="c1"># now convert to json</span>
+   <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">big_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+   <span class="c1"># save the json file</span>
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+   
+   <span class="k">if</span> <span class="n">log_defs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">non_default_log</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="c1"># Now lets make a version of big_dict called config_dict that replaces all the leaf values with &#39;true&#39;</span>
+      <span class="k">if</span> <span class="n">log_defs</span><span class="p">:</span>
+         <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{}</span>
+         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">big_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">big_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+               <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="c1"># let&#39;s get the set of subkeys that are in the non_default_log</span>
+         <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{}</span>
+         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">big_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">big_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+               <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">non_default_log</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                  <span class="k">if</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">non_default_log</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                     <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+                  <span class="k">else</span><span class="p">:</span>
+                     <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;false&#39;</span>
+               <span class="k">else</span><span class="p">:</span>
+                  <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+
+      <span class="c1"># let&#39;s see if there is a version of the config file already</span>
+      <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">):</span>
+         <span class="c1"># if there is, we will merge the two dicts</span>
+         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">old_config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="c1"># get false values from the old_config before overwriting with the new one!</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">old_config</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+               <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                  <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">old_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                     <span class="k">if</span> <span class="n">old_config</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">!=</span><span class="s1">&#39;true&#39;</span> <span class="ow">and</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;false&#39;</span>
+                        <span class="k">if</span> <span class="n">log_defs</span><span class="p">:</span>
+                           <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">non_default_log</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                              <span class="k">if</span> <span class="n">subkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">non_default_log</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>      <span class="c1"># it must be a default and we want to log it!</span>
+                                 <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+                              <span class="k">else</span><span class="p">:</span>
+                                 <span class="n">config_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;false&#39;</span>
+                     
+      <span class="c1"># convert to json      </span>
+      <span class="n">c</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+      <span class="c1"># save the json file</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="stringify"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.stringify">[docs]</a><span class="k">def</span> <span class="nf">stringify</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">   Puts a given item into a suitable format for logging.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+   <span class="c1"># To log it, must not be any sort of collection</span>
+   <span class="k">try</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;__getitem__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+         <span class="c1"># So we can convert it into string, it must also not be too long</span>
+         <span class="c1"># lets round it if it is a float</span>
+         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span> <span class="n">item</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+         <span class="n">string_item</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">string_item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
+            <span class="n">string_item</span> <span class="o">=</span> <span class="n">string_item</span><span class="p">[:</span><span class="mi">60</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span>
+         <span class="k">return</span> <span class="n">string_item</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="k">return</span> <span class="kc">None</span>
+   <span class="k">except</span><span class="p">:</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error has occured while checking that </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2"> is a scalar with a __str__ method. It will thus be skipped.&quot;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Essam W., Abdullah A.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Essam W., Abdullah A..
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
