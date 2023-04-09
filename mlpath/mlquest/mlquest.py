@@ -186,7 +186,9 @@ class mlquest():
          - You can log multiple metrics at once using this function
          
        '''
-       assert mlquest.active, " You can't start logging before starting a run"
+       if mlquest.active == False: 
+          warnings.warn("Attempting to log a metric when no run is active will do nothing")
+          
        mlquest.log['metrics'] = {}
        
        # See if any of m1-m10 are set and if so, add them to the log with the key being the vairable name
