@@ -289,13 +289,17 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.show_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.show_logs()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.get_col_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.get_col_logs()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.remove_duplicate_rows"><code class="docutils literal notranslate"><span class="pre">remove_duplicate_rows()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.get_path_mask"><code class="docutils literal notranslate"><span class="pre">get_path_mask()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>
@@ -474,6 +478,27 @@ you can use the keyword argument syntax:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.show_logs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">show_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.show_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.show_logs" title="Permalink to this definition">#</a></dt>
+<dd><p>Shows the logs of a quest in a table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to show the logs of</p></li>
+<li><p><strong>log_defs</strong> (<em>bool</em>) – Whether to show the log defaults or not</p></li>
+<li><p><strong>table_dest</strong> (<em>string</em>) – The destination of the Quests folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">show_logs</span><span class="p">(</span><span class="s1">&#39;NaiveBayesExp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would show the logs of the NaiveBayesExp quest as saved in <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/</span></code></p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.delete_runs">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.delete_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.delete_runs" title="Permalink to this definition">#</a></dt>
 <dd><p>permanently deletes runs that have ids in run_ids from the log.</p>
@@ -502,6 +527,28 @@ you can use the keyword argument syntax:</p>
 </ul>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.get_col_logs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_col_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.get_col_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.get_col_logs" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a list of values of a column in the log of a quest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to get the column from</p></li>
+<li><p><strong>col_name</strong> (<em>string</em>) – The name of the column to get the values from</p></li>
+<li><p><strong>sub_col_name</strong> (<em>string</em>) – The name of the sub-column to get the values from</p></li>
+<li><p><strong>table_dest</strong> (<em>string</em>) – The destination of the Quests folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">get_logs</span><span class="p">(</span><span class="s1">&#39;NaiveBayesExp&#39;</span><span class="p">,</span> <span class="s1">&#39;metrics&#39;</span><span class="p">,</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would return a list of the accuracy values of the runs in the NaiveBayesExp quest found in <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/</span></code></p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -520,8 +567,23 @@ you can use the keyword argument syntax:</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.remove_duplicate_rows">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">remove_duplicate_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#remove_duplicate_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.remove_duplicate_rows" title="Permalink to this definition">#</a></dt>
+<dd><p>Removes duplicate rows from the given nested json_obj which is expected to be a
+two-level nested dictionary where the values are lists representing column values.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlpath.mlquest.utils.get_path_mask">
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">get_path_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#get_path_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.get_path_mask" title="Permalink to this definition">#</a></dt>
+<dd><p>Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys
+and where values are lists) this returns a mask of the same shape as the json_obj but where if a value
+is different from the previous row then it is a 1, otherwise it is a 0.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mlpath.mlquest.utils.json_to_html_table">
-<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">json_to_html_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#json_to_html_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.json_to_html_table" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">json_to_html_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colored</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#json_to_html_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.json_to_html_table" title="Permalink to this definition">#</a></dt>
 <dd><p>Makes an html table from a nested json file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -596,13 +658,17 @@ you can use the keyword argument syntax:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.show_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.show_logs()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.get_col_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.get_col_logs()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.remove_duplicate_rows"><code class="docutils literal notranslate"><span class="pre">remove_duplicate_rows()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.get_path_mask"><code class="docutils literal notranslate"><span class="pre">get_path_mask()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>

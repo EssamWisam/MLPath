@@ -246,6 +246,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">HTML</span>
 
 <div class="viewcode-block" id="mlquest"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest">[docs]</a><span class="k">class</span> <span class="nc">mlquest</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -304,6 +305,7 @@ document.write(`
          <span class="n">mlquest</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
          <span class="n">mlquest</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span> 
          <span class="n">mlquest</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%x</span><span class="s1">&#39;</span><span class="p">)</span></div>
+   
    
 <div class="viewcode-block" id="mlquest.clear"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest.clear">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">clear</span><span class="p">():</span>
@@ -420,7 +422,9 @@ document.write(`
 <span class="sd">         - You can log multiple metrics at once using this function</span>
 <span class="sd">         </span>
 <span class="sd">       &#39;&#39;&#39;</span>
-       <span class="k">assert</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">active</span><span class="p">,</span> <span class="s2">&quot; You can&#39;t start logging before starting a run&quot;</span>
+       <span class="k">if</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span> 
+          <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Attempting to log a metric when no run is active will do nothing&quot;</span><span class="p">)</span>
+          
        <span class="n">mlquest</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
        
        <span class="c1"># See if any of m1-m10 are set and if so, add them to the log with the key being the vairable name</span>
@@ -534,12 +538,48 @@ document.write(`
             <span class="n">mlquest</span><span class="o">.</span><span class="n">quests</span><span class="p">[</span><span class="n">quest_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlquest</span><span class="o">.</span><span class="n">log</span><span class="p">]</span>
          <span class="n">utils</span><span class="o">.</span><span class="n">runs_to_json</span><span class="p">(</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">quests</span><span class="p">[</span><span class="n">quest_name</span><span class="p">],</span> <span class="n">quest_name</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">log_defs</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">non_default_log</span><span class="p">)</span>
          <span class="n">utils</span><span class="o">.</span><span class="n">json_to_html_table</span><span class="p">(</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span>
-                                  <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span>  <span class="n">quest_name</span><span class="p">)</span>
+                                  <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span>  <span class="n">quest_name</span><span class="p">,</span> <span class="n">last_k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
          <span class="n">mlquest</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span>
          <span class="n">mlquest</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="p">{}</span>
          <span class="n">mlquest</span><span class="o">.</span><span class="n">save_quest</span><span class="p">(</span><span class="n">quest_name</span><span class="p">)</span></div>
          
+   
+<div class="viewcode-block" id="mlquest.show_logs"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest.show_logs">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">show_logs</span><span class="p">(</span><span class="n">quest_name</span><span class="p">,</span>  <span class="n">table_dest</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">last_k</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">      </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Shows the logs of a quest in a table.</span>
+<span class="sd">      </span>
+<span class="sd">      :param quest_name: The name of the quest to show the logs of</span>
+<span class="sd">      :type quest_name: string</span>
+<span class="sd">      :param log_defs: Whether to show the log defaults or not</span>
+<span class="sd">      :type log_defs: bool</span>
+<span class="sd">      :param table_dest: The destination of the Quests folder</span>
+<span class="sd">      :type table_dest: string</span>
+<span class="sd">      </span>
+<span class="sd">      :Example:</span>
+<span class="sd">      </span>
+<span class="sd">      &gt;&gt;&gt; mlq.show_logs(&#39;NaiveBayesExp&#39;)</span>
+<span class="sd">      </span>
+<span class="sd">      This would show the logs of the NaiveBayesExp quest as saved in :samp:`../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/`</span>
+<span class="sd">         </span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      <span class="c1"># get the name of the folder containing the current file</span>
+      <span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span> <span class="o">=</span> <span class="n">table_dest</span>
+      <span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+      <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;Quest </span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1"> does not exist yet. Please start a quest with that name first.&#39;</span>
          
+      <span class="k">if</span> <span class="s1">&#39;quests.mlq&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
+         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/quests.mlq&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">mlquest</span><span class="o">.</span><span class="n">quests</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+      <span class="c1"># convert the file to html table</span>
+      <span class="n">table</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">json_to_html_table</span><span class="p">(</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span>  <span class="n">quest_name</span><span class="p">,</span> <span class="n">last_k</span><span class="p">)</span>
+            
+            
+      <span class="c1"># display the table</span>
+      <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">table</span><span class="p">))</span></div>
+      
 <div class="viewcode-block" id="mlquest.delete_runs"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest.delete_runs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">delete_runs</span><span class="p">(</span><span class="n">table_dest</span><span class="p">,</span> <span class="n">quest_name</span><span class="p">,</span> <span class="n">run_ids</span><span class="p">):</span>
 <span class="w">      </span><span class="sd">&#39;&#39;&#39;</span>
@@ -571,7 +611,6 @@ document.write(`
       <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">table_dest</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/quests.mlq&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
          <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
          
-      
       <span class="k">for</span> <span class="n">run_id</span> <span class="ow">in</span> <span class="n">run_ids</span><span class="p">:</span>
          <span class="c1"># loop on the runs and delete the run with the given id</span>
          <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">run</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">quest_name</span><span class="p">]):</span>
@@ -587,8 +626,43 @@ document.write(`
          
       <span class="c1"># update the json and html files</span>
       <span class="n">utils</span><span class="o">.</span><span class="n">runs_to_json</span><span class="p">(</span><span class="n">table_dest</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">quest_name</span><span class="p">],</span> <span class="n">quest_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-      <span class="n">utils</span><span class="o">.</span><span class="n">json_to_html_table</span><span class="p">(</span><span class="n">table_dest</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span>  <span class="n">quest_name</span><span class="p">)</span></div></div>
+      <span class="n">utils</span><span class="o">.</span><span class="n">json_to_html_table</span><span class="p">(</span><span class="n">table_dest</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">-config.json&#39;</span><span class="p">,</span>  <span class="n">quest_name</span><span class="p">,</span> <span class="n">last_k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
          
+         
+<div class="viewcode-block" id="mlquest.get_col_logs"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest.get_col_logs">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_col_logs</span><span class="p">(</span><span class="n">quest_name</span><span class="p">,</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">sub_col_name</span><span class="p">,</span> <span class="n">table_dest</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">      </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Returns a list of values of a column in the log of a quest.</span>
+<span class="sd">      </span>
+<span class="sd">      :param quest_name: The name of the quest to get the column from</span>
+<span class="sd">      :type quest_name: string</span>
+<span class="sd">      :param col_name: The name of the column to get the values from</span>
+<span class="sd">      :type col_name: string</span>
+<span class="sd">      :param sub_col_name: The name of the sub-column to get the values from</span>
+<span class="sd">      :type sub_col_name: string</span>
+<span class="sd">      :param table_dest: The destination of the Quests folder</span>
+<span class="sd">      :type table_dest: string</span>
+<span class="sd">      </span>
+<span class="sd">      :Example:</span>
+<span class="sd">      </span>
+<span class="sd">      &gt;&gt;&gt; mlq.get_logs(&#39;NaiveBayesExp&#39;, &#39;metrics&#39;, &#39;accuracy&#39;)</span>
+<span class="sd">      </span>
+<span class="sd">      This would return a list of the accuracy values of the runs in the NaiveBayesExp quest found in :samp:`../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/`</span>
+<span class="sd">      </span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      <span class="c1"># get the name of the folder containing the current file</span>
+      <span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span> <span class="o">=</span> <span class="n">table_dest</span>
+      <span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+      <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;Quest </span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1"> does not exist yet. Please start a quest with that name first.&#39;</span>
+         
+      <span class="c1"># get the data from the json file</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mlquest</span><span class="o">.</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">mlquest</span><span class="o">.</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/json/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+         <span class="n">table</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+      
+      <span class="c1"># get the values of the column</span>
+      <span class="n">column</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">col_name</span><span class="p">][</span><span class="n">sub_col_name</span><span class="p">]</span>
+      
+      <span class="k">return</span> <span class="n">column</span></div></div>
 </pre></div>
 
                 </article>

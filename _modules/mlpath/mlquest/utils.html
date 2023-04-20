@@ -273,9 +273,74 @@ document.write(`
             <span class="n">big_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
    <span class="k">return</span> <span class="n">big_dict</span></div>
 
+
+<div class="viewcode-block" id="remove_duplicate_rows"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.remove_duplicate_rows">[docs]</a><span class="k">def</span> <span class="nf">remove_duplicate_rows</span><span class="p">(</span><span class="n">json_obj</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Removes duplicate rows from the given nested json_obj which is expected to be a</span>
+<span class="sd">      two-level nested dictionary where the values are lists representing column values.      </span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="c1"># read json file from path as dict</span>
+   <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_obj</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+   <span class="n">rows_to_remove</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="n">old_row_values</span><span class="p">,</span> <span class="n">new_row_values</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="c1"># if the key is not info then append the value to the list</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;info&#39;</span><span class="p">:</span>     <span class="n">new_row_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="n">new_row_values</span> <span class="o">==</span> <span class="n">old_row_values</span><span class="p">:</span>
+         <span class="n">rows_to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+         
+      <span class="n">old_row_values</span> <span class="o">=</span> <span class="n">new_row_values</span>
+      <span class="n">new_row_values</span> <span class="o">=</span> <span class="p">[]</span>
+   
+   <span class="c1"># remove the duplicate rows</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows_to_remove</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+      <span class="n">k</span> <span class="o">=</span> <span class="n">rows_to_remove</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            
+   <span class="k">return</span> <span class="n">json_obj</span></div>
+      
+
+<div class="viewcode-block" id="get_path_mask"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.get_path_mask">[docs]</a><span class="k">def</span> <span class="nf">get_path_mask</span><span class="p">(</span><span class="n">json_obj</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">   Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys</span>
+<span class="sd">   and where values are lists) this returns a mask of the same shape as the json_obj but where if a value</span>
+<span class="sd">   is different from the previous row then it is a 1, otherwise it is a 0.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="c1"># make mask obj of the same structure as json_obj</span>
+   <span class="n">mask_obj</span> <span class="o">=</span> <span class="p">{}</span>
+   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+         
+   <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_obj</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+         <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;info&#39;</span><span class="p">:</span>
+               <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                  <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                     <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                  <span class="k">else</span> <span class="p">:</span>
+                     <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+               <span class="k">else</span><span class="p">:</span>
+                  <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+               <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">mask_obj</span></div>
+            
+
+         
+
        
-       
-<div class="viewcode-block" id="json_to_html_table"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.json_to_html_table">[docs]</a><span class="k">def</span> <span class="nf">json_to_html_table</span><span class="p">(</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">quest_name</span><span class="p">):</span>
+<div class="viewcode-block" id="json_to_html_table"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.utils.json_to_html_table">[docs]</a><span class="k">def</span> <span class="nf">json_to_html_table</span><span class="p">(</span><span class="n">relative_path</span><span class="p">,</span> <span class="n">curr_dir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">quest_name</span><span class="p">,</span> <span class="n">last_k</span><span class="p">,</span> <span class="n">colored</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">   </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">      Makes an html table from a nested json file. </span>
 <span class="sd">      </span>
@@ -291,6 +356,8 @@ document.write(`
    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">JSON</span><span class="p">:</span>
       <span class="n">config_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
    
+   <span class="n">json_obj</span> <span class="o">=</span> <span class="n">remove_duplicate_rows</span><span class="p">(</span><span class="n">json_obj</span><span class="p">)</span>
+   <span class="n">mask_obj</span> <span class="o">=</span> <span class="n">get_path_mask</span><span class="p">(</span><span class="n">json_obj</span><span class="p">)</span>
    <span class="c1"># convert to html table</span>
    <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;&lt;table&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
    <span class="c1"># make a header row</span>
@@ -302,29 +369,40 @@ document.write(`
       <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span> 
          <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;th colspan=</span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s1"> style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&lt;/th&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
    <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   
    <span class="c1"># for each subkey of the top-level dict, make a subheader row</span>
    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
       <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
          <span class="k">if</span> <span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">:</span>
             <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;th style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">subkey</span><span class="si">}</span><span class="s1">&lt;/th&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
    <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+   
+   
    <span class="c1"># get the number of ids to infer the number of rows</span>
    <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_obj</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
-   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">last_k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>      <span class="n">last_k</span> <span class="o">=</span> <span class="n">num_rows</span>
+   <span class="k">if</span> <span class="n">last_k</span> <span class="o">&gt;</span> <span class="n">num_rows</span><span class="p">:</span>     <span class="n">last_k</span> <span class="o">=</span> <span class="n">num_rows</span>
+   
+   
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span> <span class="o">-</span> <span class="n">last_k</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
       <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
       <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
          <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">config_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">:</span>
+               <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;yellow&#39;</span> <span class="k">if</span> <span class="n">mask_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">colored</span> <span class="k">else</span> <span class="s1">&#39;white&#39;</span>
                <span class="n">value</span> <span class="o">=</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">json_obj</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-               <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;td style=&quot;text-align: center; vertical-align: middle;&quot;&gt;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&lt;/td&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+               <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;td style=&quot;text-align: center; vertical-align: middle;&quot;&gt; &lt;font color=</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s1">&gt;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&lt;/font&gt;&lt;/td&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
       <span class="n">table</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/tr&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-
    <span class="c1"># save the html file</span>
-   <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
-      <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+   <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
+         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s1">Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;Quests/</span><span class="si">{</span><span class="n">curr_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">quest_name</span><span class="si">}</span><span class="s1">.md&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+   
+   <span class="c1"># return the html table</span>
+   <span class="k">return</span> <span class="n">table</span></div>
    
       
     
