@@ -39,9 +39,74 @@ def merge_dicts(dict_list):
             big_dict[key][subkey] = values
    return big_dict
 
+
+def remove_duplicate_rows(json_obj):
+   '''
+      Removes duplicate rows from the given nested json_obj which is expected to be a
+      two-level nested dictionary where the values are lists representing column values.      
+   '''
+   # read json file from path as dict
+   num_rows = len(json_obj['info']['id'])
+   rows_to_remove = []
+   old_row_values, new_row_values = [], []
+   for i in range(num_rows):
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            value = json_obj[key][subkey][i]
+            # if the key is not info then append the value to the list
+            if key != 'info':     new_row_values.append(value)
+      
+      if new_row_values == old_row_values:
+         rows_to_remove.append(i)
+         
+      old_row_values = new_row_values
+      new_row_values = []
+   
+   # remove the duplicate rows
+   for i in range(len(rows_to_remove)-1, -1, -1):
+      k = rows_to_remove[i]
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            json_obj[key][subkey].pop(k)
+            
+   return json_obj
+      
+
+def get_path_mask(json_obj):
+   '''
+   Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys
+   and where values are lists) this returns a mask of the same shape as the json_obj but where if a value
+   is different from the previous row then it is a 1, otherwise it is a 0.
+   '''
+   # make mask obj of the same structure as json_obj
+   mask_obj = {}
+   for key in json_obj.keys():
+      mask_obj[key] = {}
+      for subkey in json_obj[key].keys():
+         mask_obj[key][subkey] = []
+         
+   num_rows = len(json_obj['info']['id'])
+   for i in range(num_rows):
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            value = json_obj[key][subkey][i]
+            if key != 'info':
+               if i != 0:
+                  if value != json_obj[key][subkey][i-1]:
+                     mask_obj[key][subkey].append(1)
+                  else :
+                     mask_obj[key][subkey].append(0)
+               else:
+                  mask_obj[key][subkey].append(0)
+            else:
+               mask_obj[key][subkey].append(0)
+   return mask_obj
+            
+
+         
+
        
-       
-def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_name):
+def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_name, last_k, colored=True, save=False):
    '''
       Makes an html table from a nested json file. 
       
@@ -57,6 +122,8 @@ def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_na
    with open(relative_path + config_path, 'rb') as JSON:
       config_obj = json.load(JSON)
    
+   json_obj = remove_duplicate_rows(json_obj)
+   mask_obj = get_path_mask(json_obj)
    # convert to html table
    table = '<table>\n'
    # make a header row
@@ -68,29 +135,40 @@ def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_na
       if length > 0 : 
          table += f'<th colspan={length} style="text-align: center; vertical-align: middle;">{key}</th>\n'
    table += '</tr>\n'
+   
    # for each subkey of the top-level dict, make a subheader row
    for key in json_obj.keys():
       for subkey in json_obj[key].keys():
          if config_obj[key][subkey] == 'true':
             table += f'<th style="text-align: center; vertical-align: middle;">{subkey}</th>\n'
    table += '</tr>\n'
+   
+   
    # get the number of ids to infer the number of rows
    num_rows = len(json_obj['info']['id'])
-   for i in range(num_rows):
+   if last_k is None:      last_k = num_rows
+   if last_k > num_rows:     last_k = num_rows
+   
+   
+   for i in range(num_rows - last_k, num_rows):
       table += '<tr>\n'
       for key in json_obj.keys():
          for subkey in json_obj[key].keys():
             if config_obj[key][subkey] == 'true':
+               color = 'yellow' if mask_obj[key][subkey][i] and colored else 'white'
                value = json_obj[key][subkey][i] if json_obj[key][subkey][i] is not None else ''
-               table += f'<td style="text-align: center; vertical-align: middle;">{value}</td>\n'
+               table += f'<td style="text-align: center; vertical-align: middle;"> <font color={color}>{value}</font></td>\n'
       table += '</tr>\n'
 
-
    # save the html file
-   if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}'):
-      os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}')
-   with open(relative_path + f'Quests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
-      f.write(table)
+   if save:
+      if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}'):
+         os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}')
+      with open(relative_path + f'Quests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
+         f.write(table)
+   
+   # return the html table
+   return table
    
       
     

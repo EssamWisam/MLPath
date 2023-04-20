@@ -1,0 +1,31 @@
+{
+    "info": {
+        "time": "true",
+        "date": "true",
+        "duration": "true",
+        "id": "true"
+    },
+    "apply_rand_d": {
+        "num_samples": "true",
+        "saved": "false",
+        "eval": "false"
+    },
+    "SVC": {
+        "kernel": "true",
+        "C": "true",
+        "gamma": "true",
+        "degree": "true",
+        "coef0": "false",
+        "shrinking": "false",
+        "probability": "false",
+        "tol": "false",
+        "cache_size": "false",
+        "verbose": "false",
+        "max_iter": "false",
+        "decision_function_shape": "false",
+        "break_ties": "false"
+    },
+    "metrics": {
+        "F1": "true"
+    }
+}

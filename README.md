@@ -57,8 +57,10 @@ mlq.log_metrics(accuracy)        # can also do mlq.log_metric(acc=accuracy) so i
 
 mlq.end_quest()
 
+mlq.show_table('Radial Basis Pipeline', last_k=10)    # show the table for the last 10 runs
+
 ```
-After three runs, the markdown file under the ```Quests``` folder has
+After the third run, this shows up under the Quests folder (and the notebook itself):
 <table>
 <tr>
 <th colspan=4 style="text-align: center; vertical-align: middle;">info</th>
@@ -181,6 +183,8 @@ accuracy = model.score(x_val_f, y_val_i).item()     # .item() so its a scalar th
 mlq.log_metrics(acc=accuracy)
 
 mlq.end_quest()
+
+mlq.show_table('Fractal-GB', last_k=10)    # show the table for the last 10 runs
 ```
 <table>
 <tr>

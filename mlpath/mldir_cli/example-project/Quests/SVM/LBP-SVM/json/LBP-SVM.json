@@ -1,0 +1,79 @@
+{
+    "info": {
+        "time": [
+            "17:51:59"
+        ],
+        "date": [
+            "04/20/23"
+        ],
+        "duration": [
+            "3.93 min"
+        ],
+        "id": [
+            1
+        ]
+    },
+    "apply_LBP_d": {
+        "P": [
+            "12"
+        ],
+        "R": [
+            "3"
+        ],
+        "method": [
+            "uniform"
+        ],
+        "saved": [
+            "False"
+        ],
+        "eval": [
+            "False"
+        ]
+    },
+    "SVC": {
+        "kernel": [
+            "linear"
+        ],
+        "C": [
+            "12.2"
+        ],
+        "gamma": [
+            "0.01"
+        ],
+        "degree": [
+            "3"
+        ],
+        "coef0": [
+            "0.0"
+        ],
+        "shrinking": [
+            "True"
+        ],
+        "probability": [
+            "False"
+        ],
+        "tol": [
+            "0.001"
+        ],
+        "cache_size": [
+            "200"
+        ],
+        "verbose": [
+            "False"
+        ],
+        "max_iter": [
+            "-1"
+        ],
+        "decision_function_shape": [
+            "ovr"
+        ],
+        "break_ties": [
+            "False"
+        ]
+    },
+    "metrics": {
+        "Micro_F1": [
+            0.0
+        ]
+    }
+}

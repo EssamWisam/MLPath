@@ -1,0 +1,120 @@
+{
+    "info": {
+        "time": [
+            "17:52:43",
+            "17:55:37"
+        ],
+        "date": [
+            "04/20/23",
+            "04/20/23"
+        ],
+        "duration": [
+            "26.53 s",
+            "28.59 s"
+        ],
+        "id": [
+            1,
+            2
+        ]
+    },
+    "ConvNet": {
+        "hidden_size": [
+            "80",
+            "80"
+        ],
+        "output_size": [
+            "2",
+            "2"
+        ],
+        "kernel_dim": [
+            "10",
+            "10"
+        ],
+        "in_channels": [
+            "1",
+            "1"
+        ],
+        "mid_channels": [
+            "12",
+            "12"
+        ],
+        "out_channels": [
+            "16",
+            "16"
+        ],
+        "pool_dim": [
+            "2",
+            "2"
+        ],
+        "pool_stride": [
+            "2",
+            "2"
+        ]
+    },
+    "Adam": {
+        "lr": [
+            "0.001",
+            "0.001"
+        ],
+        "eps": [
+            "0.0",
+            "0.0"
+        ],
+        "weight_decay": [
+            "0",
+            "0"
+        ],
+        "amsgrad": [
+            "False",
+            "False"
+        ],
+        "maximize": [
+            "False",
+            "False"
+        ],
+        "capturable": [
+            "False",
+            "False"
+        ],
+        "differentiable": [
+            "False",
+            "False"
+        ],
+        "fused": [
+            "False",
+            "False"
+        ]
+    },
+    "train_model": {
+        "model": [
+            "ConvNet(\n  (feature_extraction): Sequential(\n    (0): Conv2d...",
+            "ConvNet(\n  (feature_extraction): Sequential(\n    (0): Conv2d..."
+        ],
+        "num_epochs": [
+            "12",
+            "12"
+        ],
+        "criterion": [
+            "CrossEntropyLoss()",
+            "CrossEntropyLoss()"
+        ],
+        "optimizer": [
+            "Adam (\nParameter Group 0\n    amsgrad: False\n    betas: (0.9,...",
+            "Adam (\nParameter Group 0\n    amsgrad: False\n    betas: (0.9,..."
+        ],
+        "device": [
+            "cpu",
+            "cpu"
+        ]
+    },
+    "metrics": {
+        "accuracy": [
+            0.0,
+            0.0
+        ],
+        "rand_accurary": [
+            50.0,
+            50.0
+        ]
+    }
+}

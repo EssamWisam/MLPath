@@ -1,0 +1,94 @@
+{
+    "info": {
+        "time": [
+            "17:52:04",
+            "17:56:44"
+        ],
+        "date": [
+            "04/20/23",
+            "04/20/23"
+        ],
+        "duration": [
+            "3.94 min",
+            "762.65 ms"
+        ],
+        "id": [
+            1,
+            2
+        ]
+    },
+    "apply_rand_d": {
+        "num_samples": [
+            "99",
+            "99"
+        ],
+        "saved": [
+            "False",
+            "False"
+        ],
+        "eval": [
+            "False",
+            "False"
+        ]
+    },
+    "SVC": {
+        "kernel": [
+            "rbf",
+            "rbf"
+        ],
+        "C": [
+            "9.2",
+            "9.2"
+        ],
+        "gamma": [
+            "0.001",
+            "0.001"
+        ],
+        "degree": [
+            "3",
+            "3"
+        ],
+        "coef0": [
+            "0.0",
+            "0.0"
+        ],
+        "shrinking": [
+            "True",
+            "True"
+        ],
+        "probability": [
+            "False",
+            "False"
+        ],
+        "tol": [
+            "0.001",
+            "0.001"
+        ],
+        "cache_size": [
+            "200",
+            "200"
+        ],
+        "verbose": [
+            "False",
+            "False"
+        ],
+        "max_iter": [
+            "-1",
+            "-1"
+        ],
+        "decision_function_shape": [
+            "ovr",
+            "ovr"
+        ],
+        "break_ties": [
+            "False",
+            "False"
+        ]
+    },
+    "metrics": {
+        "F1": [
+            0.0,
+            0.0
+        ]
+    }
+}

@@ -17,7 +17,7 @@ def DeepNeuralNet(p_num, k_num, l_num, a_num=5, b_gum=7, c_hum=12):
     return p_num**k_num + l_num
 
 
-mlq.start_quest('xyz', log_defs=True)
+mlq.start_quest('random-pipeline', log_defs=True)
 
 accuracy = mlq.l(NaiveBayes)(alpha=1024, beta_param=7, c=12, )
 gesult = mlq.l(SVMRegressor)(14, 510, 4)
@@ -29,4 +29,4 @@ mlq.log_metrics(accuracy=accuracy)
 
 mlq.end_quest()
 
-
+mlq.show_logs(quest_name='random-pipeline', last_k=5)

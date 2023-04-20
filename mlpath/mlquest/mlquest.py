@@ -12,6 +12,7 @@ from copy import copy
 import pickle
 import os
 import json
+from IPython.display import display, Markdown, HTML
 
 class mlquest():
     '''
@@ -70,6 +71,7 @@ class mlquest():
          mlquest.start_time = time.time()
          mlquest.log['info']['time'] =  time.strftime('%X') 
          mlquest.log['info']['date'] = time.strftime('%x')
+   
    
     @staticmethod
     def clear():
@@ -302,12 +304,48 @@ class mlquest():
             mlquest.quests[quest_name] = [mlquest.log]
          utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
          utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
-                                  f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
+                                  f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quest(quest_name)
          
+   
+    @staticmethod
+    def show_logs(quest_name,  table_dest='', last_k=None):
+      '''
+      Shows the logs of a quest in a table.
+      
+      :param quest_name: The name of the quest to show the logs of
+      :type quest_name: string
+      :param log_defs: Whether to show the log defaults or not
+      :type log_defs: bool
+      :param table_dest: The destination of the Quests folder
+      :type table_dest: string
+      
+      :Example:
+      
+      >>> mlq.show_logs('NaiveBayesExp')
+      
+      This would show the logs of the NaiveBayesExp quest as saved in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
          
+      '''
+      # get the name of the folder containing the current file
+      mlquest.relative_path = table_dest
+      mlquest.curr_dir = os.path.basename(os.getcwd())
+      assert os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'), f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
+         
+      if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
+         with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+            mlquest.quests = pickle.load(f)
+            
+      # convert the file to html table
+      table = utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
+                                 f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k)
+            
+            
+      # display the table
+      display(HTML(table))
+      
     @staticmethod
     def delete_runs(table_dest, quest_name, run_ids):
       '''
@@ -339,7 +377,6 @@ class mlquest():
       with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
          data = dict(pickle.load(f))
          
-      
       for run_id in run_ids:
          # loop on the runs and delete the run with the given id
          for i, run in enumerate(data[quest_name]):
@@ -355,5 +392,40 @@ class mlquest():
          
       # update the json and html files
       utils.runs_to_json(table_dest, curr_dir, data[quest_name], quest_name, None, None)
-      utils.json_to_html_table(table_dest, curr_dir, f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name)
+      utils.json_to_html_table(table_dest, curr_dir, f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
          
+         
+    @staticmethod
+    def get_col_logs(quest_name, col_name, sub_col_name, table_dest=''):
+      '''
+      Returns a list of values of a column in the log of a quest.
+      
+      :param quest_name: The name of the quest to get the column from
+      :type quest_name: string
+      :param col_name: The name of the column to get the values from
+      :type col_name: string
+      :param sub_col_name: The name of the sub-column to get the values from
+      :type sub_col_name: string
+      :param table_dest: The destination of the Quests folder
+      :type table_dest: string
+      
+      :Example:
+      
+      >>> mlq.get_logs('NaiveBayesExp', 'metrics', 'accuracy')
+      
+      This would return a list of the accuracy values of the runs in the NaiveBayesExp quest found in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
+      
+      '''
+      # get the name of the folder containing the current file
+      mlquest.relative_path = table_dest
+      mlquest.curr_dir = os.path.basename(os.getcwd())
+      assert os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'), f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
+         
+      # get the data from the json file
+      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json', 'r') as f:
+         table = json.load(f)
+      
+      # get the values of the column
+      column = table[col_name][sub_col_name]
+      
+      return column
