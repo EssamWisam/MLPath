@@ -30,29 +30,24 @@ class mlquest():
     log_defs = False             # if true, default arguments are also logged
     quest_name = None            # the name of the quest (e.g, the name of the model in the current file)
     
+    
     @staticmethod
-    def start_quest(quest_name, log_defs=False, **kwargs):
+    def start_quest(quest_name, **kwargs):
        '''
       Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
       :param quest_name: The name of the experiment this run belongs to (e.g, the name of the model in the current file)
       :type number: string
-      :param log_defs: Decides whether the next render of the experiments table should include the default arguments or not
-      :type number: boolean
         
       :Example:
         
-      The following would start a new quest called 'Naive-Bayes' and will also keep track of the default arguments
+      The following would start a new quest called 'Naive-Bayes'
         
-      >>> start_quest('Naive-Bayes', log_defs=True)
-
-      :Notes:
+      >>> start_quest('Naive-Bayes')
        
-      - The :samp:`log_defs` parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged internally anyway.
        '''
        # get the name of the folder containing the current file
        mlquest.relative_path = os.path.dirname(os.path.abspath(__file__)) + '/'
-       mlquest.log_defs = log_defs
        mlquest.curr_dir = os.path.basename(os.getcwd())
        if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
           # find the path of the library
@@ -292,7 +287,7 @@ class mlquest():
         
           
     @staticmethod
-    def end_quest(save_ext=None):
+    def end_quest(save_ext=None, log_defs=False, black_list=[]):
        '''
        ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.
        
@@ -300,6 +295,7 @@ class mlquest():
        '''
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:
+         mlquest.log_defs = log_defs
          duration = time.time() - mlquest.start_time
          # set the duration of the experiment with the appropriate unit
          if duration < 1:
@@ -322,17 +318,49 @@ class mlquest():
             mlquest.log['info']['id'] = id
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
-            
+         
+         mlquest.apply_blacklist(black_list)
+         
          utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
          utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
                                   f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
-         
+                  
          if save_ext is not None:   mlquest.save_logs(save_ext)
          
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quest(quest_name)
          
+   
+    @staticmethod
+    def apply_blacklist(blacklist):
+      # read the json file
+      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}-config.json', 'r') as f:
+         table = json.load(f)
+
+ 
+      
+      # set the value for blacklist columns (subkeys) to false
+      for key in table.keys():
+         for subkey in table[key].keys():
+            if subkey not in blacklist:
+               table[key][subkey] = "true"
+               
+            if subkey in blacklist:
+               table[key][subkey] = "false"
+      
+      # if an item in the blacklist has a dot then split to get key and subkey then set to false and remove it
+      for item in blacklist:
+         if '.' in item:
+            key, subkey = item.split('.')
+            table[key][subkey] = "false"
+            blacklist.remove(item)
+         
+      # write the json file
+      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}-config.json', 'w') as f:
+         json.dump(table, f, indent=4)
+
+      
    
     @staticmethod
     def show_logs(quest_name, last_k=None, **kwargs):
@@ -373,18 +401,11 @@ class mlquest():
       run_server()
       
       
-
-      
-   
     @staticmethod
-    def delete_runs(table_dest, quest_name, run_ids):
+    def delete_runs(run_ids):
       '''
       permanently deletes runs that have ids in run_ids from the log.
       
-      :param table_dest: The destination of the Quests folder
-      :type table_dest: string
-      :param quest_name: The name of the quest to delete the runs from
-      :type quest_name: string
       :param run_ids: The ids (indecies) of the runs to be deleted
       :type run_ids: list of ints
       
@@ -398,10 +419,10 @@ class mlquest():
       
       - You need not run :func:`mlq.end_quest()` or :func:`mlq.start_quest()` before calling the function
       - Calling it from the file that initiated the quest is recommended. Otherwise, make sure the current file is in the same parent folder as it.
-      
-
       '''
       curr_dir = os.path.basename(os.getcwd())
+      quest_name = mlquest.quest_name
+      table_dest = mlquest.relative_path
       
       # read the mlq file from table_dest and quest_name
       with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
@@ -425,37 +446,17 @@ class mlquest():
       utils.json_to_html_table(table_dest, curr_dir, f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
          
          
-    @staticmethod
-    def get_col_logs(quest_name, col_name, sub_col_name, table_dest=''):
-      '''
-      Returns a list of values of a column in the log of a quest.
-      
-      :param quest_name: The name of the quest to get the column from
-      :type quest_name: string
-      :param col_name: The name of the column to get the values from
-      :type col_name: string
-      :param sub_col_name: The name of the sub-column to get the values from
-      :type sub_col_name: string
-      :param table_dest: The destination of the Quests folder
-      :type table_dest: string
-      
-      :Example:
-      
-      >>> mlq.get_logs('NaiveBayesExp', 'metrics', 'accuracy')
-      
-      This would return a list of the accuracy values of the runs in the NaiveBayesExp quest found in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
-      
-      '''
-      # get the name of the folder containing the current file
-      mlquest.relative_path = table_dest
-      mlquest.curr_dir = os.path.basename(os.getcwd())
-      assert os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'), f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
          
-      # get the data from the json file
-      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json', 'r') as f:
-         table = json.load(f)
+    @staticmethod
+    def get_flat_dict():
+      # read the json file
+      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}.json', 'r') as f:
+         j = json.load(f)
       
-      # get the values of the column
-      column = table[col_name][sub_col_name]
+      # now lets flatten the dict
+      flat_dict = {}
+      for key in j.keys():
+         for subkey in j[key].keys():
+            flat_dict[f'{subkey}'] = j[key][subkey]
       
-      return column
+      return flat_dict
