@@ -13,6 +13,7 @@ import pickle
 import os
 import json
 from IPython.display import display, Markdown, HTML
+import shutil
 
 class mlquest():
     '''
@@ -29,7 +30,7 @@ class mlquest():
     quest_name = None            # the name of the quest (e.g, the name of the model in the current file)
     
     @staticmethod
-    def start_quest(quest_name, log_defs=False, table_dest=''):
+    def start_quest(quest_name, log_defs=False, **kwargs):
        '''
       Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.
         
@@ -37,25 +38,24 @@ class mlquest():
       :type number: string
       :param log_defs: Decides whether the next render of the experiments table should include the default arguments or not
       :type number: boolean
-      :param table_dest: The relative path to the folder where the experiments table should be saved
-      :type number: string
         
       :Example:
         
-      The following would start a new quest called 'Naive-Bayes with the :samp:`Quests` folder that tracks your experiments being at :samp:`../`.
+      The following would start a new quest called 'Naive-Bayes' and will also keep track of the default arguments
         
-      >>> start_quest('Naive-Bayes', log_defs=True, '../')
+      >>> start_quest('Naive-Bayes', log_defs=True)
 
       :Notes:
        
-      - The :samp:`log_defs` parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged anyway.
-      - The :samp:`table_dest` parameter is used to decide where the experiments table should be saved. If it's given as :samp:`../` then this means that the markdown file (experiments table) corresponding to this quest will be saved in the folder :samp:`../Quests/<ParentFolder>/<QuestName>/`.
+      - The :samp:`log_defs` parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged internally anyway.
        '''
        # get the name of the folder containing the current file
-       mlquest.relative_path = table_dest
+       mlquest.relative_path = os.path.dirname(os.path.abspath(__file__)) + '/'
        mlquest.log_defs = log_defs
        mlquest.curr_dir = os.path.basename(os.getcwd())
        if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
+          # find the path of the library
+          mlquest.relative_path = os.path.dirname(os.path.abspath(__file__)) + '/'
           os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name, exist_ok=True)
             
        if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
@@ -272,11 +272,34 @@ class mlquest():
        
        with open(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
+      
+      
+    @staticmethod
+    def save_logs(save_path='./'):
+      '''
+      Saves the logs of a quest in a table.
+      
+      :param save_path (optional): The path to save the logs to. Defaults to the current directory
+      :type save_path: string
+      
+      :Example:
+      >>> mlq.save_logs('./NaiveBayes', 'BlueFeats-NB')
+      '''
+      quest_name = mlquest.log['info']['name']
+      
+      if not os.path.exists(f'{save_path}Quests/{mlquest.curr_dir}/{quest_name}'):
+         os.makedirs(f'{save_path}Quests/{mlquest.curr_dir}/{quest_name}', exist_ok=True)
+      
+      # copy the quests table to the desired location
+      shutil.copyfile(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/{quest_name}.md', f'{save_path}/{quest_name}.md')
+        
           
     @staticmethod
-    def end_quest():
+    def end_quest(save_ext=None):
        '''
-       ends an active run and saves it to the log. This must called at the end of the experiment else it will not be logged.
+       ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.
+       
+      :param save_ext (optional): Where to save the log externally. Defaults to not saving externally at all (None).
        '''
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:
@@ -302,35 +325,34 @@ class mlquest():
             mlquest.log['info']['id'] = id
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
+            
          utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
          utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
                                   f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
+         
+         if save_ext is not None:   mlquest.save_logs(save_ext)
+         
          mlquest.active = False
          mlquest.log = {}
          mlquest.save_quest(quest_name)
          
    
     @staticmethod
-    def show_logs(quest_name,  table_dest='', last_k=None):
+    def show_logs(quest_name, last_k=None):
       '''
-      Shows the logs of a quest in a table.
+      Shows the logs of a quest in a table that can be rendered in a jupyter notebook.
       
       :param quest_name: The name of the quest to show the logs of
       :type quest_name: string
-      :param log_defs: Whether to show the log defaults or not
-      :type log_defs: bool
-      :param table_dest: The destination of the Quests folder
-      :type table_dest: string
+      :param last_k (optional): The number of (most recent) experiments to show. Defaults to all experiments.
+      :type last_k: int
       
       :Example:
       
       >>> mlq.show_logs('NaiveBayesExp')
-      
-      This would show the logs of the NaiveBayesExp quest as saved in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
-         
+               
       '''
       # get the name of the folder containing the current file
-      mlquest.relative_path = table_dest
       mlquest.curr_dir = os.path.basename(os.getcwd())
       assert os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'), f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
          
@@ -342,10 +364,12 @@ class mlquest():
       table = utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
                                  f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k)
             
-            
       # display the table
       display(HTML(table))
+   
+
       
+   
     @staticmethod
     def delete_runs(table_dest, quest_name, run_ids):
       '''
