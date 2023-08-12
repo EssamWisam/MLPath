@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, Response
-from utils import get_json_paths
+from mlpath.mldir_cli.web.utils import get_json_paths
 import json
 import os
+
 
 app = Flask(__name__)
 
@@ -9,8 +10,11 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def home_page():
     project_name = os.path.basename(os.path.dirname(os.getcwd()))
-    json_paths = get_json_paths(os.path.join(os.getcwd(), '..', 'Quests'))
-
+    # get path of current file
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    json_paths = get_json_paths(os.path.join(curr_dir, '../../', 'mlquest/Quests'))
+    print(json_paths)
+    print("asdada")
     sidebar_data = {
         model_name: [
             quest_name for quest_name in json_paths[model_name]
@@ -25,7 +29,8 @@ def get_data(model_name, quest_name):
     if model_name == 'undefined' or quest_name == 'undefined':
         return Response(status=400)
 
-    json_paths = get_json_paths(os.path.join(os.getcwd(), '..', 'Quests'))
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    json_paths = get_json_paths(os.path.join(curr_dir, '../../', 'mlquest/Quests'))
     data_file_path = json_paths[model_name][quest_name]['data']
     config_file_path = json_paths[model_name][quest_name]['config']
 
@@ -66,7 +71,8 @@ def save_config_data(model_name, quest_name):
 
     data = request.get_json()
 
-    json_paths = get_json_paths(os.path.join(os.getcwd(), '..', 'Quests'))
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    json_paths = get_json_paths(os.path.join(curr_dir, '../../', 'mlquest/Quests'))
     data_file_path = json_paths[model_name][quest_name]['data']
     config_file_path = json_paths[model_name][quest_name]['config']
 
@@ -83,3 +89,7 @@ def save_config_data(model_name, quest_name):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+class run_server():
+    def __init__(self):
+            app.run()

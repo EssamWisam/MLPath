@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 # lets sample random pixels from the image to create a feature vector
 def rand(img, num_samples=100):
@@ -37,17 +38,18 @@ def save_features(apply_rand):
     - it saves the features
     - it can still only take x_test when eval=True
     '''
+    module_dir = os.path.dirname(__file__)
     def apply_rand_d(x_train, x_val, num_samples=100, saved=False, eval=False):
         if eval: return apply_rand(x_val, num_samples)
         if saved:
-            with open('../../Saved/FeatureExtraction/Rand/data.npy', 'rb') as f:
+            with open(os.path.join(module_dir, '../../Saved/Rand.npy'), 'rb') as f:
                 x_train = np.load(f, allow_pickle=True)
                 x_val = np.load(f, allow_pickle=True)
             return x_train, x_val
         else:
             x_train = apply_rand(x_train, num_samples)
             x_val = apply_rand(x_val, num_samples)
-            with open('../../Saved/FeatureExtraction/Rand/data.npy', 'wb') as f:
+            with open(os.path.join(module_dir, '../../Saved/Rand.npy'), 'wb') as f:
                 np.save(f, x_train, allow_pickle=True)
                 np.save(f, x_val, allow_pickle=True)
             return x_train, x_val

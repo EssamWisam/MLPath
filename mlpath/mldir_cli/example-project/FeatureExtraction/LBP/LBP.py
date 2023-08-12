@@ -3,6 +3,7 @@ from skimage.feature import local_binary_pattern
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 def LBP(image, P=8, R=1, method="uniform"):
     '''
@@ -27,15 +28,16 @@ def save_features(apply_LBP):
     '''
     def apply_LBP_d(x_train, x_val, P=8, R=1, method="uniform", saved=False, eval=False):
         if eval: return apply_LBP(x_val, P, R, method)
+        module_dir = os.path.dirname(__file__)
         if saved:
-            with open('../../Saved/FeatureExtraction/LBP/data.npy', 'rb') as f:
+            with open(os.path.join(module_dir, '../../Saved/LBP.npy'), 'rb') as f:
                 x_train = np.load(f, allow_pickle=True)
                 x_val = np.load(f, allow_pickle=True)
             return x_train, x_val
         else:
             x_train = apply_LBP(x_train, P, R, method)
             x_val = apply_LBP(x_val, P, R, method)
-            with open('../../Saved/FeatureExtraction/LBP/data.npy', 'wb') as f:
+            with open(os.path.join(module_dir, '../../Saved/LBP.npy'), 'wb') as f:
                 np.save(f, x_train, allow_pickle=True)
                 np.save(f, x_val, allow_pickle=True)
             return x_train, x_val

@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 from FeatureExtraction.Fractal.utils import get_fractal_dimension, TTBD
 
 
@@ -32,15 +33,16 @@ def save_features(apply_SFTA):
     '''
     def apply_SFTA_d(x_train, x_val, deviation=70, saved=False, eval=False):
         if eval: return apply_SFTA(x_val, deviation)
+        module_dir = os.path.dirname(__file__)
         if saved:
-            with open('../../Saved/FeatureExtraction/Fractal/data.npy', 'rb') as f:
+            with open(os.path.join(module_dir, '../../Saved/Fractal.npy'), 'rb') as f:
                 x_train = np.load(f, allow_pickle=True)
                 x_val = np.load(f, allow_pickle=True)
             return x_train, x_val
         else:
             x_train = apply_SFTA(x_train, deviation)
             x_val = apply_SFTA(x_val, deviation)
-            with open('../../Saved/FeatureExtraction/Fractal/data.npy', 'wb') as f:
+            with open(os.path.join(module_dir, '../../Saved/Fractal.npy'), 'wb') as f:
                 np.save(f, x_train, allow_pickle=True)
                 np.save(f, x_val, allow_pickle=True)
             return x_train, x_val

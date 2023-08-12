@@ -1,7 +1,7 @@
 ## 📜 The MLDir Manifesto
 ➜ Each stage in the ML pipeline should be a separate directory.
 
-➜ If that stage is further broken down into sub-stages, each sub-stage should be a separate directory.
+➜ If that stage is further broken down into sub-stages, a python file can be included for each.
 
 ➜ For any pipeline stage, each alternative that implements that stage should be in a separate directory within that stage's folder.
 
@@ -62,6 +62,6 @@ mldir --example
 ```
 and don't forget to follow that up with ```pip install -r requirements.txt```
 
-Side note: The fact that this does not seperate the data preparation stage into ingestion and preprocessing is in itself a violation. Its important to note that your team doesn't have to follow everything in the manifesto; if everyone agrees that something should be done differently, then do it differently. The manifesto is just a reference.
+Side note: Its important to note that your team doesn't have to follow everything in the manifesto; if everyone agrees that something should be done differently, then do it differently. The manifesto is just a guideline.
 
 This was intuitive in our case since the ingestion stage will seldom have different methods so having its own folder seems unnecessary. 

@@ -2,6 +2,7 @@
 This is the main module of mlquest. It contains the mlquest class which is used to log machine learning experiments.
 '''
 import mlpath.mlquest.utils as utils
+from mlpath.mldir_cli.web.app import run_server
 
 # pylint: skip-file
 import time
@@ -286,10 +287,6 @@ class mlquest():
       >>> mlq.save_logs('./NaiveBayes', 'BlueFeats-NB')
       '''
       quest_name = mlquest.log['info']['name']
-      
-      if not os.path.exists(f'{save_path}Quests/{mlquest.curr_dir}/{quest_name}'):
-         os.makedirs(f'{save_path}Quests/{mlquest.curr_dir}/{quest_name}', exist_ok=True)
-      
       # copy the quests table to the desired location
       shutil.copyfile(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/{quest_name}.md', f'{save_path}/{quest_name}.md')
         
@@ -338,7 +335,7 @@ class mlquest():
          
    
     @staticmethod
-    def show_logs(quest_name, last_k=None):
+    def show_logs(quest_name, last_k=None, **kwargs):
       '''
       Shows the logs of a quest in a table that can be rendered in a jupyter notebook.
       
@@ -367,6 +364,15 @@ class mlquest():
       # display the table
       display(HTML(table))
    
+   
+    @staticmethod
+    def run_server():
+      '''
+      Runs the server to display the logs of the quests in a web browser. This includes all the quests in this directory.
+      '''
+      run_server()
+      
+      
 
       
    

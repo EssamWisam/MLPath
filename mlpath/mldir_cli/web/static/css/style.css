@@ -75,7 +75,7 @@ main {
 
 .sidebar .child-list li.quest-name.active,
 .sidebar .child-list li.quest-name:hover {
-    background-color: #e5e3de;
+    background-color: #f1f1f1;
 }
 
 .results-container {
@@ -95,7 +95,7 @@ main {
 
 .table td,
 .table th {
-    border: 2px solid #474747;
+    border: 1px solid #a3a3a3;
     padding: 8px;
     min-width: 100px;
     text-align: center;
