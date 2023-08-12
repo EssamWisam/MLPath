@@ -56,7 +56,7 @@ class mlquest():
        mlquest.log_defs = log_defs
        mlquest.curr_dir = os.path.basename(os.getcwd())
        if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
-          os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name)
+          os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name, exist_ok=True)
             
        if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
             with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
@@ -268,7 +268,7 @@ class mlquest():
        '''
        # see if there is a 'mlquests' folder, if not, create it
        if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}'):
-          os.makedirs(mlquest.relative_path + 'Quests/'  + mlquest.curr_dir)
+          os.makedirs(mlquest.relative_path + 'Quests/'  + mlquest.curr_dir, exist_ok=True)
        
        with open(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)

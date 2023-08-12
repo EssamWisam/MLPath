@@ -163,7 +163,7 @@ def json_to_html_table(relative_path, curr_dir, json_path, config_path, quest_na
    # save the html file
    if save:
       if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}'):
-         os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}')
+         os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}', exist_ok=True)
       with open(relative_path + f'Quests/{curr_dir}/{quest_name}/{quest_name}.md', 'w') as f:
          f.write(table)
    
@@ -179,7 +179,7 @@ def runs_to_json(relative_path, curr_dir, runs, quest_name, log_defs, non_defaul
    :type quest_name: string
    '''
    if not os.path.exists(f'{relative_path}Quests/{curr_dir}/{quest_name}/json'):
-      os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}/json')
+      os.makedirs(f'{relative_path}Quests/{curr_dir}/{quest_name}/json', exist_ok=True)
    
    big_dict = merge_dicts(runs)
    # remove ['info]['name'] from the dict
