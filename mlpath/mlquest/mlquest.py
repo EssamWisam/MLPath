@@ -30,6 +30,25 @@ class mlquest():
     log_defs = False             # if true, default arguments are also logged
     quest_name = None            # the name of the quest (e.g, the name of the model in the current file)
     
+    @staticmethod
+    def get_quests_folder():
+       return f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}'
+    
+    @staticmethod
+    def get_quest_folder():  
+       return f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}/{mlquest.quest_name}'  
+    
+    @staticmethod
+    def get_quest_json_folder():
+         return f'{mlquest.get_quest_folder()}/json'
+    
+    @staticmethod
+    def get_quest_json_file():
+         return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}.json'
+    
+    @staticmethod
+    def get_quest_json_config_file():
+         return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}-config.json'
     
     @staticmethod
     def start_quest(quest_name, **kwargs):
@@ -46,20 +65,23 @@ class mlquest():
       >>> start_quest('Naive-Bayes')
        
        '''
-       # get the name of the folder containing the current file
-       mlquest.relative_path = os.path.dirname(os.path.abspath(__file__)) + '/'
+       # 1. get the quest folder or make it if it doesn't exist
+       mlquest.relative_path = os.path.dirname(os.path.abspath(__file__))
        mlquest.curr_dir = os.path.basename(os.getcwd())
-       if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
-          # find the path of the library
-          mlquest.relative_path = os.path.dirname(os.path.abspath(__file__)) + '/'
-          os.makedirs(mlquest.relative_path + 'Quests/' + mlquest.curr_dir + '/' + quest_name, exist_ok=True)
-            
-       if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
-            with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+       quest_folder = mlquest.get_quest_folder()
+       
+       if not os.path.exists(quest_folder):
+          os.makedirs(quest_folder, exist_ok=True)
+       
+       # 2. load the quests dictionary from the file if it exists
+       if 'quests.mlq' in os.listdir(quest_folder):
+            with open(quest_folder + '/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
+       # 3. Initiate the attributes of the new quest to be added to quests later
        mlquest.quest_name = quest_name
-       if mlquest.active == True: warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
+       if mlquest.active == True: 
+          warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
        else:
          mlquest.active = True
          mlquest.log['info'] = {}
@@ -103,7 +125,9 @@ class mlquest():
 
        - :func:`mlq.l()` always tracks all scalar arguments given to a function that have a name using the function's signature
        
-       - If you can later change the function definition then :samp:`MLQuest` may handle this by creating new columns that are empty for the previous runs.
+       - If you later make a new function then :samp:`MLQuest` may handle this by creating new columns that are empty for the previous runs (rows).
+       
+      - Likewise, deleting a function will make the corresponding columns empty for the future runs (rows).
 
        - :func:`mlq.l()` doesn't log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the :func:`mlq.to_log_ext()` method
 
@@ -113,6 +137,7 @@ class mlquest():
           warnings.warn("Attempting to log a function when no run is active will do nothing")
           return func
 
+      # wrap the function in a more generic version with logging functionality
        def wrapped(*args, **kwargs):
           signature = inspect.signature(func)
           
@@ -258,15 +283,17 @@ class mlquest():
              mlquest.log[col_name][key] = value
              
     @staticmethod
-    def save_quest(quest_name):
+    def save_quest():
        '''
        Uses pickle to save the quests object to a file.
        '''
+       quest_folder = mlquest.get_quest_folder()
+       quests_folder = mlquest.get_quests_folder()
        # see if there is a 'mlquests' folder, if not, create it
-       if not os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}'):
-          os.makedirs(mlquest.relative_path + 'Quests/'  + mlquest.curr_dir, exist_ok=True)
+       if not os.path.exists(quests_folder):
+          os.makedirs(quests_folder, exist_ok=True)
        
-       with open(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
+       with open(quest_folder + '/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
       
       
@@ -281,9 +308,10 @@ class mlquest():
       :Example:
       >>> mlq.save_logs('./NaiveBayes', 'BlueFeats-NB')
       '''
-      quest_name = mlquest.log['info']['name']
+      quest_folder = mlquest.get_quest_folder()
+      quest_name = mlquest.quest_name
       # copy the quests table to the desired location
-      shutil.copyfile(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}/{quest_name}.md', f'{save_path}/{quest_name}.md')
+      shutil.copyfile(quest_folder + f'/{quest_name}.md', f'{save_path}/{quest_name}.md')
         
           
     @staticmethod
@@ -296,6 +324,7 @@ class mlquest():
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:
          mlquest.log_defs = log_defs
+         
          duration = time.time() - mlquest.start_time
          # set the duration of the experiment with the appropriate unit
          if duration < 1:
@@ -306,6 +335,7 @@ class mlquest():
             mlquest.log['info']['duration'] = f'{duration / 60:.2f} min'
          elif duration > 3600:
             mlquest.log['info']['duration'] = f'{duration / 3600:.2f} h'
+            
          # check if the experiment already exists and set its name and id
          if mlquest.log['info']['name'] in mlquest.quests:
             quest_name = mlquest.log['info']['name']
@@ -321,24 +351,22 @@ class mlquest():
          
          mlquest.apply_blacklist(black_list)
          
-         utils.runs_to_json(mlquest.relative_path, mlquest.curr_dir, mlquest.quests[quest_name], quest_name, mlquest.log_defs, mlquest.non_default_log)
-         utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
-                                  f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
+         runs_to_json(mlquest.quests[quest_name], mlquest.log_defs, mlquest.non_default_log)
+         json_to_html_table(last_k=None, save=True)
                   
          if save_ext is not None:   mlquest.save_logs(save_ext)
          
          mlquest.active = False
          mlquest.log = {}
-         mlquest.save_quest(quest_name)
+         mlquest.save_quest()
          
    
     @staticmethod
     def apply_blacklist(blacklist):
       # read the json file
-      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}-config.json', 'r') as f:
+      json_config_file = mlquest.get_quest_json_config_file()
+      with open(json_config_file, 'r') as f:
          table = json.load(f)
-
- 
       
       # set the value for blacklist columns (subkeys) to false
       for key in table.keys():
@@ -357,11 +385,10 @@ class mlquest():
             blacklist.remove(item)
          
       # write the json file
-      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}-config.json', 'w') as f:
+      with open(json_config_file, 'w') as f:
          json.dump(table, f, indent=4)
 
       
-   
     @staticmethod
     def show_logs(quest_name, last_k=None, **kwargs):
       '''
@@ -379,15 +406,15 @@ class mlquest():
       '''
       # get the name of the folder containing the current file
       mlquest.curr_dir = os.path.basename(os.getcwd())
-      assert os.path.exists(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'), f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
+      assert os.path.exists(f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}/{quest_name}'),\
+         f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
          
-      if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}Quests/{mlquest.curr_dir}/{quest_name}'):
-         with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+      if 'quests.mlq' in os.listdir(f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}/{quest_name}'):
+         with open(mlquest.relative_path + f'/Quests/{mlquest.curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
             mlquest.quests = pickle.load(f)
             
       # convert the file to html table
-      table = utils.json_to_html_table(mlquest.relative_path, mlquest.curr_dir, f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}.json',
-                                 f'Quests/{mlquest.curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k)
+      table = json_to_html_table(last_k=last_k)
             
       # display the table
       display(HTML(table))
@@ -413,19 +440,14 @@ class mlquest():
       
       >>> mlq.delete_runs('../', 'NaiveBayesExp', [1, 2, 3])
       
-      This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest found in :samp:`../Quests/<ParentFolder>/NaiveBayesExp/`
-      
-      :Notes:
-      
-      - You need not run :func:`mlq.end_quest()` or :func:`mlq.start_quest()` before calling the function
-      - Calling it from the file that initiated the quest is recommended. Otherwise, make sure the current file is in the same parent folder as it.
+      This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest.
+            
       '''
-      curr_dir = os.path.basename(os.getcwd())
       quest_name = mlquest.quest_name
-      table_dest = mlquest.relative_path
-      
+      quest_folder = mlquest.get_quest_folder()
+
       # read the mlq file from table_dest and quest_name
-      with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'rb') as f:
+      with open(quest_folder + '/quests.mlq', 'rb') as f:
          data = dict(pickle.load(f))
          
       for run_id in run_ids:
@@ -438,19 +460,23 @@ class mlquest():
                warnings.warn(f"Run id {run_id} does not exist; failed to delete")
       
       # save the data to the mlq file
-      with open(f'{table_dest}Quests/{curr_dir}/{quest_name}/quests.mlq', 'wb') as f:
+      with open(quest_folder + '/quests.mlq', 'wb') as f:
          pickle.dump(data, f)
          
       # update the json and html files
-      utils.runs_to_json(table_dest, curr_dir, data[quest_name], quest_name, None, None)
-      utils.json_to_html_table(table_dest, curr_dir, f'Quests/{curr_dir}/{quest_name}/json/{quest_name}.json', f'Quests/{curr_dir}/{quest_name}/json/{quest_name}-config.json',  quest_name, last_k=None, save=True)
+      runs_to_json(data[quest_name], None, None)
+      json_to_html_table(last_k=None, save=True)
          
          
          
     @staticmethod
     def get_flat_dict():
+      '''
+       Convert the quests table to a flat dictionary. This is helpful if the table is needed in a csv or dataframe format.
+      '''
       # read the json file
-      with open(mlquest.relative_path + f'Quests/{mlquest.curr_dir}/{mlquest.quest_name}/json/{mlquest.quest_name}.json', 'r') as f:
+      json_file = mlquest.get_quest_json_file()
+      with open(json_file, 'r') as f:
          j = json.load(f)
       
       # now lets flatten the dict
@@ -460,3 +486,208 @@ class mlquest():
             flat_dict[f'{subkey}'] = j[key][subkey]
       
       return flat_dict
+
+         
+
+def remove_duplicate_rows(json_obj):
+   '''
+      Removes duplicate rows from the given nested json_obj which is expected to be a
+      two-level nested dictionary where the values are lists representing column values.      
+   '''
+   # read json file from path as dict
+   num_rows = len(json_obj['info']['id'])
+   rows_to_remove = []
+   old_row_values, new_row_values = [], []
+   for i in range(num_rows):
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            value = json_obj[key][subkey][i]
+            # if the key is not info then append the value to the list
+            if key != 'info':     new_row_values.append(value)
+      
+      if new_row_values == old_row_values:
+         rows_to_remove.append(i)
+         
+      old_row_values = new_row_values
+      new_row_values = []
+   
+   # remove the duplicate rows
+   for i in range(len(rows_to_remove)-1, -1, -1):
+      k = rows_to_remove[i]
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            json_obj[key][subkey].pop(k)
+            
+   return json_obj
+      
+
+def get_path_mask(json_obj):
+   '''
+   Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys
+   and where values are lists) this returns a mask of the same shape as the json_obj but where if a value
+   is different from the previous row then it is a 1, otherwise it is a 0.
+   '''
+   # make mask obj of the same structure as json_obj
+   mask_obj = {}
+   for key in json_obj.keys():
+      mask_obj[key] = {}
+      for subkey in json_obj[key].keys():
+         mask_obj[key][subkey] = []
+         
+   num_rows = len(json_obj['info']['id'])
+   for i in range(num_rows):
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            value = json_obj[key][subkey][i]
+            if key != 'info':
+               if i != 0:
+                  if value != json_obj[key][subkey][i-1]:
+                     mask_obj[key][subkey].append(1)
+                  else :
+                     mask_obj[key][subkey].append(0)
+               else:
+                  mask_obj[key][subkey].append(0)
+            else:
+               mask_obj[key][subkey].append(0)
+   return mask_obj
+            
+
+
+def runs_to_json(runs, log_defs, non_default_log):
+   '''
+   converts the runs of a quest to a json file
+   :param quest_name: The name of the quest to be converted
+   :type quest_name: string
+   '''
+   json_folder = mlquest.get_quest_json_folder()
+   json_file = mlquest.get_quest_json_file()
+   json_config_file = mlquest.get_quest_json_config_file()
+   
+   if not os.path.exists(json_folder):
+      os.makedirs(json_folder, exist_ok=True)
+   
+   big_dict = utils.merge_dicts(runs)
+   # remove ['info]['name'] from the dict
+   del big_dict['info']['name']
+   # now convert to json
+   j = json.dumps(big_dict, indent=4)
+   # save the json file
+   with open(json_file, 'w') as f:
+      f.write(j)
+   
+   if log_defs is not None and non_default_log is not None:
+      # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
+      if log_defs:
+         config_dict = {}
+         for key in big_dict.keys():
+            config_dict[key] = {}
+            for subkey in big_dict[key].keys():
+               config_dict[key][subkey] = 'true'
+      else:
+         # let's get the set of subkeys that are in the non_default_log
+         config_dict = {}
+         for key in big_dict.keys():
+            config_dict[key] = {}
+            for subkey in big_dict[key].keys():
+               if key in non_default_log.keys():
+                  if subkey in non_default_log[key].keys():
+                     config_dict[key][subkey] = 'true'
+                  else:
+                     config_dict[key][subkey] = 'false'
+               else:
+                  config_dict[key][subkey] = 'true'
+
+      # let's see if there is a version of the config file already
+      if os.path.exists(json_config_file):
+         # if there is, we will merge the two dicts
+         with open(json_config_file, 'r') as f:
+            old_config = json.load(f)
+            # get false values from the old_config before overwriting with the new one!
+            for key in old_config.keys():
+               if key in config_dict.keys():
+                  for subkey in old_config[key].keys():
+                     if old_config[key][subkey]!='true' and subkey in config_dict[key].keys():
+                        config_dict[key][subkey] = 'false'
+                        if log_defs:
+                           if key in non_default_log.keys():
+                              if subkey not in non_default_log[key].keys():      # it must be a default and we want to log it!
+                                 config_dict[key][subkey] = 'true'
+                              else:
+                                 config_dict[key][subkey] = 'false'
+                     
+      # convert to json      
+      c = json.dumps(config_dict, indent=4)
+      # save the json file
+      with open(json_config_file, 'w') as f:
+         f.write(c)
+
+
+
+
+def json_to_html_table(last_k, colored=True, save=False):
+   '''
+      Makes an html table from a nested json file. 
+      
+      :param json_path: The path to the json file
+      :type json_path: string
+      
+      :param quest_name: The name of the quest to be converted
+      :type quest_name: string
+   '''
+   json_path = mlquest.get_quest_json_file()
+   config_path = mlquest.get_quest_json_config_file()
+   quest_path = mlquest.get_quest_folder()
+   
+   # read json file from path as dict
+   with open(json_path, 'rb') as JSON:
+      json_obj = json.load(JSON)
+   with open(config_path, 'rb') as JSON:
+      config_obj = json.load(JSON)
+   
+   json_obj = remove_duplicate_rows(json_obj)
+   mask_obj = get_path_mask(json_obj)
+   # convert to html table
+   table = '<table>\n'
+   # make a header row
+   table += '<tr>\n'
+   # for each key in the top-level dict make a column with colspan being the number of subkeys
+   for key in json_obj.keys():
+      # the length of the colspan is the number of subkeys with value 'true' in the config file
+      length = [config_obj[key][subkey] for subkey in config_obj[key].keys()].count('true')
+      if length > 0 : 
+         table += f'<th colspan={length} style="text-align: center; vertical-align: middle;">{key}</th>\n'
+   table += '</tr>\n'
+   
+   # for each subkey of the top-level dict, make a subheader row
+   for key in json_obj.keys():
+      for subkey in json_obj[key].keys():
+         if config_obj[key][subkey] == 'true':
+            table += f'<th style="text-align: center; vertical-align: middle;">{subkey}</th>\n'
+   table += '</tr>\n'
+   
+   
+   # get the number of ids to infer the number of rows
+   num_rows = len(json_obj['info']['id'])
+   if last_k is None:      last_k = num_rows
+   if last_k > num_rows:     last_k = num_rows
+   
+   
+   for i in range(num_rows - last_k, num_rows):
+      table += '<tr>\n'
+      for key in json_obj.keys():
+         for subkey in json_obj[key].keys():
+            if config_obj[key][subkey] == 'true':
+               color = 'yellow' if mask_obj[key][subkey][i] and colored else 'white'
+               value = json_obj[key][subkey][i] if json_obj[key][subkey][i] is not None else ''
+               table += f'<td style="text-align: center; vertical-align: middle;"> <font color={color}>{value}</font></td>\n'
+      table += '</tr>\n'
+
+   # save the html file
+   if save:
+      if not os.path.exists(quest_path):
+         os.makedirs(quest_path, exist_ok=True)
+      with open(quest_path + f'/{mlquest.quest_name}.md', 'w') as f:
+         f.write(table)
+   
+   # return the html table
+   return table
