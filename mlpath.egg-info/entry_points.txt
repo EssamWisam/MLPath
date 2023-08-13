@@ -1,0 +1,3 @@
+[console_scripts]
+mldir = mlpath.mldir_cli.cli:main
+mlweb = mlpath.mldir_cli.cli:web

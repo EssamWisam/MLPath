@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>MLQuest Quick Start &#8212; MLPath 1.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Example';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mlpath package" href="mlpath.html" />
+    <link rel="prev" title="MLPath" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MLPath 1.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">MLPath</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">MLQuest Quick Start</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="mlpath.html">mlpath package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="mlpath.mldir_cli.html">mlpath.mldir_cli package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mlpath.mlquest.html">mlpath.mlquest package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Example.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>MLQuest Quick Start</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-example-functions">Some Example Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-quest">Starting a Quest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-pipeline">Core Pipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation">Model Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-logging">Extra Logging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-and-display-logs">Save and Display Logs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-runs">Deleting Runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-df">Converting to DF</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="mlquest-quick-start">
+<h1>MLQuest Quick Start<a class="headerlink" href="#mlquest-quick-start" title="Permalink to this heading">#</a></h1>
+<section id="some-example-functions">
+<h2>Some Example Functions<a class="headerlink" href="#some-example-functions" title="Permalink to this heading">#</a></h2>
+<p>Suppose we have any set of functions such as the following and we
+interesed in running a Python file or notebook that calls them multiple
+times with different arguments and we would like to keep track of the
+arguments that they take and their corresponding outputs for each run.
+This problem is exactly what this package attempts to solve.</p>
+<p>In this example, we will try to demonstrate the high-level features of
+the package. For a more detailed explanation of the package, please
+refer to the
+<a class="reference external" href="https://essamwisam.github.io/MLPath/mlpath.html">documentation</a>. You
+can also run this notebook firsthand by simply downloading it from the
+Github repo
+<a class="reference external" href="https://github.com/EssamWisam/MLPath/blob/main/Example.ipynb">here</a>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Define some functions with default and non-default parameters</span>
+<span class="k">def</span> <span class="nf">Preprocessing</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta_param</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">a_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">b_gum</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c_hum</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">FeatureExtraction</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">x_param</span><span class="p">,</span> <span class="n">y_param</span><span class="p">,</span> <span class="n">z_param</span><span class="p">,</span> <span class="n">a_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">b_gum</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c_hum</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">RadialBasisNet</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">p_num</span><span class="p">,</span> <span class="n">k_num</span><span class="p">,</span> <span class="n">l_num</span><span class="p">,</span> <span class="n">a_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">b_gum</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c_hum</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">701</span>
+</pre></div>
+</div>
+</section>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this heading">#</a></h2>
+<p>The main functions responsible for logging functions is simply called
+<code class="docutils literal notranslate"><span class="pre">l</span></code> and is defined under the class <code class="docutils literal notranslate"><span class="pre">mlquest</span></code>. You can ignore the
+second line and use <code class="docutils literal notranslate"><span class="pre">mlq.l</span></code> to log your functions.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mlpath</span> <span class="kn">import</span> <span class="n">mlquest</span> <span class="k">as</span> <span class="n">mlq</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">mlq</span><span class="o">.</span><span class="n">l</span>
+</pre></div>
+</div>
+</section>
+<section id="starting-a-quest">
+<h2>Starting a Quest<a class="headerlink" href="#starting-a-quest" title="Permalink to this heading">#</a></h2>
+<p>A quest simply corresponds to a table where each row is an experiment
+corresponding to a run of the file. When you call <code class="docutils literal notranslate"><span class="pre">mlq.start_quest</span></code> it
+simply creates an empty table or loads it if it was created already
+already.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start a new quest, this corresponds to a table where every run will be logged.</span>
+<span class="n">mlq</span><span class="o">.</span><span class="n">start_quest</span><span class="p">(</span><span class="s1">&#39;Radial Basis Pipeline&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="core-pipeline">
+<h2>Core Pipeline<a class="headerlink" href="#core-pipeline" title="Permalink to this heading">#</a></h2>
+<p>Suppose the following is our pipeline, we can log the input to each
+function by simple using <code class="docutils literal notranslate"><span class="pre">l(func)(args)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">func(args)</span></code>.
+This logs the arguments regardless to whether they are given by name or
+not and even if they are default arguments. Note that non-scalar
+arguments are always ignored by <code class="docutils literal notranslate"><span class="pre">l()</span></code>. We will later see how the log
+looks like.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocessing</span>
+<span class="n">x_data_p</span> <span class="o">=</span> <span class="n">l</span><span class="p">(</span><span class="n">Preprocessing</span><span class="p">)(</span><span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">beta_param</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># Feature Extraction</span>
+<span class="n">x_data_f</span> <span class="o">=</span> <span class="n">l</span><span class="p">(</span><span class="n">FeatureExtraction</span><span class="p">)(</span><span class="n">x_data_p</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">340</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Model Initialization</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">l</span><span class="p">(</span><span class="n">RadialBasisNet</span><span class="p">)(</span><span class="n">x_data_f</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">)</span>
+
+<span class="c1"># Model Training</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="o">+</span> <span class="mi">15</span>
+</pre></div>
+</div>
+</section>
+<section id="model-evaluation">
+<h2>Model Evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this heading">#</a></h2>
+<p>To log a metric we use the <code class="docutils literal notranslate"><span class="pre">log_metrics</span></code> function. If you pass it
+variables with scalar context directly then a column will be created
+with that variable’s name to log a variable with a different name you
+can pass it as a keyword argument.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># log the accuracy</span>
+<span class="n">mlq</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>        <span class="c1"># can also do mlq.log_metric(acc=accuracy) if want to log it as acc</span>
+</pre></div>
+</div>
+</section>
+<section id="extra-logging">
+<h2>Extra Logging<a class="headerlink" href="#extra-logging" title="Permalink to this heading">#</a></h2>
+<p>Suppose we have another piece of information that we would like to log.
+We can use the <code class="docutils literal notranslate"><span class="pre">to_log</span></code> function. The first argument it takes is the
+column header and the rest are any number of key value pairs passed as
+keyword arguments where a column under the column header will be created
+for each key.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log</span><span class="p">(</span><span class="s1">&#39;New Column&#39;</span><span class="p">,</span> <span class="n">User</span><span class="o">=</span><span class="s2">&quot;Malzahar&quot;</span><span class="p">,</span> <span class="n">Ult</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="save-and-display-logs">
+<h2>Save and Display Logs<a class="headerlink" href="#save-and-display-logs" title="Permalink to this heading">#</a></h2>
+<p>Once the quest is ended with <code class="docutils literal notranslate"><span class="pre">mlq.end_quest</span></code>, the run is converted to
+a row and logged to a table and saved. The first argument is where we
+would like to save the markdown corresponding to the quest, the second
+argument specifies whether to show or hide the default arguments of
+functions and the third helps blacklist further arguments</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlq</span><span class="o">.</span><span class="n">end_quest</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">log_defs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blacklist</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">mlq.show_logs</span></code> to show the logs of the last <code class="docutils literal notranslate"><span class="pre">last_k</span></code>
+below the notebook cell that calls it. To see it, please consider
+running the notebook.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlq</span><span class="o">.</span><span class="n">show_logs</span><span class="p">(</span><span class="n">last_k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>                     <span class="c1"># higlight color assumes dark theme and can be changed</span>
+</pre></div>
+</div>
+</section>
+<section id="server">
+<h2>Server<a class="headerlink" href="#server" title="Permalink to this heading">#</a></h2>
+<p>We can also view the table in a server using <code class="docutils literal notranslate"><span class="pre">mlq.run_server</span></code>. There
+further filtering can be easily done to show specific rows of the table.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlq</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="deleting-runs">
+<h2>Deleting Runs<a class="headerlink" href="#deleting-runs" title="Permalink to this heading">#</a></h2>
+<p>Deleting runs using their id is easily possible using
+<code class="docutils literal notranslate"><span class="pre">mlq.delete_runs</span></code></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlq</span><span class="o">.</span><span class="n">delete_runs</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">mlq</span><span class="o">.</span><span class="n">show_logs</span><span class="p">(</span><span class="n">last_k</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="converting-to-df">
+<h2>Converting to DF<a class="headerlink" href="#converting-to-df" title="Permalink to this heading">#</a></h2>
+<p>The table can be easily converted to a pandas DataFrame to later be used
+for plotting or other analysis. The key step here is to use
+<code class="docutils literal notranslate"><span class="pre">mlq.get_flat_dict()</span></code> to get the equivalent flat dictionary.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">my_dict</span> <span class="o">=</span> <span class="n">mlq</span><span class="o">.</span><span class="n">get_flat_dict</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">my_dict</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="modules.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MLPath</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mlpath.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">mlpath package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-example-functions">Some Example Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-quest">Starting a Quest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-pipeline">Core Pipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation">Model Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-logging">Extra Logging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-and-display-logs">Save and Display Logs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#server">Server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-runs">Deleting Runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-df">Converting to DF</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Essam W., Abdullah A.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Essam W., Abdullah A..
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
