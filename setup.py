@@ -23,7 +23,7 @@ def read_requirements():
 # This call to setup() does all the work
 setup(
     name="mlpath",
-    version="1.1.6",
+    version="1.1.7",
     description="A lightweight api for machine and deep learning experiment logging in the form of a python library. ",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -48,7 +48,7 @@ setup(
               ],
     include_package_data=True,
     package_data={"mlpath.mldir_cli.*" :['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
-    install_requires=['varname', 'click', 'flask'],
+    install_requires=['varname', 'click', 'flask', 'ipython'],
     entry_points='''
     [console_scripts]
     mldir=mlpath.mldir_cli.cli:main
@@ -58,7 +58,7 @@ setup(
 
 # find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 # find . -name __MACOSX -exec rm -rf {} \;
-
+# find . -name ".DS_Store" -type f -delete
 
 # Steps to upload to PyPI
 # 0 - Increment the version number in setup.py

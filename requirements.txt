@@ -1,6 +1,4 @@
 varname @ file:///home/conda/feedstock_root/build_artifacts/varname_1664243349873/work
-
+ipython==8.14.0
 click==8.0.4
 flask==2.2.2
-ipython @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_651b0309-eccd-4278-bb05-da83352f345cw81ya025/croots/recipe/ipython_1657652219297/work
-ipython-genutils @ file:///tmp/build/80754af9/ipython_genutils_1606773439826/work

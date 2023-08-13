@@ -13,22 +13,23 @@ from copy import copy
 import pickle
 import os
 import json
-from IPython.display import display, Markdown, HTML
+from IPython.display import display, HTML
 import shutil
+from collections import OrderedDict
 
 class mlquest():
     '''
     The mlquest class provides methods and attributes to log machine learning experiments.
     '''
-    quests = {}             # dictionary of quests (e.g, one for each model) that contains a list of logs (runs)
-    log = {}                     # dictionary of the current log (run)
-    active = False               # is a quest already active
-    start_time = None            # to compute the duration of the experiment later
-    relative_path = ''           # the relative location for where to save the 'mlquests' folder
-    curr_dir = None              # the name of the folder containing the current file (for saving purposes)
-    non_default_log = {}         # contains the arguments actually passed to the function
-    log_defs = False             # if true, default arguments are also logged
-    quest_name = None            # the name of the quest (e.g, the name of the model in the current file)
+    quests = OrderedDict({})                  # dictionary of quests (e.g, one for each model) that contains a list of logs (runs)
+    log = OrderedDict({})                     # dictionary of the current log (run)
+    active = False                            # is a quest already active
+    start_time = None                         # to compute the duration of the experiment later
+    relative_path = ''                        # the relative location for where to save the 'mlquests' folder
+    curr_dir = None                           # the name of the folder containing the current file (for saving purposes)
+    non_default_log = OrderedDict({})         # contains the arguments actually passed to the function
+    log_defs = False                          # if true, default arguments are also logged
+    quest_name = None                         # the name of the quest (e.g, the name of the model in the current file)
     
     @staticmethod
     def get_quests_folder():
@@ -213,7 +214,8 @@ class mlquest():
           warnings.warn("Attempting to log a metric when no run is active will do nothing")
           
        mlquest.log['metrics'] = {}
-       
+       mlquest.non_default_log['metrics'] = {}
+
        # See if any of m1-m10 are set and if so, add them to the log with the key being the vairable name
        for i in range(1, 11):
           if locals()[f'm{i}'] is not None:
@@ -221,13 +223,15 @@ class mlquest():
                 warnings.simplefilter("ignore")           # ignores a useless warning of the varname library
                 data = utils.stringify(locals()[f'm{i}'])
                 if data is not None:
-                  mlquest.log['metrics'][argname(f'm{i}')] = locals()[f'm{i}']
-                
+                  mlquest.log['metrics'][argname(f'm{i}')] = data
+                  mlquest.non_default_log['metrics'][argname(f'm{i}')] = data
+                  
        # Any kwargs are metrics with custom names, add them as well
        for key, value in kwargs.items():
           data = utils.stringify(value)
           if data is not None:
-             mlquest.log['metrics'][key] = value
+             mlquest.log['metrics'][key] = data
+             mlquest.non_default_log['metrics'][key] = data
           else:
              print(data)
              warnings.warn(f"Metric {key} is either None or not a scalar and thus can't be logged")
@@ -315,7 +319,7 @@ class mlquest():
         
           
     @staticmethod
-    def end_quest(save_ext=None, log_defs=False, black_list=[]):
+    def end_quest(save_ext=None, log_defs=False, blacklist=[]):
        '''
        ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.
        
@@ -348,10 +352,8 @@ class mlquest():
             mlquest.log['info']['id'] = id
             quest_name = mlquest.log['info']['name']
             mlquest.quests[quest_name] = [mlquest.log]
-         
-         mlquest.apply_blacklist(black_list)
-         
-         runs_to_json(mlquest.quests[quest_name], mlquest.log_defs, mlquest.non_default_log)
+                  
+         runs_to_json(mlquest.quests[quest_name], mlquest.log_defs, mlquest.non_default_log, blacklist)
          json_to_html_table(last_k=None, save=True)
                   
          if save_ext is not None:   mlquest.save_logs(save_ext)
@@ -360,35 +362,7 @@ class mlquest():
          mlquest.log = {}
          mlquest.save_quest()
          
-   
-    @staticmethod
-    def apply_blacklist(blacklist):
-      # read the json file
-      json_config_file = mlquest.get_quest_json_config_file()
-      with open(json_config_file, 'r') as f:
-         table = json.load(f)
-      
-      # set the value for blacklist columns (subkeys) to false
-      for key in table.keys():
-         for subkey in table[key].keys():
-            if subkey not in blacklist:
-               table[key][subkey] = "true"
-               
-            if subkey in blacklist:
-               table[key][subkey] = "false"
-      
-      # if an item in the blacklist has a dot then split to get key and subkey then set to false and remove it
-      for item in blacklist:
-         if '.' in item:
-            key, subkey = item.split('.')
-            table[key][subkey] = "false"
-            blacklist.remove(item)
-         
-      # write the json file
-      with open(json_config_file, 'w') as f:
-         json.dump(table, f, indent=4)
 
-      
     @staticmethod
     def show_logs(quest_name, last_k=None, **kwargs):
       '''
@@ -464,7 +438,7 @@ class mlquest():
          pickle.dump(data, f)
          
       # update the json and html files
-      runs_to_json(data[quest_name], None, None)
+      runs_to_json(data[quest_name], None, None, [])
       json_to_html_table(last_k=None, save=True)
          
          
@@ -553,7 +527,7 @@ def get_path_mask(json_obj):
             
 
 
-def runs_to_json(runs, log_defs, non_default_log):
+def runs_to_json(runs, log_defs, non_default_log, blacklist):
    '''
    converts the runs of a quest to a json file
    :param quest_name: The name of the quest to be converted
@@ -577,46 +551,37 @@ def runs_to_json(runs, log_defs, non_default_log):
    
    if log_defs is not None and non_default_log is not None:
       # Now lets make a version of big_dict called config_dict that replaces all the leaf values with 'true'
-      if log_defs:
-         config_dict = {}
+      config_dict = {}
+      if log_defs==True:
          for key in big_dict.keys():
             config_dict[key] = {}
             for subkey in big_dict[key].keys():
-               config_dict[key][subkey] = 'true'
+               if subkey not in blacklist:
+                  config_dict[key][subkey] = 'true'
+               else:
+                  config_dict[key][subkey] = 'false'
       else:
          # let's get the set of subkeys that are in the non_default_log
-         config_dict = {}
          for key in big_dict.keys():
             config_dict[key] = {}
             for subkey in big_dict[key].keys():
                if key in non_default_log.keys():
-                  if subkey in non_default_log[key].keys():
-                     config_dict[key][subkey] = 'true'
-                  else:
+                  if subkey not in non_default_log[key].keys() or subkey in blacklist:
                      config_dict[key][subkey] = 'false'
+                  else:
+                     config_dict[key][subkey] = 'true'
                else:
-                  config_dict[key][subkey] = 'true'
+                     config_dict[key][subkey] = 'false'
 
-      # let's see if there is a version of the config file already
-      if os.path.exists(json_config_file):
-         # if there is, we will merge the two dicts
-         with open(json_config_file, 'r') as f:
-            old_config = json.load(f)
-            # get false values from the old_config before overwriting with the new one!
-            for key in old_config.keys():
-               if key in config_dict.keys():
-                  for subkey in old_config[key].keys():
-                     if old_config[key][subkey]!='true' and subkey in config_dict[key].keys():
-                        config_dict[key][subkey] = 'false'
-                        if log_defs:
-                           if key in non_default_log.keys():
-                              if subkey not in non_default_log[key].keys():      # it must be a default and we want to log it!
-                                 config_dict[key][subkey] = 'true'
-                              else:
-                                 config_dict[key][subkey] = 'false'
-                     
+      for item in blacklist:
+         if '.' in item:
+            key, subkey = item.split('.')
+            config_dict[key][subkey] = "false"
+
+
       # convert to json      
       c = json.dumps(config_dict, indent=4)
+      
       # save the json file
       with open(json_config_file, 'w') as f:
          f.write(c)

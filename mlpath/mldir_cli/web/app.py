@@ -14,7 +14,6 @@ def home_page():
     curr_dir = os.path.dirname(os.path.realpath(__file__))
     json_paths = get_json_paths(os.path.join(curr_dir, '../../', 'mlquest/Quests'))
     print(json_paths)
-    print("asdada")
     sidebar_data = {
         model_name: [
             quest_name for quest_name in json_paths[model_name]
