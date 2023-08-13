@@ -1,0 +1,92 @@
+{
+    "info": {
+        "time": [
+            "01:42:40"
+        ],
+        "date": [
+            "08/14/23"
+        ],
+        "duration": [
+            "110.65 ms"
+        ],
+        "id": [
+            1
+        ]
+    },
+    "Preprocessing": {
+        "alpha": [
+            "14"
+        ],
+        "beta_param": [
+            "9"
+        ],
+        "c": [
+            "0"
+        ],
+        "depth_ratio": [
+            "4"
+        ],
+        "a_num": [
+            "5"
+        ],
+        "b_gum": [
+            "7"
+        ],
+        "c_hum": [
+            "12"
+        ]
+    },
+    "FeatureExtraction": {
+        "x_param": [
+            "20"
+        ],
+        "y_param": [
+            "340"
+        ],
+        "z_param": [
+            "10"
+        ],
+        "a_num": [
+            "5"
+        ],
+        "b_gum": [
+            "7"
+        ],
+        "c_hum": [
+            "12"
+        ]
+    },
+    "RadialBasisNet": {
+        "p_num": [
+            "55"
+        ],
+        "k_num": [
+            "25"
+        ],
+        "l_num": [
+            "26"
+        ],
+        "a_num": [
+            "5"
+        ],
+        "b_gum": [
+            "7"
+        ],
+        "c_hum": [
+            "12"
+        ]
+    },
+    "metrics": {
+        "accuracy": [
+            "716"
+        ]
+    },
+    "New Column": {
+        "User": [
+            "Malzahar"
+        ],
+        "Ult": [
+            "Yes"
+        ]
+    }
+}

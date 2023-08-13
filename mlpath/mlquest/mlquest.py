@@ -314,11 +314,19 @@ class mlquest():
         
           
     @staticmethod
-    def end_quest(save_ext=None, log_defs=False, blacklist=[]):
+    def end_quest(save_ext=None,  blacklist=[], log_defs=False,):
        '''
        ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.
        
       :param save_ext (optional): Where to save the log externally. Defaults to not saving externally at all (None).
+      :type save_ext: string
+      :param blacklist (optional): A list of columns to not log. Defaults to an empty list. The column can be passed as 'col_name' or 'header.col_name' if there is a clash in names.
+      :type blacklist: list
+      :param log_defs (optional): If true, it adds all the default columns that are not explictly passed to the blacklist.
+      :type log_defs: bool
+      
+      :Example:
+      
        '''
        if mlquest.active == False: warnings.warn('No active mlquest to end')
        else:

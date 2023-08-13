@@ -1,0 +1,40 @@
+{
+    "info": {
+        "time": "true",
+        "date": "true",
+        "duration": "true",
+        "id": "true"
+    },
+    "Preprocessing": {
+        "alpha": "false",
+        "beta_param": "true",
+        "c": "true",
+        "depth_ratio": "true",
+        "a_num": "true",
+        "b_gum": "true",
+        "c_hum": "true"
+    },
+    "FeatureExtraction": {
+        "x_param": "true",
+        "y_param": "true",
+        "z_param": "true",
+        "a_num": "true",
+        "b_gum": "true",
+        "c_hum": "true"
+    },
+    "RadialBasisNet": {
+        "p_num": "true",
+        "k_num": "true",
+        "l_num": "true",
+        "a_num": "true",
+        "b_gum": "true",
+        "c_hum": "true"
+    },
+    "metrics": {
+        "accuracy": "true"
+    },
+    "New Column": {
+        "User": "true",
+        "Ult": "true"
+    }
+}

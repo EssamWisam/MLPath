@@ -124,6 +124,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">MLPath</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Example.html">MLQuest Quick Start</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../mlpath.html">mlpath package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../mlpath.mldir_cli.html">mlpath.mldir_cli package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../mlpath.mlquest.html">mlpath.mlquest package</a></li>
@@ -548,11 +549,19 @@ document.write(`
         
           
 <div class="viewcode-block" id="mlquest.end_quest"><a class="viewcode-back" href="../../../mlpath.mlquest.html#mlpath.mlquest.mlquest.mlquest.end_quest">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">end_quest</span><span class="p">(</span><span class="n">save_ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_defs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blacklist</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="k">def</span> <span class="nf">end_quest</span><span class="p">(</span><span class="n">save_ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">blacklist</span><span class="o">=</span><span class="p">[],</span> <span class="n">log_defs</span><span class="o">=</span><span class="kc">False</span><span class="p">,):</span>
 <span class="w">       </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">       ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.</span>
 <span class="sd">       </span>
 <span class="sd">      :param save_ext (optional): Where to save the log externally. Defaults to not saving externally at all (None).</span>
+<span class="sd">      :type save_ext: string</span>
+<span class="sd">      :param blacklist (optional): A list of columns to not log. Defaults to an empty list. The column can be passed as &#39;col_name&#39; or &#39;header.col_name&#39; if there is a clash in names.</span>
+<span class="sd">      :type blacklist: list</span>
+<span class="sd">      :param log_defs (optional): If true, it adds all the default columns that are not explictly passed to the blacklist.</span>
+<span class="sd">      :type log_defs: bool</span>
+<span class="sd">      </span>
+<span class="sd">      :Example:</span>
+<span class="sd">      </span>
 <span class="sd">       &#39;&#39;&#39;</span>
        <span class="k">if</span> <span class="n">mlquest</span><span class="o">.</span><span class="n">active</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span> <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;No active mlquest to end&#39;</span><span class="p">)</span>
        <span class="k">else</span><span class="p">:</span>
