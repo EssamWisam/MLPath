@@ -21,13 +21,16 @@ Github repo
 .. code:: ipython3
 
     ### Define some functions with default and non-default parameters
-    def Preprocessing(x_data, alpha, beta_param, c=0, depth_ratio=4, a_num=5, b_gum=7, c_hum=12):
+    def Preprocessing(x_data, alpha, beta_param, c=0, 
+                      depth_ratio=4, a_num=5, b_gum=7, c_hum=12):
         return [2, 3, 4]
     
-    def FeatureExtraction(x_data, x_param, y_param, z_param, a_num=5, b_gum=7, c_hum=12, **kwargs):
+    def FeatureExtraction(x_data, x_param, y_param, 
+                          z_param, a_num=5, b_gum=7, c_hum=12, **kwargs):
         return [3, 4, 5]
     
-    def RadialBasisNet(x_data, p_num, k_num, l_num, a_num=5, b_gum=7, c_hum=12, **kwargs):
+    def RadialBasisNet(x_data, p_num, k_num, l_num, 
+                       a_num=5, b_gum=7, c_hum=12, **kwargs):
         return None
     
     def train_model(model):
@@ -131,7 +134,6 @@ running the notebook.
 
 
 
-
 Server
 ^^^^^^
 
@@ -141,6 +143,7 @@ further filtering can be easily done to show specific rows of the table.
 .. code:: ipython3
 
     mlq.run_server()
+
 
 
 Deleting Runs
@@ -153,6 +156,7 @@ Deleting runs using their id is easily possible using
 
     mlq.delete_runs([2,3])
     mlq.show_logs(last_k=9)
+
 
 
 
@@ -170,5 +174,4 @@ for plotting or other analysis. The key step here is to use
     my_dict = mlq.get_flat_dict()
     df = pd.DataFrame.from_dict(my_dict)
     df
-
 
