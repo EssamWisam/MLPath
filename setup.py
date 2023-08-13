@@ -23,7 +23,7 @@ def read_requirements():
 # This call to setup() does all the work
 setup(
     name="mlpath",
-    version="1.0.32",
+    version="1.1.6",
     description="A lightweight api for machine and deep learning experiment logging in the form of a python library. ",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -42,9 +42,12 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent"
     ],
-    packages=["mlpath", "mlpath.mlquest", "mlpath.mldir_cli"],
+    packages=["mlpath",
+              "mlpath.mlquest",
+              "mlpath.mldir_cli",
+              ],
     include_package_data=True,
-    package_data={'mldir':['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
+    package_data={"mlpath.mldir_cli.*" :['*.zip', '*.png', '*pdf', '*jpeg','*ipynb', '*html', '*css', '*pkl', '*js']},
     install_requires=['varname', 'click', 'flask'],
     entry_points='''
     [console_scripts]
@@ -52,6 +55,10 @@ setup(
     mlweb=mlpath.mldir_cli.cli:web
     '''
 )
+
+# find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+# find . -name __MACOSX -exec rm -rf {} \;
+
 
 # Steps to upload to PyPI
 # 0 - Increment the version number in setup.py

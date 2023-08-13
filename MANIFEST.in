@@ -1,7 +1,0 @@
-include mlpath/mldir/*.ipynb
-include mlpath/mldir/*.jpeg
-include mlpath/mldir/*.png
-include mlpath/mldir/*.css
-include mlpath/mldir/*.html
-include mlpath/mldir/*.pdf
-include mlpath/mldir/*.pkl
