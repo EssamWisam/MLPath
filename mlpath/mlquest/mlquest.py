@@ -380,7 +380,7 @@ class mlquest():
       Runs the server to display the logs of the quests in a web browser. This includes all the quests in this directory.
       '''
       run_server()
-      
+   
       
     @staticmethod
     def delete_runs(run_ids):
@@ -448,7 +448,13 @@ class mlquest():
                if config[key][subkey] == 'true':
                   flat_dict[f'{subkey}'] = j[key][subkey]
       return flat_dict
-
+   
+    @staticmethod
+    def delete_quest(quest_name):
+      relative_path = os.path.dirname(os.path.abspath(__file__))
+      curr_dir = os.path.basename(os.getcwd())
+      quest_folder = f'{relative_path}/Quests/{curr_dir}/{quest_name}'
+      shutil.rmtree(quest_folder)
          
 
 def remove_duplicate_rows(json_obj):
