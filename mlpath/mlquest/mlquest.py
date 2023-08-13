@@ -33,23 +33,38 @@ class mlquest():
     
     @staticmethod
     def get_quests_folder():
+       '''
+        :meta private:
+       '''
        return f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}'
     
     @staticmethod
     def get_quest_folder():  
+       '''
+        :meta private:
+       '''
        return f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}/{mlquest.quest_name}'  
     
     @staticmethod
     def get_quest_json_folder():
-         return f'{mlquest.get_quest_folder()}/json'
+        '''
+        :meta private:
+        '''
+        return f'{mlquest.get_quest_folder()}/json'
     
     @staticmethod
     def get_quest_json_file():
-         return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}.json'
+        '''
+        :meta private:
+        '''
+        return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}.json'
     
     @staticmethod
     def get_quest_json_config_file():
-         return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}-config.json'
+        '''
+        :meta private:
+        '''
+        return f'{mlquest.get_quest_folder()}/json/{mlquest.quest_name}-config.json'
     
     @staticmethod
     def start_quest(quest_name, **kwargs):
@@ -128,7 +143,7 @@ class mlquest():
        
        - If you later make a new function then :samp:`MLQuest` may handle this by creating new columns that are empty for the previous runs (rows).
        
-      - Likewise, deleting a function will make the corresponding columns empty for the future runs (rows).
+       - Likewise, deleting a function will make the corresponding columns empty for the future runs (rows).
 
        - :func:`mlq.l()` doesn't log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the :func:`mlq.to_log_ext()` method
 
@@ -250,7 +265,7 @@ class mlquest():
        
        :Example:
        
-       >>> mlq.to_log_ext('graphs', Scatterplot='../plots/plt21.jpg', Histogram='../plots/plt22.jpg')
+       >>> mlq.to_log('graphs', Scatterplot='../plots/plt21.jpg', Histogram='../plots/plt22.jpg')
        
        This would log the Scatterplot and Histogram under the 'graphs' column. Any previous runs will have empty values for these columns.
        '''
@@ -269,6 +284,8 @@ class mlquest():
     def save_quest():
        '''
        Uses pickle to save the quests object to a file.
+       
+       :meta private:
        '''
        quest_folder = mlquest.get_quest_folder()
        quests_folder = mlquest.get_quests_folder()
@@ -288,8 +305,7 @@ class mlquest():
       :param save_path (optional): The path to save the logs to. Defaults to the current directory
       :type save_path: string
       
-      :Example:
-      >>> mlq.save_logs('./NaiveBayes', 'BlueFeats-NB')
+      :meta private:
       '''
       quest_folder = mlquest.get_quest_folder()
       quest_name = mlquest.quest_name
@@ -347,10 +363,10 @@ class mlquest():
       '''
       Shows the logs of a quest in a table that can be rendered in a jupyter notebook.
       
-      :param quest_name: The name of the quest to show the logs of
-      :type quest_name: string
       :param last_k (optional): The number of (most recent) experiments to show. Defaults to all experiments.
       :type last_k: int
+      :param highlight (optional): The color to highlight the most recent experiment with. Defaults to yellow.
+      :type highlight: string
       
       :Example:
       
@@ -377,7 +393,7 @@ class mlquest():
     @staticmethod
     def run_server():
       '''
-      Runs the server to display the logs of the quests in a web browser. This includes all the quests in this directory.
+      Runs the server to display the logs of the quests in a web browser. This includes all the quests in the current directory.
       '''
       run_server()
    
@@ -392,9 +408,9 @@ class mlquest():
       
       :Example:
       
-      >>> mlq.delete_runs('../', 'NaiveBayesExp', [1, 2, 3])
+      >>> mlq.delete_runs([1, 2, 3])
       
-      This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest.
+      This would delete the runs with ids 1, 2, and 3 from the current quest
             
       '''
       quest_name = mlquest.quest_name
@@ -428,7 +444,7 @@ class mlquest():
       '''
        Convert the quests table to a flat dictionary. This is helpful if the table is needed in a csv or dataframe format.
        
-      :param show_all: If True, the dictionary will contain all the columns in the table. If False, it will obey the blacklist and log_defs sent to end_quest.
+       :param show_all: If True, the dictionary will contain all the columns in the table. If False, it will obey the blacklist and log_defs sent to end_quest.
       '''
       # read the json file
       json_file = mlquest.get_quest_json_file()
@@ -461,6 +477,8 @@ def remove_duplicate_rows(json_obj):
    '''
       Removes duplicate rows from the given nested json_obj which is expected to be a
       two-level nested dictionary where the values are lists representing column values.      
+      
+      :meta private:
    '''
    # read json file from path as dict
    num_rows = len(json_obj['info']['id'])
@@ -491,9 +509,11 @@ def remove_duplicate_rows(json_obj):
 
 def get_path_mask(json_obj):
    '''
-   Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys
-   and where values are lists) this returns a mask of the same shape as the json_obj but where if a value
-   is different from the previous row then it is a 1, otherwise it is a 0.
+      Given a json_obj return a mask_obj of the same structure (two level dictionary of keys and subkeys
+      and where values are lists) this returns a mask of the same shape as the json_obj but where if a value
+      is different from the previous row then it is a 1, otherwise it is a 0.
+      
+      :meta private:
    '''
    # make mask obj of the same structure as json_obj
    mask_obj = {}
@@ -524,8 +544,12 @@ def get_path_mask(json_obj):
 def runs_to_json(runs, log_defs, non_default_log, blacklist):
    '''
    converts the runs of a quest to a json file
-   :param quest_name: The name of the quest to be converted
-   :type quest_name: string
+   :runs: a list of runs
+   :log_defs: whether or not to log the default parameters
+   :non_default_log: a dictionary of non-default parameters to log
+   :blacklist: a list of parameters to not log
+
+   :meta private:
    '''
    json_folder = mlquest.get_quest_json_folder()
    json_file = mlquest.get_quest_json_file()
@@ -587,11 +611,11 @@ def json_to_html_table(last_k, color='yellow', save=False):
    '''
       Makes an html table from a nested json file. 
       
-      :param json_path: The path to the json file
-      :type json_path: string
+      :last_k: the number of rows to show
+      :color: the color of the last k rows
+      :save: whether or not to save the html file as markdown
       
-      :param quest_name: The name of the quest to be converted
-      :type quest_name: string
+      :meta private:
    '''
    json_path = mlquest.get_quest_json_file()
    config_path = mlquest.get_quest_json_config_file()

@@ -1,5 +1,16 @@
 '''
-This is the CLI for the mlpath package. Includes commands to create a new project
+This is the CLI for the mlpath package. Includes commands to create a new project directory.
+
+Usage:
+    mldir [OPTIONS] [NAME]
+
+Options:
+    --name TEXT  The name of the project. Defaults to 'Project'
+    --full       A full project directory will be created if this flag is set. Else a simple project directory will be created.
+    --example    A full example project will be created if this flag is set
+    --force      If a project with the same name exists it will be deleted and a new one will be created
+    --help       Show this message and exit.
+    
 '''
 # pylint: skip-file
 
@@ -12,7 +23,7 @@ from mlpath.mldir_cli.web.app import run_server
 # if a name is provided make the directory with that name
 @click.command()
 @click.option('--name', default='Project', help='The name of the project')
-@click.option('--full', default=False, is_flag=True, help='A simpler project directory will be created if this flag is set')
+@click.option('--full', default=False, is_flag=True, help='A full project directory will be created if this flag is set')
 @click.option('--example', default=False, is_flag=True, help='A simple example project will be created if this flag is set')
 @click.option('--force', default=False, is_flag=True, help='If a project with the same name exists it will be deleted and a new one will be created')
 def main(name, full, example, force):

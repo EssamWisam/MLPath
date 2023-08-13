@@ -14,6 +14,8 @@ def merge_dicts(dict_list):
    
    :param dict_list: A list of dictionaries to be merged
    :type dict_list: list of dictionaries
+   
+   :meta private:
    '''
    def unique(sequence):
       seen = set()
@@ -46,6 +48,8 @@ def merge_dicts(dict_list):
 def stringify(item):
    '''
    Puts a given item into a suitable format for logging.
+   
+   :meta private:
    '''
    if item is None: return None
    # To log it, must not be any sort of collection

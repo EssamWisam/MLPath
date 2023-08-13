@@ -287,20 +287,17 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.l"><code class="docutils literal notranslate"><span class="pre">mlquest.l()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.log_metrics"><code class="docutils literal notranslate"><span class="pre">mlquest.log_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.show_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.show_logs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.run_server"><code class="docutils literal notranslate"><span class="pre">mlquest.run_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.get_flat_dict"><code class="docutils literal notranslate"><span class="pre">mlquest.get_flat_dict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_quest()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest">Module contents</a></li>
 </ul>
             </nav>
@@ -328,31 +325,19 @@ document.write(`
 <p>The mlquest class provides methods and attributes to log machine learning experiments.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.start_quest">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_defs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.start_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.start_quest" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.start_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.start_quest" title="Permalink to this definition">#</a></dt>
 <dd><p>Start a new run under the quest with quest_name. This function should be called before any other function with logging functionality.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>quest_name</strong> – The name of the experiment this run belongs to (e.g, the name of the model in the current file)</p></li>
-<li><p><strong>log_defs</strong> – Decides whether the next render of the experiments table should include the default arguments or not</p></li>
-<li><p><strong>table_dest</strong> – The relative path to the folder where the experiments table should be saved</p></li>
-</ul>
+<dd class="field-odd"><p><strong>quest_name</strong> – The name of the experiment this run belongs to (e.g, the name of the model in the current file)</p>
 </dd>
 <dt class="field-even">Example</dt>
 <dd class="field-even"><p></p></dd>
 </dl>
-<p>The following would start a new quest called ‘Naive-Bayes with the <code class="samp docutils literal notranslate"><span class="pre">Quests</span></code> folder that tracks your experiments being at <code class="samp docutils literal notranslate"><span class="pre">../</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_quest</span><span class="p">(</span><span class="s1">&#39;Naive-Bayes&#39;</span><span class="p">,</span> <span class="n">log_defs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;../&#39;</span><span class="p">)</span>
+<p>The following would start a new quest called ‘Naive-Bayes’</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_quest</span><span class="p">(</span><span class="s1">&#39;Naive-Bayes&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Notes</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<ul class="simple">
-<li><p>The <code class="samp docutils literal notranslate"><span class="pre">log_defs</span></code> parameter is used to decide whether the next render of the experiments table should include the default arguments or not. Default arguments are logged anyway.</p></li>
-<li><p>The <code class="samp docutils literal notranslate"><span class="pre">table_dest</span></code> parameter is used to decide where the experiments table should be saved. If it’s given as <code class="samp docutils literal notranslate"><span class="pre">../</span></code> then this means that the markdown file (experiments table) corresponding to this quest will be saved in the folder <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/&lt;QuestName&gt;/</span></code>.</p></li>
-</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -389,7 +374,8 @@ document.write(`
 <ul class="simple">
 <li><p>It doesn’t matter whether the argument is given through a variable or as a value, it doesn’t matter if its given as a named argument or not. <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> will log the values under the column corresponding to the name as in the function’s signature.</p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> always tracks all scalar arguments given to a function that have a name using the function’s signature</p></li>
-<li><p>If you can later change the function definition then <code class="samp docutils literal notranslate"><span class="pre">MLQuest</span></code> may handle this by creating new columns that are empty for the previous runs.</p></li>
+<li><p>If you later make a new function then <code class="samp docutils literal notranslate"><span class="pre">MLQuest</span></code> may handle this by creating new columns that are empty for the previous runs (rows).</p></li>
+<li><p>Likewise, deleting a function will make the corresponding columns empty for the future runs (rows).</p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.l()</span></code> doesn’t log collections to avoid having to deal with very large arrays. If your hyperparameter is a small array then you can still stringify it and log it using the <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.to_log_ext()</span></code> method</p></li>
 </ul>
 </dd></dl>
@@ -428,27 +414,7 @@ you can use the keyword argument syntax:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.to_log">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.to_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.to_log" title="Permalink to this definition">#</a></dt>
-<dd><p>Log any other information you want to log. This information will be stored under the ‘notes’ key (column) in the log.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dict</strong> – A dictionary of the key (subcolumns), values to be logged under the ‘notes’ coumns</p></li>
-<li><p><strong>kwargs</strong> – key value pairs to be logged under the ‘notes’ coumns notes (an alternative to dict)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log</span><span class="p">(</span><span class="n">modification</span><span class="o">=</span><span class="s2">&quot;Changed the loss function to cross entropy&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This would log the modification and reason under the ‘notes’ column. Any previous runs will have empty values for these columns.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.to_log_ext">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_log_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.to_log_ext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.to_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.to_log" title="Permalink to this definition">#</a></dt>
 <dd><p>Grants logging with extensive access to the log.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -461,7 +427,7 @@ you can use the keyword argument syntax:</p>
 <dt class="field-even">Example</dt>
 <dd class="field-even"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log_ext</span><span class="p">(</span><span class="s1">&#39;graphs&#39;</span><span class="p">,</span> <span class="n">Scatterplot</span><span class="o">=</span><span class="s1">&#39;../plots/plt21.jpg&#39;</span><span class="p">,</span> <span class="n">Histogram</span><span class="o">=</span><span class="s1">&#39;../plots/plt22.jpg&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">to_log</span><span class="p">(</span><span class="s1">&#39;graphs&#39;</span><span class="p">,</span> <span class="n">Scatterplot</span><span class="o">=</span><span class="s1">&#39;../plots/plt21.jpg&#39;</span><span class="p">,</span> <span class="n">Histogram</span><span class="o">=</span><span class="s1">&#39;../plots/plt22.jpg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This would log the Scatterplot and Histogram under the ‘graphs’ column. Any previous runs will have empty values for these columns.</p>
@@ -469,38 +435,74 @@ you can use the keyword argument syntax:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.end_quest">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_quest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.end_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.end_quest" title="Permalink to this definition">#</a></dt>
-<dd><p>ends an active run and saves it to the log. This must called at the end of the experiment else it will not be logged.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_defs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blacklist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.end_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.end_quest" title="Permalink to this definition">#</a></dt>
+<dd><blockquote>
+<div><p>ends an active run and internally saves it to the log. This must called at the end of the experiment else it will not be logged.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>save_ext</em>) – Where to save the log externally. Defaults to not saving externally at all (None).</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.delete_runs">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.delete_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.delete_runs" title="Permalink to this definition">#</a></dt>
-<dd><p>permanently deletes runs that have ids in run_ids from the log.</p>
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.show_logs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">show_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yellow'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.show_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.show_logs" title="Permalink to this definition">#</a></dt>
+<dd><p>Shows the logs of a quest in a table that can be rendered in a jupyter notebook.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>table_dest</strong> (<em>string</em>) – The destination of the Quests folder</p></li>
-<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to delete the runs from</p></li>
-<li><p><strong>run_ids</strong> (<em>list</em><em> of </em><em>ints</em>) – The ids (indecies) of the runs to be deleted</p></li>
+<li><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>highlight</em>) – The number of (most recent) experiments to show. Defaults to all experiments.</p></li>
+<li><p><strong>(</strong><strong>optional</strong><strong>)</strong> – The color to highlight the most recent experiment with. Defaults to yellow.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Example</dt>
 <dd class="field-even"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">delete_runs</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">,</span> <span class="s1">&#39;NaiveBayesExp&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">show_logs</span><span class="p">(</span><span class="s1">&#39;NaiveBayesExp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This would delete the runs with ids 1, 2, and 3 from the NaiveBayesExp quest found in <code class="samp docutils literal notranslate"><span class="pre">../Quests/&lt;ParentFolder&gt;/NaiveBayesExp/</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Notes</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<ul class="simple">
-<li><p>You need not run <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.end_quest()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">mlq.start_quest()</span></code> before calling the function</p></li>
-<li><p>Calling it from the file that initiated the quest is recommended. Otherwise, make sure the current file is in the same parent folder as it.</p></li>
-</ul>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.run_server">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.run_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.run_server" title="Permalink to this definition">#</a></dt>
+<dd><p>Runs the server to display the logs of the quests in a web browser. This includes all the quests in the current directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.delete_runs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.delete_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.delete_runs" title="Permalink to this definition">#</a></dt>
+<dd><p>permanently deletes runs that have ids in run_ids from the log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>run_ids</strong> (<em>list</em><em> of </em><em>ints</em>) – The ids (indecies) of the runs to be deleted</p>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mlq</span><span class="o">.</span><span class="n">delete_runs</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This would delete the runs with ids 1, 2, and 3 from the current quest</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.get_flat_dict">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_flat_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.get_flat_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.get_flat_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert the quests table to a flat dictionary. This is helpful if the table is needed in a csv or dataframe format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>show_all</strong> – If True, the dictionary will contain all the columns in the table. If False, it will obey the blacklist and log_defs sent to end_quest.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mlpath.mlquest.mlquest.mlquest.delete_quest">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_quest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/mlquest.html#mlquest.delete_quest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.mlquest.mlquest.delete_quest" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -508,45 +510,6 @@ you can use the keyword argument syntax:</p>
 <section id="module-mlpath.mlquest.utils">
 <span id="mlpath-mlquest-utils-module"></span><h2>mlpath.mlquest.utils module<a class="headerlink" href="#module-mlpath.mlquest.utils" title="Permalink to this heading">#</a></h2>
 <p>Utility functions for mlquest</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="mlpath.mlquest.utils.merge_dicts">
-<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">merge_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dict_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#merge_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.merge_dicts" title="Permalink to this definition">#</a></dt>
-<dd><p>Merges a list of dictionaries into one dictionary suitable for conversion into a table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dict_list</strong> (<em>list</em><em> of </em><em>dictionaries</em>) – A list of dictionaries to be merged</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mlpath.mlquest.utils.json_to_html_table">
-<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">json_to_html_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#json_to_html_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.json_to_html_table" title="Permalink to this definition">#</a></dt>
-<dd><p>Makes an html table from a nested json file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>json_path</strong> (<em>string</em>) – The path to the json file</p></li>
-<li><p><strong>quest_name</strong> (<em>string</em>) – The name of the quest to be converted</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mlpath.mlquest.utils.runs_to_json">
-<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">runs_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quest_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_defs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_default_log</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#runs_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.runs_to_json" title="Permalink to this definition">#</a></dt>
-<dd><p>converts the runs of a quest to a json file
-:param quest_name: The name of the quest to be converted
-:type quest_name: string</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mlpath.mlquest.utils.stringify">
-<span class="sig-prename descclassname"><span class="pre">mlpath.mlquest.utils.</span></span><span class="sig-name descname"><span class="pre">stringify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlpath/mlquest/utils.html#stringify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlpath.mlquest.utils.stringify" title="Permalink to this definition">#</a></dt>
-<dd><p>Puts a given item into a suitable format for logging.</p>
-</dd></dl>
-
 </section>
 <section id="module-mlpath.mlquest">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mlpath.mlquest" title="Permalink to this heading">#</a></h2>
@@ -594,20 +557,17 @@ you can use the keyword argument syntax:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.l"><code class="docutils literal notranslate"><span class="pre">mlquest.l()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.log_metrics"><code class="docutils literal notranslate"><span class="pre">mlquest.log_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.to_log_ext"><code class="docutils literal notranslate"><span class="pre">mlquest.to_log_ext()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.end_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.end_quest()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.show_logs"><code class="docutils literal notranslate"><span class="pre">mlquest.show_logs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.run_server"><code class="docutils literal notranslate"><span class="pre">mlquest.run_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_runs"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_runs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.get_flat_dict"><code class="docutils literal notranslate"><span class="pre">mlquest.get_flat_dict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.mlquest.mlquest.delete_quest"><code class="docutils literal notranslate"><span class="pre">mlquest.delete_quest()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.merge_dicts"><code class="docutils literal notranslate"><span class="pre">merge_dicts()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.json_to_html_table"><code class="docutils literal notranslate"><span class="pre">json_to_html_table()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.runs_to_json"><code class="docutils literal notranslate"><span class="pre">runs_to_json()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlpath.mlquest.utils.stringify"><code class="docutils literal notranslate"><span class="pre">stringify()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest.utils">mlpath.mlquest.utils module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mlpath.mlquest">Module contents</a></li>
 </ul>
   </nav></div>

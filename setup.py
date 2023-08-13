@@ -65,3 +65,8 @@ setup(
 # 1 - Remove the dist folder
 # 2- python3 setup.py sdist bdist_wheel  
 # 3 - twine upload dist/*
+
+# Steps to build docs
+# 1 - cd docs
+# 2 - make html
+# 3 - cd _build/html

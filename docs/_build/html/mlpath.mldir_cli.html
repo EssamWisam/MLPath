@@ -301,7 +301,29 @@ document.write(`
 </section>
 <section id="module-mlpath.mldir_cli.cli">
 <span id="mlpath-mldir-cli-cli-module"></span><h2>mlpath.mldir_cli.cli module<a class="headerlink" href="#module-mlpath.mldir_cli.cli" title="Permalink to this heading">#</a></h2>
-<p>This is the CLI for the mlpath package. Includes commands to create a new project</p>
+<p>This is the CLI for the mlpath package. Includes commands to create a new project directory.</p>
+<dl>
+<dt>Usage:</dt><dd><p>mldir [OPTIONS] [NAME]</p>
+</dd>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">--name <var>TEXT</var></span></kbd></dt>
+<dd><p>The name of the project. Defaults to ‘Project’</p>
+</dd>
+<dt><kbd><span class="option">--full</span></kbd></dt>
+<dd><p>A full project directory will be created if this flag is set. Else a simple project directory will be created.</p>
+</dd>
+<dt><kbd><span class="option">--example</span></kbd></dt>
+<dd><p>A full example project will be created if this flag is set</p>
+</dd>
+<dt><kbd><span class="option">--force</span></kbd></dt>
+<dd><p>If a project with the same name exists it will be deleted and a new one will be created</p>
+</dd>
+<dt><kbd><span class="option">--help</span></kbd></dt>
+<dd><p>Show this message and exit.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 <section id="module-mlpath.mldir_cli">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mlpath.mldir_cli" title="Permalink to this heading">#</a></h2>
