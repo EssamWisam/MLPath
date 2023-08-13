@@ -69,18 +69,18 @@ class mlquest():
        # 1. get the quest folder or make it if it doesn't exist
        mlquest.relative_path = os.path.dirname(os.path.abspath(__file__))
        mlquest.curr_dir = os.path.basename(os.getcwd())
+       mlquest.quest_name = quest_name
        quest_folder = mlquest.get_quest_folder()
        
        if not os.path.exists(quest_folder):
           os.makedirs(quest_folder, exist_ok=True)
-       
+
        # 2. load the quests dictionary from the file if it exists
        if 'quests.mlq' in os.listdir(quest_folder):
             with open(quest_folder + '/quests.mlq', 'rb') as f:
                mlquest.quests = pickle.load(f)
        
        # 3. Initiate the attributes of the new quest to be added to quests later
-       mlquest.quest_name = quest_name
        if mlquest.active == True: 
           warnings.warn("Attempting to start a run while another one is active may cause data overwrite")
        else:
@@ -237,32 +237,9 @@ class mlquest():
              warnings.warn(f"Metric {key} is either None or not a scalar and thus can't be logged")
       
    
-    @staticmethod
-    def to_log(dict=None,**kwargs):
-       '''
-       Log any other information you want to log. This information will be stored under the 'notes' key (column) in the log.
-       
-       :param dict: A dictionary of the key (subcolumns), values to be logged under the 'notes' coumns
-       :param kwargs: key value pairs to be logged under the 'notes' coumns notes (an alternative to dict)
-       
-       :Example:
-       
-       >>> mlq.to_log(modification="Changed the loss function to cross entropy", reason="...")
-       
-       This would log the modification and reason under the 'notes' column. Any previous runs will have empty values for these columns.
-       '''
-       
-       if dict is not None:
-            mlquest.log['notes'] = dict   
-       else:
-          # check if mlquest.log['notes'] exists, if not, create it
-         if 'notes' not in mlquest.log:
-             mlquest.log['notes'] = {}
-         for key, value in kwargs.items():
-            mlquest.log['notes'][key] = value
        
     @staticmethod
-    def to_log_ext(col_name, dict=None, **kwargs):
+    def to_log(col_name, dict=None, **kwargs):
        '''
        Grants logging with extensive access to the log. 
        
@@ -283,8 +260,10 @@ class mlquest():
           # check if mlquest.log[col_name] exists, if not, create it
           if col_name not in mlquest.log:
              mlquest.log[col_name] = {}
+             mlquest.non_default_log[col_name] = {}
           for key, value in kwargs.items():
              mlquest.log[col_name][key] = value
+             mlquest.non_default_log[col_name][key] = value
              
     @staticmethod
     def save_quest():
@@ -364,7 +343,7 @@ class mlquest():
          
 
     @staticmethod
-    def show_logs(quest_name, last_k=None, **kwargs):
+    def show_logs(*args, last_k=None, highlight='yellow',  **kwargs):
       '''
       Shows the logs of a quest in a table that can be rendered in a jupyter notebook.
       
@@ -379,6 +358,7 @@ class mlquest():
                
       '''
       # get the name of the folder containing the current file
+      quest_name = mlquest.quest_name
       mlquest.curr_dir = os.path.basename(os.getcwd())
       assert os.path.exists(f'{mlquest.relative_path}/Quests/{mlquest.curr_dir}/{quest_name}'),\
          f'Quest {quest_name} does not exist yet. Please start a quest with that name first.'
@@ -388,7 +368,7 @@ class mlquest():
             mlquest.quests = pickle.load(f)
             
       # convert the file to html table
-      table = json_to_html_table(last_k=last_k)
+      table = json_to_html_table(last_k=last_k, color=highlight)
             
       # display the table
       display(HTML(table))
@@ -444,21 +424,29 @@ class mlquest():
          
          
     @staticmethod
-    def get_flat_dict():
+    def get_flat_dict(show_all=False):
       '''
        Convert the quests table to a flat dictionary. This is helpful if the table is needed in a csv or dataframe format.
+       
+      :param show_all: If True, the dictionary will contain all the columns in the table. If False, it will obey the blacklist and log_defs sent to end_quest.
       '''
       # read the json file
       json_file = mlquest.get_quest_json_file()
+      json_config_file = mlquest.get_quest_json_config_file()
       with open(json_file, 'r') as f:
          j = json.load(f)
+      with open(json_config_file, 'r') as f:
+         config = json.load(f)
       
       # now lets flatten the dict
       flat_dict = {}
       for key in j.keys():
          for subkey in j[key].keys():
-            flat_dict[f'{subkey}'] = j[key][subkey]
-      
+            if show_all:
+               flat_dict[f'{subkey}'] = j[key][subkey]
+            else:
+               if config[key][subkey] == 'true':
+                  flat_dict[f'{subkey}'] = j[key][subkey]
       return flat_dict
 
          
@@ -589,7 +577,7 @@ def runs_to_json(runs, log_defs, non_default_log, blacklist):
 
 
 
-def json_to_html_table(last_k, colored=True, save=False):
+def json_to_html_table(last_k, color='yellow', save=False):
    '''
       Makes an html table from a nested json file. 
       
@@ -642,9 +630,9 @@ def json_to_html_table(last_k, colored=True, save=False):
       for key in json_obj.keys():
          for subkey in json_obj[key].keys():
             if config_obj[key][subkey] == 'true':
-               color = 'yellow' if mask_obj[key][subkey][i] and colored else 'white'
+               html_color = color if mask_obj[key][subkey][i] and color else ''
                value = json_obj[key][subkey][i] if json_obj[key][subkey][i] is not None else ''
-               table += f'<td style="text-align: center; vertical-align: middle;"> <font color={color}>{value}</font></td>\n'
+               table += f'<td style="text-align: center; vertical-align: middle;"> <font color={html_color}>{value}</font></td>\n'
       table += '</tr>\n'
 
    # save the html file
