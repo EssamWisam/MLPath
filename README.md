@@ -1,7 +1,8 @@
 
 # MLPath
-
+<p align='justify'>
 MLPath is an MLOPs library on Python that makes tracking machine learning experiments and organizing machine learning projects easier. It consists of two subpackages so far, MLQuest for tracking and MLDir for directory structure.
+</p>
 
 Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.mlquest.html#module-mlpath.mlquest.mlquest'>documentation</a>.
 ### 💻 Installation
