@@ -3,9 +3,8 @@
 
 MLPath is an MLOPs library on Python that makes tracking machine learning experiments and organizing machine learning projects easier. It consists of two subpackages so far, MLQuest for tracking and MLDir for directory structure.
 
-Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.html'>documentation</a>. It also has examples and notes that will help you further understand the library.
-
-### Installation
+Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.mlquest.html#module-mlpath.mlquest.mlquest'>documentation</a>.
+### 💻 Installation
 ```
 pip install mlpath
 ```
@@ -13,7 +12,7 @@ pip install mlpath
 <h1 text-align='center'> MLQuest </h1>
 <img src="https://user-images.githubusercontent.com/49572294/218260658-846c1aab-fe57-44fa-baa6-5d988ff07e1b.png"></img>
 
-### To get started
+### 🚀 Quick Start
 
 > This is your code without mlquest
 
@@ -34,11 +33,14 @@ accuracy = train_model(model)
 > This is your code with mlquest
 ```Python
 
+# 1. Import the Package
 from mlpath import mlquest as mlq
 l = mlq.l
 
-# Start a new quest, this corresponds to a table where every run of the Python file will be logged.
+# 2. Start a new quest, this simply create a table or loads an existing one to log your next run
 mlq.start_quest('Radial Basis Pipeline', log_defs=False)     
+
+# 3. Wrap function calls to be logged with `l()`
 
 # Preprocessing
 x_data_p = l(Preprocessing)(x_data=[1, 2, 3], alpha=1114, beta_param=2, c=925)
@@ -52,15 +54,17 @@ model = l(RadialBasisNet)(x_data_f, 99, 19, 31)
 # Model Training
 accuracy = train_model(model)
 
-# log the accuracy
+# 4. log any metrics if needed
 mlq.log_metrics(accuracy)        # can also do mlq.log_metric(acc=accuracy) so its logged as acc
 
-mlq.end_quest()
+# 5. End the quest to push the experiment to the table and save as markdown at './'
+mlq.end_quest('./')
 
-mlq.show_table('Radial Basis Pipeline', last_k=10)    # show the table for the last 10 runs
+# 6. View the table (only for notebooks)
+mlq.show_logs(last_k=10)         # show the table for the last 10 runs
 
 ```
-After the third run, this shows up under the Quests folder (and the notebook itself):
+This results in the following after three runs shown below the cell in the notebook or the separate markdown file.
 <table>
 <tr>
 <th colspan=4 style="text-align: center; vertical-align: middle;">info</th>
@@ -134,14 +138,22 @@ After the third run, this shows up under the Quests folder (and the notebook its
 </tr>
 </table>
 
-Editors like VSCode support viewing markdown out-of-the-box. You may need to press `CTRL/CMD+Shift+V`
-
-⦿ Besides of the markdown, you will also find a ```json``` folder in that directory with a config file that allows you to customize the columns to show in the markdown table.
+Editors like VSCode support viewing markdown out-of-the-box. You may need to press `CTRL/CMD+Shift+V`. You can see a fuller version of this quick start in the [documentation](https://essamwisam.github.io/MLPath/Example.html) which corresponds to the `Full-Example` notebook found here which you can also run locally.
 
 
-### But you probably prefer a web interface
 
-In the same level as the ```Quests``` folder run the command ```mlweb``` then open ```http://localhost:5000``` in your browser. You should see something like this:
+### <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/1200px-Scikit_learn_logo_small.svg.png" width=30> An example with Scikit-Learn
+
+Check `Example.ipynb` or equivalently the following [Colab notebook](https://drive.google.com/file/d/1OcNfL1mxQM5lr9LI9PFheD7gI5Rdphw8/view?usp=sharing).
+
+
+### <img src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/3254256/pytorch-icon-sm.png" width=20> An Example with PyTorch
+
+More examples with `sci-kit learn` and an example with `PyTorch` could be found by running `mldir --example` as will be illustrated down below.
+
+### 🌐 A Web Interface is also Supported
+
+Simply run `mlq.run_server()` after `mlq.end_quest`
 
 <img width="1430" alt="image" src="https://user-images.githubusercontent.com/49572294/218263965-3e376645-e85f-4045-8cf2-20294832983f.png">
 
@@ -149,110 +161,6 @@ In the same level as the ```Quests``` folder run the command ```mlweb``` then op
 ⦿ You can search for specific runs, an example would be ```metrics.accuracy>50``` (similar syntax to MLFlow)
 
 ⦿ You can customize the columns to show in the table by clicking on `columns` (in lieu of doing it through```json``` config file)
-
-⦿ Choose which model (folder containing python files where you run quests) and which pipeline file (quest) using the bar on the left
-
-
-### An example with Scikit-Learn
-
-
-```python
-from mlpath import mlquest as mlq
-
-# We won't log defaults here but note that being aware of them and their values/impact is important.
-mlq.start_quest('Fractal-GB', log_defs=False, table_dest='../../')
-
-# read the data
-x_train_i, x_val_i, y_train_i, y_val_i = read_data()
-
-# preprocess the data
-x_train_p, x_val_p = preprocess_data(x_train_i, x_val_i)
-
-# extract fractal features
-x_train_f, x_val_f = mlq.l(apply_SFTA)(x_train_p, x_val_p, deviation=10)
-
-# initialize a GB model
-model = mlq.l(GradientBoostingClassifier)(n_estimators=10, learning_rate=220, max_depth=110)
-
-# train the model
-model.fit(x_train_f, y_train_i)
-
-# report the accuracy
-accuracy = model.score(x_val_f, y_val_i).item()     # .item() so its a scalar that can be logged
-
-mlq.log_metrics(acc=accuracy)
-
-mlq.end_quest()
-
-mlq.show_table('Fractal-GB', last_k=10)    # show the table for the last 10 runs
-```
-<table>
-<tr>
-<th colspan=4 style="text-align: center; vertical-align: middle;">info</th>
-<th colspan=1 style="text-align: center; vertical-align: middle;">apply_SFTA</th>
-<th colspan=3 style="text-align: center; vertical-align: middle;">GradientBoostingClassifier</th>
-<th colspan=1 style="text-align: center; vertical-align: middle;">metrics</th>
-</tr>
-<th style="text-align: center; vertical-align: middle;">time</th>
-<th style="text-align: center; vertical-align: middle;">date</th>
-<th style="text-align: center; vertical-align: middle;">duration</th>
-<th style="text-align: center; vertical-align: middle;">id</th>
-<th style="text-align: center; vertical-align: middle;">deviation</th>
-<th style="text-align: center; vertical-align: middle;">n_estimators</th>
-<th style="text-align: center; vertical-align: middle;">learning_rate</th>
-<th style="text-align: center; vertical-align: middle;">max_depth</th>
-<th style="text-align: center; vertical-align: middle;">acc</th>
-</tr>
-<tr>
-<td style="text-align: center; vertical-align: middle;">17:26:34</td>
-<td style="text-align: center; vertical-align: middle;">02/11/23</td>
-<td style="text-align: center; vertical-align: middle;">2.33 min</td>
-<td style="text-align: center; vertical-align: middle;">1</td>
-<td style="text-align: center; vertical-align: middle;">30</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">50</td>
-<td style="text-align: center; vertical-align: middle;">12</td>
-<td style="text-align: center; vertical-align: middle;">0.5</td>
-</tr>
-<tr>
-<td style="text-align: center; vertical-align: middle;">17:29:08</td>
-<td style="text-align: center; vertical-align: middle;">02/11/23</td>
-<td style="text-align: center; vertical-align: middle;">344.98 ms</td>
-<td style="text-align: center; vertical-align: middle;">2</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">50</td>
-<td style="text-align: center; vertical-align: middle;">20</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">0.5</td>
-</tr>
-<tr>
-<td style="text-align: center; vertical-align: middle;">17:29:14</td>
-<td style="text-align: center; vertical-align: middle;">02/11/23</td>
-<td style="text-align: center; vertical-align: middle;">251.52 ms</td>
-<td style="text-align: center; vertical-align: middle;">3</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">50</td>
-<td style="text-align: center; vertical-align: middle;">20</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">0.5</td>
-</tr>
-<tr>
-<td style="text-align: center; vertical-align: middle;">17:29:22</td>
-<td style="text-align: center; vertical-align: middle;">02/11/23</td>
-<td style="text-align: center; vertical-align: middle;">266.31 ms</td>
-<td style="text-align: center; vertical-align: middle;">4</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">10</td>
-<td style="text-align: center; vertical-align: middle;">220</td>
-<td style="text-align: center; vertical-align: middle;">110</td>
-<td style="text-align: center; vertical-align: middle;">0.5</td>
-</tr>
-</table>
-
-
-### An example with PyTorch
-
-A real example on a dummy dataset that demonstrates using the library on real models is provided in the MLDir examples mentioned below.
 
 <h1 text-align='center'> MLDir </h1>
 
@@ -268,21 +176,7 @@ MLDir is a simple CLI that creates a standard directory structure for your machi
 
 
 ### 📜 The MLDir Manifesto
-The directory structure generated by MLDir complies with the MLDir manifesto ( a set of 'soft' standards) which attempts to enforce seperation of concerns among different stages of the machine learning pipeline and among writing code and running experiments (hyperparameter tuning). It specifies:
-
-➜ Each stage in the ML pipeline should be a separate directory.
-
-➜ If that stage is further broken down into sub-stages, each sub-stage should be a separate directory (in the top level)
-
-➜ For any pipeline stage, each alternative that implements that stage should be in a separate directory within that stage's folder.
-
-➜ Any implementation of a stage is a set of functions.
-
-➜ Functions are defined only in .py files not in notebooks.
-
-➜ Notebooks are only for testing or running entire pipelines (e.g., training and hyperparameter tuning). They import the needed functions from pipeline stages.
-
-You can also read more about the manifesto [here](https://github.com/EssamWisam/MLPath/tree/main/mlpath/mldir_cli/project).
+The directory structure generated by MLDir complies with the MLDir manifesto ( a set of 'soft' standards) which attempts to enforce seperation of concerns among different stages of the machine learning pipeline and among writing code and running experiments (hyperparameter tuning). We recommend that you read more about the manifesto [here](https://github.com/EssamWisam/MLPath/tree/main/mlpath/mldir_cli/project).
 
 ### To get started
 
@@ -292,35 +186,36 @@ mldir --name <project_name>
 ```
 ⦿ If mldir is ran without a name, it uses the name 'Project'
 
-This generates the following folder structure:
+This generates the following folder structure (with dummy names for features and models):
 
 ```
 .
-├── DataFiles
-│   ├── Dataset 1
-│   └── Dataset 2
 ├── DataPreparation
-│   ├── Ingestion
-│   └── Preprocessing
+│   ├── Ingestion.py
+│   └── Preprocessing.py
 ├── FeatureExtraction
-│   ├── BoW
-│   ├── GLCM
-│   └── OneHot
+│   ├── BoW
+│   │   └── BoW.py
+│   ├── GLCM
+│   │   └── GLCM.py
+│   └── OneHot
+│       └── OneHot.py
+├── GIT-README.md
 ├── ModelPipelines
-│   ├── GRU
-│   ├── GradientBoost
-│   └── SVM
+│   ├── GRU
+│   │   └── OneHot-GRU.ipynb
+│   ├── GradientBoost
+│   │   ├── BoW-GB.ipynb
+│   │   └── GLCM-GB.ipynb
+│   └── SVM
+│       └── BoW-SVM.ipynb
 ├── ModelScoring
-│   ├── Pipeline
-│   └── Scoring
+│   ├── Pipeline.py
+│   └── Scoring.py
 ├── README.md
-├── Sandbox.ipynb
-│   ├── DataPreparation
-│   ├── FeatureExtraction
-│   └── ModelsPipelines
 └── Sandbox.ipynb
 ```
-The file in each folder has instructions on how to use it. These are all grouped in the README for a more detailed explanation.
+The file in each folder has instructions on how to use it. These are all grouped in the `README.md` for a more detailed explanation.
 
 ### Other important options
 
@@ -333,14 +228,12 @@ mldir --name<project-name> --full
 
 <img width="1430" alt="image" src="https://user-images.githubusercontent.com/49572294/218269358-d2db4974-c5a1-4531-a696-69e842f7bb55.png">
 
-### A note on the Flask app
-⦿ Even if you have never used Flask (and need to do more than just plug in your model), notice that the app is composed of a templates folder that stores the HTML of the pages and a static folder that stores CSS/JS and other assets. Lastly, the app.py file contains the code that runs the app by rendering the right HTML page and passing the right parameters to it according to your request (visiting a URL, submitting a file,...)
 
-### A complete example
+## 🚢 Complete Example (MLQuest + MLDir)
 ```bash
 mldir --name <project-name>  --example
 ```
-⦿ The --example option generates a complete example on a dummy dataset (but real models) that should be helpful for you to understand more about the folder structure and how to use it (or you can use it as a template for your own project). The example also uses 
+⦿ The --example option generates a complete example on a tiny dataset (and real models) that should be helpful for you to understand more about the folder structure and how to use it (e.g., you can use it as a template for your own project). 
 
 ## Credits
 
