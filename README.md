@@ -4,7 +4,8 @@
 MLPath is an MLOPs library on Python that makes tracking machine learning experiments and organizing machine learning projects easier. It consists of two subpackages so far, MLQuest for tracking and MLDir for directory structure.
 </p>
 
-Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.mlquest.html#module-mlpath.mlquest.mlquest'>documentation</a>.
+Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.mlquest.html#module-mlpath.mlquest.mlquest'>documentation</a> and [this](https://essamwisam.github.io/MLPath/Example.html) for a full version of the quick start below.
+
 ### 💻 Installation
 ```
 pip install mlpath
@@ -145,7 +146,7 @@ Editors like VSCode support viewing markdown out-of-the-box. You may need to pre
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/1200px-Scikit_learn_logo_small.svg.png" width=30> An example with Scikit-Learn
 
-Check `Example.ipynb` or equivalently the following [Colab notebook](https://drive.google.com/file/d/1OcNfL1mxQM5lr9LI9PFheD7gI5Rdphw8/view?usp=sharing).
+Check `Example.ipynb` or equivalently the following [Colab notebook](https://colab.research.google.com/drive/1OcNfL1mxQM5lr9LI9PFheD7gI5Rdphw8).
 
 
 ### <img src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/3254256/pytorch-icon-sm.png" width=20> An Example with PyTorch
