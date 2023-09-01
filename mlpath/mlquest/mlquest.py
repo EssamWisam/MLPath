@@ -303,7 +303,7 @@ class mlquest():
       
       :meta private:
       '''
-      pass
+      print("fixed")
          
     @staticmethod
     def save_logs(save_path='./'):
