@@ -296,7 +296,15 @@ class mlquest():
        with open(quest_folder + '/quests.mlq', 'wb') as f:
             pickle.dump(mlquest.quests, f)
       
+    @staticmethod
+    def fix_vertical_border():
+      '''
+      It fixes vertical borders.
       
+      :meta private:
+      '''
+      pass
+         
     @staticmethod
     def save_logs(save_path='./'):
       '''
