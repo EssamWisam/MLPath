@@ -10,6 +10,12 @@ Check this for <a href='https://essamwisam.github.io/MLPath/mlpath.mlquest.html#
 ```
 pip install mlpath
 ```
+**MLPath isn't "just another" machine learning tracking library:**
+- Unlike other libraries, `MLPath` requires minimal boilerplate for tracking and infers hyperparameter names automatically
+- Does not restrict developers to using a web interface. Logs can be shown in the notebook itself! 
+- Less abstraction: Logs can be treated as `Pandas` tables for additional operations or visualizations
+- Comes with `MLDir` which automatically generates and sets standards for directory structure such as to maximize organization and reproducibility
+- `MLDir` also makes it easier to wrap models that map files to outputs in a web interface
 
 <h1 text-align='center'> MLQuest </h1>
 <img src="https://user-images.githubusercontent.com/49572294/218260658-846c1aab-fe57-44fa-baa6-5d988ff07e1b.png"></img>
