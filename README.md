@@ -232,7 +232,7 @@ mldir --name<project-name> --full
 ```
 ⦿ The --full option generates an even more comprehensive folder structure. Including folders such as ```ModelImplementations```, ```References``` and most importantly ```Production```.
 
-⦿ The ```Production``` folder contains a Flask app that can be used to serve your model as an API. All you need is only to import your final model into app.py and replace the dummy model with it. The Flask app assumes that your model takes a file via path and returns a prediction but it can be easilt extended otherwise to suit your needs
+⦿ The ```Production``` folder contains a Flask app that can be used to serve your model as an API. All you need is only to import your final model into app.py and replace the dummy model with it. The Flask app assumes that your model takes a file via path and returns a prediction but it can be easily extended otherwise to suit your needs
 
 <img width="1430" alt="image" src="https://user-images.githubusercontent.com/49572294/218269358-d2db4974-c5a1-4531-a696-69e842f7bb55.png">
 
